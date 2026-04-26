@@ -1,0 +1,68 @@
+services:
+  app:
+    image: nonsenseu/ship-route:latest
+    container_name: ship_route_backend
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16
+    container_name: shiproute-postgres
+    environment:
+      POSTGRES_DB: ship_route_db
+      POSTGRES_USER: ship_route
+      POSTGRES_PASSWORD: WIKFASweqoi23paosdf
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ship_route -d ship_route_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+    restart: unless-stopped
+
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    container_name: shiproute-meilisearch
+    environment:
+      MEILI_NO_ANALYTICS: "true"
+      MEILI_MASTER_KEY: "AOVE92osaOPcIx81Lxai"
+    ports:
+      - "7700:7700"
+    volumes:
+      - meili_data:/meili_data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: shiproute-redis
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  meili_data:
+  redis_data:
