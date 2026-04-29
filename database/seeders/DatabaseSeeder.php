@@ -17,9 +17,34 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
+        $admin = User::factory()->create([
+            'full_name' => 'Test User',
             'email' => 'test@example.com',
+            'phone_number' => '121212',
+            'password' => 'password',
+
         ]);
+
+        $merchant = User::factory()->create([
+            'full_name' => 'Merchant User',
+            'email' => 'testUser1@gmail.com',
+            'phone_number' => '123123123',
+            "password" => 'password',
+        ]);
+
+        $driver = User::factory()->create([
+            'full_name' => 'Driver User',
+            'email' => 'testUser3@gmail.com',
+            'phone_number' => '1234567890',
+            "password" => 'password',
+        ]); 
+
+        $this->call([
+            RolesAndPermissionsSeeder::class,
+        ]);
+
+        $admin->assignRole('admin');
+        $merchant->assignRole('merchant');
+        $driver->assignRole('driver');
     }
 }
