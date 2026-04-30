@@ -48,4 +48,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Driver::class);
     }
+
+    //! Firebase
+    public function routeNotificationForFcm()
+    {
+        return $this->fcm_token;
+    }
 }

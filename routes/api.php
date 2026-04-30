@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\User;
+use App\Notifications\TestNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
-
-
+use PHPUnit\Util\Test;
 
 Route::prefix('account-center')->group(function () {
     require base_path('routes/api/v1/User/account_center.php');
@@ -16,7 +18,12 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'role:admin'])->group(functi
     });
 });
 
-Route::get('me', function (Request $request) {
+Route::get('/me', function (Request $request) {
+
+    $user = User::find(1);
+
+    Notification::send($user, new TestNotification());
+    
     return $request->user();
 })->middleware('auth:sanctum');
 
