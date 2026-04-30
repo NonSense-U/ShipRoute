@@ -16,7 +16,7 @@ class AuthService
     public function sendOTP(string $phoneNumber)
     {
         $otpCode = rand(100000, 999999);
-        Cache::add("otp_{$phoneNumber}", $otpCode, now()->addMinutes(5));
+        Cache::put("otp_{$phoneNumber}", $otpCode, now()->addMinutes(5));
         //TODO send OTP code to the user's phone number using an SMS gateway
     }
 

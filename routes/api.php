@@ -10,11 +10,16 @@ Route::prefix('account-center')->group(function () {
 });
 
 
+Route::prefix('admin')->middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::prefix('user-management')->group(function () {
+        require base_path('routes/api/v1/Admin/user_management.php');
+    });
+});
+
 Route::get('me', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/test', function(Request $request)
-{
+Route::get('/test', function (Request $request) {
     return response()->json(["message" => "API is working fine"]);
 });

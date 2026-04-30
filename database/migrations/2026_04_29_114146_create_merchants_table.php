@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->string('commercial_registration_number')->nullable()->unique();
-            $table->string('location')->nullable();
+            $table->string('address')->nullable();
             $table->timestamps();
         });
     }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MerchantRegisterRequest extends FormRequest
+class NewDriverRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,7 +18,7 @@ class MerchantRegisterRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -27,9 +28,13 @@ class MerchantRegisterRequest extends FormRequest
             'base.email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'base.password' => ['required', 'string', 'min:8', 'confirmed'],
             'profile' => ['required', 'array'],
-            'profile.commercial_registration_number' => ['required', 'string', 'max:255'],
-            'profile.address' => ['required', 'string', 'max:255'],
-            'login' => ['nullable', 'boolean']
-        ];
+            'profile.age' => ['required', 'integer', 'min:18'],
+            'profile.gender' => ['required', 'string', 'in:male,female'],
+            'profile.license_plate_number' => ['required', 'string', 'max:255'],
+            //TODO Sepcify the allowed vehicle types
+            'profile.vehicle_type' => ['required', 'string', 'max:255'],
+            'profile.driver_license_number' => ['required', 'string', 'max:255'],
+            'profile.description' => ['nullable', 'string'],
+            ];
     }
 }

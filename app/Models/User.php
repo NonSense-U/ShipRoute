@@ -25,6 +25,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected string $guard_name = 'api';
     /**
      * Get the attributes that should be cast.
      *
