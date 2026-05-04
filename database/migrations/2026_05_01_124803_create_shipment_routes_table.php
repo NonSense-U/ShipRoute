@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('shipment_routes', function (Blueprint $table) {
             $table->id();
             $table->string('overview_polyline');
-            $table->string('pick_up_location');
-            $table->string('delivery_location');
+            $table->json('pick_up_location_details')->nullable();
+            $table->json('delivery_location_details')->nullable();
             $table->string('pick_up_lat');
             $table->string('pick_up_lng');
             $table->string('delivery_lat');
             $table->string('delivery_lng');
-            $table->decimal('distance');
-            $table->time('duration_minutes');
+            $table->decimal('distance', 10, 2);
+            $table->unsignedInteger('duration_minutes');
             $table->timestamps();
         });
     }

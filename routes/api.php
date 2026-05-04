@@ -11,6 +11,17 @@ Route::prefix('account-center')->group(function () {
     require base_path('routes/api/v1/User/account_center.php');
 });
 
+Route::prefix('merchant')->middleware(['auth:sanctum', 'role:merchant'])->group(function () {
+    require base_path('routes/api/v1/User/merchant.php');
+});
+
+// Route::prefix('driver')->middleware(['auth:sanctum', 'role:driver'])->group(function () {
+//     require base_path('routes/api/v1/User/driver.php');
+// });
+
+Route::prefix('shipments')->middleware(['auth:sanctum', 'role:merchant'])->group(function () {
+    require base_path('routes/api/v1/Shipment/merchant_shipment.php');
+});
 
 Route::prefix('admin')->middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::prefix('user-management')->group(function () {

@@ -32,12 +32,24 @@ class DatabaseSeeder extends Seeder
             "password" => 'password',
         ]);
 
+        $merchant->merchant()->create([
+            'commercial_registration_number' => 'CRN123456',
+            'address' => '123 Main St, City, Country',
+        ]);
+
         $driver = User::factory()->create([
             'full_name' => 'Driver User',
             'email' => 'testUser3@gmail.com',
             'phone_number' => '1234567890',
             "password" => 'password',
         ]); 
+
+        $driver->driver()->create([
+            'age' => 30,
+            'gender' => 'male',
+            'vehicle_type' => 'refrigerated',
+            'vehicle_capacity_kg' => 5000,
+        ]);
 
         $this->call([
             RolesAndPermissionsSeeder::class,

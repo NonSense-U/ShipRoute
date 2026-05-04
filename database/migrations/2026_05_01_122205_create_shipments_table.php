@@ -17,11 +17,29 @@ return new class extends Migration
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Merchant::class)->constrained()->nullOnDelete();
-            $table->foreignIdFor(Driver::class)->constrained()->nullOnDelete();
-            $table->foreignIdFor(ShipmentRoute::class);
-            $table->decimal('weight');
-            $table->decimal('price');
-            $table->enum('status', ['']);
+            $table->foreignIdFor(Driver::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(ShipmentRoute::class)->constrained()->cascadeOnDelete();
+            $table->string('goods_type');
+            $table->enum('who_pays', ['sender', 'receiver']);
+            $table->string('vehicle_type');
+            $table->string('vehicle_size');
+            $table->decimal('weight', 10, 2);
+            // $table->boolean('requires_refrigeration')->default(false);
+            // $table->boolean('is_inter_governorate')->default(false);
+            $table->timestamp('scheduled_pickup_at')->nullable();
+            $table->boolean('is_night_shipping')->default(false);
+            $table->decimal('price', 10, 2);
+            $table->enum('status', [
+                'created',
+                'offered',
+                'accepted',
+                'en_route_to_pickup',
+                'in_transit',
+                'delivered',
+                'cancelled',
+                'expired'
+            ])->default('created');
+            $table->json('media')->nullable();
             $table->timestamp('picked_up_at')->nullable();
             $table->timestamp('delivered_at')->nullable();
             $table->timestamps();

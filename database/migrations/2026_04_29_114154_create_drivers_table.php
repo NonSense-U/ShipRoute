@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('current_lat')->nullable();
             $table->string('current_lng')->nullable();
             $table->string('vehicle_type');
+            $table->integer('vehicle_capacity_kg')->nullable();
             $table->string('license_plate_number')->nullable()->unique();
             $table->string('driver_license_number')->nullable()->unique();
             $table->text('description')->nullable();
