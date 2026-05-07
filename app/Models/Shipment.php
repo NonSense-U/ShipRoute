@@ -19,6 +19,7 @@ class Shipment extends Model
         'vehicle_type',
         'vehicle_capacity_kg',
         'weight',
+        'additional_details',
         'requires_refrigeration',
         'is_inter_governorate',
         'is_night_shipping',

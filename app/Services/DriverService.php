@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Models\Driver;
 use App\Models\Shipment;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use RuntimeException;
 
 class DriverService
@@ -24,6 +26,7 @@ class DriverService
 			->where('vehicle_type', $driver->vehicle_type)
 			->where('vehicle_capacity_kg', '<=', $driver->vehicle_capacity_kg)
 			->whereNull('driver_id')
+			->with('merchant', 'driver')
 			->paginate(20);
 	}
 
@@ -93,8 +96,77 @@ class DriverService
 			]);
 		}
 
+		Notification::send($shipment->merchant->user, new \App\Notifications\ShipmentStatusUpdated(
+			status: $shipment->status,
+			shipmentId: (string) $shipment->id
+		));
+
 		return $shipment;
 	}
+
+	public function sendDeliveryOTP(User $user, array $payload): Shipment
+	{
+		$driver = $user->driver;
+
+		if (!$driver) {
+			throw new RuntimeException('Driver profile not found.');
+		}
+
+		$shipment = Shipment::query()
+			->where('id', $payload['shipment_id'])
+			->where('driver_id', $driver->id)
+			->firstOrFail();
+
+		if ($shipment->status !== 'in_transit') {
+			throw new RuntimeException('Shipment must be in transit to request delivery OTP.');
+		}
+
+		$otp = (string) random_int(100000, 999999);
+		Cache::put("shipment_otp_{$shipment->id}", $otp, now()->addMinutes(10));
+
+		Notification::send($shipment->merchant->user, new \App\Notifications\GamilOtp($otp));
+
+		return $shipment;
+	}
+
+	public function completeTrip(User $user, array $payload): Shipment
+	{
+		$driver = $user->driver;
+
+		if (!$driver) {
+			throw new RuntimeException('Driver profile not found.');
+		}
+
+		$shipment = Shipment::query()
+			->where('id', $payload['shipment_id'])
+			->where('driver_id', $driver->id)
+			->firstOrFail();
+
+		if ($shipment->status !== 'in_transit') {
+			throw new RuntimeException('Shipment must be in transit to complete delivery.');
+		}
+
+		$expectedOtp = (string) Cache::get("shipment_otp_{$shipment->id}");
+		if ($expectedOtp === '' || $expectedOtp !== (string) $payload['otp']) {
+			throw new RuntimeException('Invalid delivery OTP.');
+		}
+
+		$shipment->update([
+			'status' => 'delivered',
+			'delivered_at' => now(),
+		]);
+
+		$driver->update(['is_available' => true]);
+		Cache::forget("shipment_otp_{$shipment->id}");
+
+		Notification::send($shipment->merchant->user, new \App\Notifications\ShipmentStatusUpdated(
+			status: $shipment->status,
+			shipmentId: (string) $shipment->id
+		));
+
+		return $shipment;
+	}
+
 
 	private function validateShipmentAcceptable(Driver $driver, Shipment $shipment): void
 	{
@@ -106,7 +178,7 @@ class DriverService
 			throw new RuntimeException('Shipment already assigned.');
 		}
 
-		if($driver->is_available === false) {
+		if ($driver->is_available === false) {
 			throw new RuntimeException('Finish your current trip before accepting new shipments.');
 		}
 

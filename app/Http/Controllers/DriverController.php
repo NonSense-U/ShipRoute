@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
 use App\Http\Requests\AcceptShipmentRequest;
+use App\Http\Requests\CompleteTripRequest;
+use App\Http\Requests\SendDeliveryOtpRequest;
 use App\Http\Requests\StartTripRequest;
 use App\Http\Requests\UpdateDriverLocationRequest;
 use App\Http\Resources\ShipmentCollection;
+use App\Http\Resources\ShipmentResource;
 use App\Services\DriverService;
 use Illuminate\Http\Request;
 
@@ -33,7 +36,7 @@ class DriverController extends Controller
             $request->validated()['shipment_id']
         );
 
-        return ApiResponse::success('Shipment accepted successfully.', $shipment);
+        return ApiResponse::success('Shipment accepted successfully.', new ShipmentResource($shipment));
     }
 
     public function startTrip(StartTripRequest $request)
@@ -43,7 +46,27 @@ class DriverController extends Controller
             $request->validated()
         );
 
-        return ApiResponse::success('Trip started successfully.', $shipment);
+        return ApiResponse::success('Trip started successfully.', new ShipmentResource($shipment));
+    }
+
+    public function sendDeliveryOTP(SendDeliveryOtpRequest $request)
+    {
+        $shipment = $this->driverService->sendDeliveryOTP(
+            $request->user(),
+            $request->validated()
+        );
+
+        return ApiResponse::success('Delivery OTP sent to merchant.', new ShipmentResource($shipment));
+    }
+
+    public function completeTrip(CompleteTripRequest $request)
+    {
+        $shipment = $this->driverService->completeTrip(
+            $request->user(),
+            $request->validated()
+        );
+
+        return ApiResponse::success('Trip completed successfully.', new ShipmentResource($shipment));
     }
 
     public function updateLocation(UpdateDriverLocationRequest $request)

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('vehicle_type');
             $table->string('vehicle_capacity_kg');
             $table->decimal('weight', 10, 2);
+            $table->text('additional_details')->nullable();
             $table->timestamp('scheduled_pickup_at')->nullable();
             $table->boolean('is_night_shipping')->default(false);
             $table->decimal('price', 10, 2);

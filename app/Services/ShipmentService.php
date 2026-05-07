@@ -42,7 +42,6 @@ class ShipmentService
                 'distance' => $route->distance,
                 'weight' => $payload['weight'],
                 'vehicle_type' => $payload['vehicle_type'],
-                // 'is_inter_governorate' => $payload['is_inter_governorate'],
                 'scheduled_pickup_at' => $payload['scheduled_pickup_at'],
             ]);
 
@@ -54,8 +53,7 @@ class ShipmentService
                 'vehicle_capacity_kg' => $payload['vehicle_capacity_kg'],
                 'who_pays' => $payload['who_pays'],
                 'weight' => $payload['weight'],
-                // 'requires_refrigeration' => $payload['requires_refrigeration'],
-                // 'is_inter_governorate' => $payload['is_inter_governorate'],
+                'additional_details' => $payload['additional_details'] ?? null,
                 'is_night_shipping' => $isNightShipping,
                 'scheduled_pickup_at' => $payload['scheduled_pickup_at'] ?? null,
                 'price' => $price,

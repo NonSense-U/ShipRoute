@@ -15,7 +15,7 @@ class ShipmentCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'shipments' => $this->collection,
+            'shipments' => ShipmentResource::collection($this->collection),
             'pagination' => [
                 'current_page' => $this->currentPage(),
                 'per_page'     => $this->perPage(),
