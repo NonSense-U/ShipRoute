@@ -17,7 +17,7 @@ class CreateShipmentRequest extends FormRequest
             'goods_type' => ['required', 'string', 'max:255'],
             'weight' => ['required', 'numeric', 'min:0.1'],
             'vehicle_type' => ['required', 'string', 'max:255'],
-            'vehicle_size' => ['required', 'string', 'max:255'],
+            'vehicle_capacity_kg' => ['required', 'string', 'max:255'],
             'who_pays' => ['required', 'string', 'in:sender,receiver'],
             'scheduled_pickup_at' => ['nullable', 'date', 'after_or_equal:now'],
             'additional_details' => ['nullable', 'string'],

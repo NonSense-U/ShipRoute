@@ -22,10 +22,8 @@ return new class extends Migration
             $table->string('goods_type');
             $table->enum('who_pays', ['sender', 'receiver']);
             $table->string('vehicle_type');
-            $table->string('vehicle_size');
+            $table->string('vehicle_capacity_kg');
             $table->decimal('weight', 10, 2);
-            // $table->boolean('requires_refrigeration')->default(false);
-            // $table->boolean('is_inter_governorate')->default(false);
             $table->timestamp('scheduled_pickup_at')->nullable();
             $table->boolean('is_night_shipping')->default(false);
             $table->decimal('price', 10, 2);
@@ -33,7 +31,7 @@ return new class extends Migration
                 'created',
                 'offered',
                 'accepted',
-                'en_route_to_pickup',
+                'heading_to_pickup',
                 'in_transit',
                 'delivered',
                 'cancelled',

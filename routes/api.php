@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\RatingController;
+use App\Http\Resources\UserProfileResource;
 use App\Models\User;
 use App\Notifications\TestNotification;
 use Illuminate\Http\Request;
@@ -15,9 +17,9 @@ Route::prefix('merchant')->middleware(['auth:sanctum', 'role:merchant'])->group(
     require base_path('routes/api/v1/User/merchant.php');
 });
 
-// Route::prefix('driver')->middleware(['auth:sanctum', 'role:driver'])->group(function () {
-//     require base_path('routes/api/v1/User/driver.php');
-// });
+Route::prefix('driver')->middleware(['auth:sanctum', 'role:driver'])->group(function () {
+    require base_path('routes/api/v1/User/driver.php');
+});
 
 Route::prefix('shipments')->middleware(['auth:sanctum', 'role:merchant'])->group(function () {
     require base_path('routes/api/v1/Shipment/merchant_shipment.php');
@@ -29,13 +31,15 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'role:admin'])->group(functi
     });
 });
 
+Route::prefix('ratings')->middleware(['auth:sanctum', 'role:merchant|driver'])->group(function () {
+    Route::post('/shipments/{shipment}', [RatingController::class, 'store']);
+    Route::get('/users/{user}', [RatingController::class, 'summary']);
+});
+
 Route::get('/me', function (Request $request) {
-
-    $user = User::find(1);
-
-    Notification::send($user, new TestNotification());
-    
-    return $request->user();
+    return new UserProfileResource(
+        $request->user()->loadMissing(['merchant', 'driver', 'roles'])
+    );
 })->middleware('auth:sanctum');
 
 Route::get('/test', function (Request $request) {

@@ -19,8 +19,10 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female']);
             $table->string('current_lat')->nullable();
             $table->string('current_lng')->nullable();
+            $table->timestamp('last_location_at')->nullable();
             $table->string('vehicle_type');
-            $table->integer('vehicle_capacity_kg')->nullable();
+            $table->decimal('vehicle_capacity_kg', 10, 2)->nullable();
+            $table->boolean('is_available')->default(true);
             $table->string('license_plate_number')->nullable()->unique();
             $table->string('driver_license_number')->nullable()->unique();
             $table->text('description')->nullable();

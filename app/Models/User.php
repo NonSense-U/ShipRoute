@@ -60,6 +60,16 @@ class User extends Authenticatable
         return $this->hasOne(Driver::class);
     }
 
+    public function ratingsGiven()
+    {
+        return $this->hasMany(Rating::class, 'rater_id');
+    }
+
+    public function ratingsReceived()
+    {
+        return $this->hasMany(Rating::class, 'ratee_id');
+    }
+
     //! Firebase
     public function routeNotificationForFcm()
     {

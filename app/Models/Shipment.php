@@ -17,7 +17,7 @@ class Shipment extends Model
         'goods_type',
         'who_pays',
         'vehicle_type',
-        'vehicle_size',
+        'vehicle_capacity_kg',
         'weight',
         'requires_refrigeration',
         'is_inter_governorate',
@@ -55,5 +55,10 @@ class Shipment extends Model
     public function route()
     {
         return $this->belongsTo(ShipmentRoute::class, 'shipment_route_id');
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
     }
 }

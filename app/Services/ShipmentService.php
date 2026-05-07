@@ -51,7 +51,7 @@ class ShipmentService
                 'shipment_route_id' => $route->id,
                 'goods_type' => $payload['goods_type'],
                 'vehicle_type' => $payload['vehicle_type'],
-                'vehicle_size' => $payload['vehicle_size'],
+                'vehicle_capacity_kg' => $payload['vehicle_capacity_kg'],
                 'who_pays' => $payload['who_pays'],
                 'weight' => $payload['weight'],
                 // 'requires_refrigeration' => $payload['requires_refrigeration'],
