@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\CalculatePriceRequest;
 use App\Http\Requests\CreateShipmentRequest;
+use App\Http\Requests\UpdateShipmentRequest;
+use App\Http\Resources\ShipmentResource;
 use App\Models\Shipment;
 use App\Models\ShipmentRoute;
 use App\Services\ShipmentService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ShipmentController extends Controller
 {
@@ -24,11 +25,25 @@ class ShipmentController extends Controller
     {
         $shipment = $this->shipmentService->createShipment($request->user(), $request->validated());
 
-        return ApiResponse::success('Shipment created successfully.', $shipment, 201);
+        return ApiResponse::success('Shipment created successfully.', new ShipmentResource($shipment), 201);
     }
 
     public function getPrice(CalculatePriceRequest $request)
     {
         return ApiResponse::success(data: ['estimated_price' => $this->shipmentService->calculatePrice($request->validated())]);
+    }
+
+    // public function updateShipment(UpdateShipmentRequest $request, Shipment $shipment): JsonResponse
+    // {
+    //     $shipment = $this->shipmentService->updateShipment($request->user(), $shipment, $request->validated());
+
+    //     return ApiResponse::success('Shipment updated successfully.', new ShipmentResource($shipment));
+    // }
+
+    public function cancelShipment(Shipment $shipment): JsonResponse
+    {
+        $this->shipmentService->cancelShipment($shipment);
+
+        return ApiResponse::success('Shipment cancelled successfully.');
     }
 }

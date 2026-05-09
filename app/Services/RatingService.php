@@ -1,8 +1,11 @@
 <?php
 
+namespace App\Services;
+
 use App\Models\Rating;
 use App\Models\Shipment;
 use App\Models\User;
+use RuntimeException;
 
 class RatingService
 {

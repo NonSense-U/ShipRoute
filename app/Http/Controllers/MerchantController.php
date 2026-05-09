@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
 use App\Http\Requests\CreateShipmentRequest;
+use App\Http\Resources\ShipmentCollection;
 use App\Models\Shipment;
 use App\Services\MerchantService;
 use Illuminate\Http\Request;
@@ -30,9 +31,9 @@ class MerchantController extends Controller
             ->where('merchant_id', $merchant->id)
             ->with('route', 'driver')
             ->latest()
-            ->get();
+            ->paginate(20);
 
-        return ApiResponse::success('Shipments retrieved successfully.', $shipments);
+        return ApiResponse::success('Shipments retrieved successfully.', new ShipmentCollection($shipments));
     }
 
 }

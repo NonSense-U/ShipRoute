@@ -6,7 +6,7 @@ use App\Helpers\ApiResponse;
 use App\Http\Requests\AcceptShipmentRequest;
 use App\Http\Requests\CompleteTripRequest;
 use App\Http\Requests\SendDeliveryOtpRequest;
-use App\Http\Requests\StartTripRequest;
+use App\Http\Requests\UpdateShipmentStatusRequest;
 use App\Http\Requests\UpdateDriverLocationRequest;
 use App\Http\Resources\ShipmentCollection;
 use App\Http\Resources\ShipmentResource;
@@ -39,14 +39,14 @@ class DriverController extends Controller
         return ApiResponse::success('Shipment accepted successfully.', new ShipmentResource($shipment));
     }
 
-    public function startTrip(StartTripRequest $request)
+    public function updateStatus(UpdateShipmentStatusRequest $request)
     {
-        $shipment = $this->driverService->startTrip(
+        $shipment = $this->driverService->updateStatus(
             $request->user(),
             $request->validated()
         );
 
-        return ApiResponse::success('Trip started successfully.', new ShipmentResource($shipment));
+        return ApiResponse::success('Shipment status updated successfully.', new ShipmentResource($shipment));
     }
 
     public function sendDeliveryOTP(SendDeliveryOtpRequest $request)
@@ -74,5 +74,12 @@ class DriverController extends Controller
         $this->driverService->updateLocation($request->user(), $request->validated());
 
         return ApiResponse::success('Location updated successfully.');
+    }
+
+    public function myShipmentsLog(Request $request)
+    {
+        $shipments = $this->driverService->getMyShipmentsLog($request->user());
+
+        return ApiResponse::success('My shipments retrieved successfully.', new ShipmentCollection($shipments));
     }
 }

@@ -43,6 +43,12 @@ class Shipment extends Model
         'delivered_at' => 'datetime',
     ];
 
+    protected $with = [
+        'route',
+        'merchant',
+        'driver',
+    ];
+
     public function merchant()
     {
         return $this->belongsTo(Merchant::class);

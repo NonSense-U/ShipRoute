@@ -18,6 +18,7 @@ class UserPreviewResource extends JsonResource
             'id' => $this->id,
             'full_name' => $this->full_name,
             'email' => $this->email,
+            'phone_number' => $this->phone_number,
             'merchant_profile' => $this->when(
                 $this->hasRole('merchant') && $this->merchant,
                 new MerchantProfileResource($this->merchant)

@@ -29,8 +29,15 @@ class ShipmentRoute extends Model
         'delivery_location_details' => 'array',
     ];
 
+    protected $with = ['checkpoints'];
+
     public function shipments()
     {
         return $this->hasMany(Shipment::class);
+    }
+
+    public function checkpoints()
+    {
+        return $this->hasMany(Checkpoint::class);
     }
 }

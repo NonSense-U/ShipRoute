@@ -8,10 +8,9 @@ use App\Http\Resources\RatingCollection;
 use App\Http\Resources\RatingResource;
 use App\Models\Shipment;
 use App\Models\User;
-use App\Services\UserService;
+use App\Services\RatingService;
 use Illuminate\Http\Request;
-use RatingService;
-
+ 
 class RatingController extends Controller
 {
     private RatingService $ratingService;
@@ -29,7 +28,7 @@ class RatingController extends Controller
             $request->validated()
         );
 
-        return ApiResponse::success('Rating submitted successfully.', $rating, 201);
+        return ApiResponse::success('Rating submitted successfully.', new RatingResource($rating), 201);
     }
 
     public function summary(User $user)

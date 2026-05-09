@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Checkpoint;
 use App\Models\Shipment;
 use App\Models\ShipmentRoute;
 use App\Models\User;
@@ -28,8 +29,6 @@ class ShipmentService
 
             $route = ShipmentRoute::create([
                 'overview_polyline' => $payload['route']['overview_polyline'],
-                'pick_up_location_details' => $payload['route']['pick_up_location_details'] ?? null,
-                'delivery_location_details' => $payload['route']['delivery_location_details'] ?? null,
                 'pick_up_lat' => $payload['route']['pick_up_lat'],
                 'pick_up_lng' => $payload['route']['pick_up_lng'],
                 'delivery_lat' => $payload['route']['delivery_lat'],
@@ -38,11 +37,32 @@ class ShipmentService
                 'duration_minutes' => $payload['route']['duration_minutes'],
             ]);
 
+            $route->checkpoints()->createMany([
+                [
+                    'type' => 'pick_up',
+                    'supervisor_name' => $payload['route']['pick_up_checkpoint_details']['supervisor_name'] ?? null,
+                    'supervisor_phone_number' => $payload['route']['pick_up_checkpoint_details']['supervisor_phone_number'] ?? null,
+                    'address' => $payload['route']['pick_up_checkpoint_details']['address'] ?? null,
+                    'street' => $payload['route']['pick_up_checkpoint_details']['street'] ?? null,
+                    'building_number' => $payload['route']['pick_up_checkpoint_details']['building_number'] ?? null,
+                    'notes' => $payload['route']['pick_up_checkpoint_details']['notes'] ?? null,
+                ],
+                [
+                    'type' => 'delivery',
+                    'supervisor_name' => $payload['route']['delivery_checkpoint_details']['supervisor_name'] ?? null,
+                    'supervisor_phone_number' => $payload['route']['delivery_checkpoint_details']['supervisor_phone_number'] ?? null,
+                    'address' => $payload['route']['delivery_checkpoint_details']['address'] ?? null,
+                    'street' => $payload['route']['delivery_checkpoint_details']['street'] ?? null,
+                    'building_number' => $payload['route']['delivery_checkpoint_details']['building_number'] ?? null,
+                    'notes' => $payload['route']['delivery_checkpoint_details']['notes'] ?? null,
+                ],
+            ]);
+
             $price = $this->calculatePrice([
                 'distance' => $route->distance,
                 'weight' => $payload['weight'],
                 'vehicle_type' => $payload['vehicle_type'],
-                'scheduled_pickup_at' => $payload['scheduled_pickup_at'],
+                'is_night_shipping' => $isNightShipping,
             ]);
 
             $shipment = Shipment::create([
@@ -66,7 +86,7 @@ class ShipmentService
                 $shipment->save();
             }
 
-            return $shipment->refresh();
+            return $shipment->fresh(['route', 'merchant', 'driver']);
         });
     }
 
@@ -85,15 +105,78 @@ class ShipmentService
             $subtotal += $subtotal * (float) config('shipping.pricing.refrigeration_surcharge');
         }
 
-        // if (!empty($payload['is_inter_governorate'])) {
-        //     $subtotal += $subtotal * (float) config('shipping.pricing.inter_governorate_surcharge');
-        // }
-
-        if ($this->isNightShipping(Carbon::parse($payload['scheduled_pickup_at']))) {
+        if ($payload['is_night_shipping']) {
             $subtotal += $subtotal * (float) config('shipping.pricing.night_surcharge');
         }
 
         return round($subtotal, 2);
+    }
+
+    // public function updateShipment(User $user, Shipment $shipment, array $payload): Shipment
+    // {
+    //     $merchant = $user->merchant;
+
+    //     if (!$merchant) {
+    //         throw new RuntimeException('Merchant profile not found.');
+    //     }
+
+    //     return DB::transaction(function () use ($merchant, $shipment, $payload) {
+    //         $lockedShipment = Shipment::query()
+    //             ->whereKey($shipment->id)
+    //             ->lockForUpdate()
+    //             ->firstOrFail();
+
+    //         if ((int) $lockedShipment->merchant_id !== (int) $merchant->id) {
+    //             throw new RuntimeException('You are not allowed to update this shipment.');
+    //         }
+
+    //         if (!in_array($lockedShipment->status, ['created', 'offered'], true) || $lockedShipment->driver_id !== null) {
+    //             throw new RuntimeException('Shipment cannot be updated after being taken by a driver.');
+    //         }
+
+    //         if (isset($payload['route']) && is_array($payload['route'])) {
+    //             $lockedRoute = ShipmentRoute::query()
+    //                 ->whereKey($lockedShipment->shipment_route_id)
+    //                 ->lockForUpdate()
+    //                 ->firstOrFail();
+
+    //             if (!empty($payload['route'])) {
+    //                 $lockedRoute->update($payload['route']);
+    //             }
+    //         }
+
+    //         $shipmentUpdateData = $payload['shipment'] ?? [];
+
+    //         $shipmentUpdateData['is_night_shipping'] = array_key_exists('scheduled_pickup_at', $shipmentUpdateData) ?
+    //             $this->isNightShipping(Carbon::parse($shipmentUpdateData['scheduled_pickup_at'])) : $lockedShipment->is_night_shipping;
+
+    //         if (array_key_exists('media', $payload) && is_array($payload['media'])) {
+    //             $mediaPaths = $this->storeShipmentMedia($lockedShipment, $payload['media']);
+    //             if (!empty($mediaPaths)) {
+    //                 $existing = is_array($lockedShipment->media) ? $lockedShipment->media : [];
+    //                 $shipmentUpdateData['media'] = array_values(array_merge($existing, $mediaPaths));
+    //             }
+    //         }
+    //         $shipmentUpdateData['price'] = $this->calculatePrice([
+    //             'distance' => $lockedShipment->route->distance,
+    //             'weight' => $shipmentUpdateData['weight'] ?? $lockedShipment->weight,
+    //             'vehicle_type' => $shipmentUpdateData['vehicle_type'] ?? $lockedShipment->vehicle_type,
+    //             'is_night_shipping' => $shipmentUpdateData['is_night_shipping'] ?? $lockedShipment->is_night_shipping,
+    //         ]);
+
+    //         $lockedShipment->update($shipmentUpdateData);
+    //         return $lockedShipment->fresh(['route', 'merchant', 'driver']);
+    //     });
+    // }
+
+    public function cancelShipment(Shipment $shipment): void
+    {
+        if (!in_array($shipment->status, ['created', 'scheduled'])) {
+            throw new RuntimeException('Only shipments in created or scheduled status can be cancelled.');
+        }
+
+        $shipment->status = 'cancelled';
+        $shipment->save();
     }
 
     private function isNightShipping(Carbon $scheduledPickupAt): bool

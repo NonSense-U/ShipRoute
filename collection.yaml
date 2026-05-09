@@ -1,0 +1,1067 @@
+type: collection.insomnia.rest/5.0
+name: Main
+meta:
+  id: wrk_b9ea84e3b8294c1b94529d523870687b
+  created: 1777466716208
+  modified: 1778089063513
+  description: ""
+collection:
+  - name: Account Center
+    meta:
+      id: fld_483607b8342648fcb2c6addd25de9b2c
+      created: 1777534714346
+      modified: 1778655070542
+      sortKey: -1777534714346
+      description: ""
+    children:
+      - name: Auth
+        meta:
+          id: fld_6d414d3578434f26b8e98c025939b0de
+          created: 1777534732200
+          modified: 1778655070542
+          sortKey: -1777534734053
+          description: ""
+        children:
+          - url: "{{ _.localhost }}/api/account-center/login"
+            name: Login
+            meta:
+              id: req_984d25770fc94a63b5ce7f907082b31a
+              created: 1777466786107
+              modified: 1778654736266
+              isPrivate: false
+              description: ""
+              sortKey: -1777534737148
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"phone_number" : "merchant",
+                	"password" : "password"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+                id: pair_799afdcb175240cfb8754e80aedc5ee4
+              - name: User-Agent
+                value: insomnia/11.5.0
+                id: pair_ae6d68b0fa164e52a56c2229344b8656
+              - id: pair_7c00018823e047e99c7878af6f5eb4b1
+                name: Accept
+                value: application/json
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: >
+                	const jsonBody = insomnia.response.json();
+
+                	if (jsonBody && jsonBody.data && jsonBody.data.access_token) {
+                		insomnia.environment.set('auth_token', jsonBody.data.access_token);
+                	}
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.localhost }}/api/account-center/register"
+            name: Register
+            meta:
+              id: req_01b96e8aff7340f1a882b2ebee351469
+              created: 1777466812687
+              modified: 1778595775130
+              isPrivate: false
+              description: ""
+              sortKey: -1777534737173
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                  "base": {
+                    "full_name": "{% faker 'randomLastName' %}",
+                    "email": "{% faker 'randomEmail' %}",
+                		"phone_number" : "9999999",
+                    "password": "password",
+                    "password_confirmation": "password"
+                  },
+                  "profile": {
+                    "commercial_registration_number": "{% faker 'randomUUID' %}",
+                    "address": "Riyadh, Saudi Arabia"
+                  },
+                  "login": true
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+                id: pair_bedc20cefff541ca95aa664ad73022e2
+              - name: User-Agent
+                value: insomnia/11.5.0
+                id: pair_178346e61b73427db95a9ffbfdd57162
+              - id: pair_0801c61b15a746478972746264744286
+                name: Accept
+                value: application/json
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: >
+                	const jsonBody = insomnia.response.json();
+
+                	if (jsonBody && jsonBody.data && jsonBody.data.access_token) {
+                		insomnia.environment.set('auth_token', jsonBody.data.access_token);
+                	}
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.localhost }}/api/account-center/logout"
+            name: Logout
+            meta:
+              id: req_9852ac77121c42f2a126fc81433b62f9
+              created: 1777466818563
+              modified: 1778654289379
+              isPrivate: false
+              description: ""
+              sortKey: -1777534737023
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.5.0
+                id: pair_73e8678802f14ac9826c96ab260418d0
+              - id: pair_d47be3eb11c44176a4e2ad81fdf90c92
+                name: Accept
+                value: application/json
+                description: ""
+                disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.auth_token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.localhost }}/api/account-center/fcm-token"
+            name: Update FCM
+            meta:
+              id: req_3dc20ec7a8044d6ca3101830cdd8337f
+              created: 1777544316679
+              modified: 1777545235607
+              isPrivate: false
+              description: ""
+              sortKey: -1777534737123
+            method: PATCH
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                "fcm_token" : "1123"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+                id: pair_bedc20cefff541ca95aa664ad73022e2
+              - name: User-Agent
+                value: insomnia/11.5.0
+                id: pair_178346e61b73427db95a9ffbfdd57162
+              - id: pair_0801c61b15a746478972746264744286
+                name: Accept
+                value: application/json
+                description: ""
+                disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.auth_token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.localhost }}/api/account-center/fcm-token"
+            name: Delete FCM
+            meta:
+              id: req_a49d0053bad14c37bd573b00a265bf53
+              created: 1777544324218
+              modified: 1777545225223
+              isPrivate: false
+              description: ""
+              sortKey: -1777534737098
+            method: DELETE
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                  "base": {
+                    "full_name": "{% faker 'randomLastName' %}",
+                    "email": "{% faker 'randomEmail' %}",
+                    "password": "password",
+                    "password_confirmation": "password"
+                  },
+                  "profile": {
+                    "commercial_registration_number": "{% faker 'randomUUID' %}",
+                    "address": "Riyadh, Saudi Arabia"
+                  },
+                  "login": true
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+                id: pair_bedc20cefff541ca95aa664ad73022e2
+              - name: User-Agent
+                value: insomnia/11.5.0
+                id: pair_178346e61b73427db95a9ffbfdd57162
+              - id: pair_0801c61b15a746478972746264744286
+                name: Accept
+                value: application/json
+                description: ""
+                disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.auth_token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - url: "{{ _.localhost }}/api/me"
+        name: Me
+        meta:
+          id: req_029efa87157c4067ace0adb31b939063
+          created: 1777466780769
+          modified: 1778140441594
+          isPrivate: false
+          description: ""
+          sortKey: -1777534734153
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Admin
+    meta:
+      id: fld_ba19cb3f135448dfbd88177263a198ed
+      created: 1777537221603
+      modified: 1777852800685
+      sortKey: -1777537221603
+      description: ""
+    children:
+      - url: "{{ _.localhost }}/api/admin/user-management/drivers"
+        name: New Driver
+        meta:
+          id: req_451f858569154bc8ac172d4d6339d293
+          created: 1777534919023
+          modified: 1777545195598
+          isPrivate: false
+          description: ""
+          sortKey: -1777537228061
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+              "base": {
+                "full_name": "John Doe",
+                "email": "{% faker 'randomEmail' %}",
+                "password": "password",
+                "password_confirmation": "password"
+              },
+              "profile": {
+                "age": 28,
+                "gender": "male",
+                "license_plate_number": "{% faker 'randomUUID' %}",
+                "vehicle_type": "Sedan",
+                "driver_license_number": "{% faker 'randomUUID' %}",
+                "description": "Experienced driver with 5 years of professional driving experience."
+              }
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_bedc20cefff541ca95aa664ad73022e2
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_178346e61b73427db95a9ffbfdd57162
+          - id: pair_0801c61b15a746478972746264744286
+            name: Accept
+            value: application/json
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Merchant
+    meta:
+      id: fld_5b311293ff024dc2852325dd35a56b98
+      created: 1777850642958
+      modified: 1777850642958
+      sortKey: -1777850642958
+      description: ""
+    children:
+      - url: "{{ _.localhost }}/api/merchant/shipments"
+        name: Create A shipment
+        meta:
+          id: req_d8dccf7ca0144f06a0c1642a87234141
+          created: 1777850647741
+          modified: 1778654631060
+          isPrivate: false
+          description: ""
+          sortKey: -1777850647741
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: goods_type
+              value: Electronics
+              id: pair_f81a08173219405abd66611a4faa5dfa
+            - id: pair_6a856fc7fb07472ca2c1ea198975a497
+              name: weight
+              value: "150.5"
+              description: ""
+              disabled: false
+            - id: pair_ea930069b7f848faa08e493d1a303de7
+              name: vehicle_type
+              value: refrigerated
+              description: ""
+              disabled: false
+            - id: pair_e3e8330a902c4ab6a0257db5a391a541
+              name: vehicle_capacity_kg
+              value: "100"
+              description: ""
+              disabled: false
+            - id: pair_1a4bae02a70f4198814ea79ca5964d9c
+              name: who_pays
+              value: sender
+              description: ""
+              disabled: false
+            - id: pair_001bf3fb11d8413daf62ed54251c1149
+              name: scheduled_pickup_at
+              value: 2026-06-07T10:30:00Z
+              description: ""
+              disabled: false
+            - id: pair_ee468efe40fc46acb2b4d355d0777f46
+              name: additional_details
+              value: Handle with care. Fragile items included.
+              description: ""
+              disabled: false
+            - id: pair_a168a2e7efe543c081d5c1e5acb275a3
+              name: media[]
+              value: ""
+              description: ""
+              disabled: false
+              type: file
+              fileName: /home/nonsense/Pictures/Wallpepers/Monster.jpeg
+            - id: pair_b9c12ce626c14cd486a3a3fb86276832
+              name: route[overview_polyline]
+              value: abcd1234encodedpolyline
+              description: ""
+              disabled: false
+            - id: pair_45c7bafbe2fd452688735758369d6066
+              name: route[pick_up_lat]
+              value: "52.0918"
+              description: ""
+              disabled: false
+            - id: pair_91c1fb106df84a3bba3c49cb1dd4bae4
+              name: route[pick_up_lng]
+              value: "4.4856"
+              description: ""
+              disabled: false
+            - id: pair_136e273db5754973861feb9b8a69f563
+              name: route[pick_up_checkpoint_details][supervisor_name]
+              value: mark
+              description: ""
+              disabled: false
+            - id: pair_b14dc903517941318be1ba371e908831
+              name: route[pick_up_checkpoint_details][supervisor_phone_number]
+              value: "99999999"
+              description: ""
+              disabled: false
+            - id: pair_ca1f47e99b6b4643823d87277b54a848
+              name: route[pick_up_checkpoint_details][address]
+              value: Pickup Warehouse A
+              description: ""
+              disabled: false
+            - id: pair_8a5ff61d6dcf46a895297e4e91eb73ae
+              name: route[pick_up_checkpoint_details][street]
+              value: Rotterdam
+              description: ""
+              disabled: false
+            - id: pair_f73641c69b8b423db094572906818718
+              name: route[pick_up_checkpoint_details][building_number]
+              value: 3011 AA
+              description: ""
+              disabled: false
+            - id: pair_f23420da0b16422d84cc8c2a89aef07d
+              name: route[delivery_lat]
+              value: "52.3676"
+              description: ""
+              disabled: false
+            - id: pair_dfa10d8be8c94657ba070c45e95018ea
+              name: route[delivery_lng]
+              value: "4.9041"
+              description: ""
+              disabled: false
+            - id: pair_abc142bb11e441368caf849809a3e0af
+              name: route[delivery_checkpoint_details][supervisor_name]
+              value: Joey
+              description: ""
+              disabled: false
+            - id: pair_2bc8dd23990f4d2bae49d63a9bd3c521
+              name: route[delivery_checkpoint_details][supervisor_phone_number]
+              value: "8888888888"
+              description: ""
+              disabled: false
+            - id: pair_1c4da0a707bc49698fa4cac5385d6f9c
+              name: route[delivery_checkpoint_details][address]
+              value: Delivery Hub B
+              description: ""
+              disabled: false
+            - id: pair_35d4a5f7e1154f2691c62437c2e0cf43
+              name: route[delivery_checkpoint_details][street]
+              value: Amsterdam
+              description: ""
+              disabled: false
+            - id: pair_9df0823c1aa84b2fb4478b180e29c791
+              name: route[delivery_checkpoint_details][building_number]
+              value: 1012 AB
+              description: ""
+              disabled: false
+            - id: pair_b2826817b1534ce98cecb03a79b572b2
+              name: route[distance]
+              value: "75.4"
+              description: ""
+              disabled: false
+            - id: pair_6c28fac8117a4397a9155615ab34c224
+              name: route[duration_minutes]
+              value: "90"
+              description: ""
+              disabled: false
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_4d01d89b20b84211a8be13963b9d544a
+          - id: pair_5659b1c27df94863aabcf459e15e44b4
+            name: Accept
+            value: application/json
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/api/merchant/shipments"
+        name: My Shipments
+        meta:
+          id: req_ca2285749bdc466daac5045f847ba78d
+          created: 1777852534202
+          modified: 1777852580120
+          isPrivate: false
+          description: ""
+          sortKey: -1777850647841
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/api/merchant/shipments/calculate-price"
+        name: GET Estimated Price
+        meta:
+          id: req_3193617bd58e4f418de9eef2970bbe55
+          created: 1778105286595
+          modified: 1778318884497
+          isPrivate: false
+          description: ""
+          sortKey: -1777850647941
+        method: GET
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "scheduled_pickup_at": "2027-05-01T09:30:00Z",
+              "distance": 120.5,
+              "weight": 350,
+              "vehicle_type": "refrigerated"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_de7413a4d06a488f8f0d48d61ac56594
+          - id: pair_8196688cc6444d968ee2802bd45f848a
+            name: Accept
+            value: application/json
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/api/merchant/shipments/8"
+        name: Cancel shipment
+        meta:
+          id: req_21626cd22c0847a7b3891057e9769bad
+          created: 1778195048273
+          modified: 1778318843757
+          isPrivate: false
+          description: ""
+          sortKey: -1777788292363
+        method: DELETE
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: goods_type
+              value: Electronics
+              id: pair_f81a08173219405abd66611a4faa5dfa
+            - id: pair_6a856fc7fb07472ca2c1ea198975a497
+              name: weight
+              value: "150.5"
+              description: ""
+              disabled: false
+            - id: pair_ea930069b7f848faa08e493d1a303de7
+              name: vehicle_type
+              value: refrigerated
+              description: ""
+              disabled: false
+            - id: pair_e3e8330a902c4ab6a0257db5a391a541
+              name: vehicle_capacity_kg
+              value: "100"
+              description: ""
+              disabled: false
+            - id: pair_1a4bae02a70f4198814ea79ca5964d9c
+              name: who_pays
+              value: sender
+              description: ""
+              disabled: false
+            - id: pair_001bf3fb11d8413daf62ed54251c1149
+              name: scheduled_pickup_at
+              value: 2026-06-07T10:30:00Z
+              description: ""
+              disabled: false
+            - id: pair_ee468efe40fc46acb2b4d355d0777f46
+              name: additional_details
+              value: Handle with care. Fragile items included.
+              description: ""
+              disabled: false
+            - id: pair_a168a2e7efe543c081d5c1e5acb275a3
+              name: media[]
+              value: ""
+              description: ""
+              disabled: false
+              type: file
+              fileName: /home/nonsense/Pictures/Wallpepers/Monster.jpeg
+            - id: pair_b9c12ce626c14cd486a3a3fb86276832
+              name: route[overview_polyline]
+              value: abcd1234encodedpolyline
+              description: ""
+              disabled: false
+            - id: pair_45c7bafbe2fd452688735758369d6066
+              name: route[pick_up_lat]
+              value: "52.0918"
+              description: ""
+              disabled: false
+            - id: pair_91c1fb106df84a3bba3c49cb1dd4bae4
+              name: route[pick_up_lng]
+              value: "4.4856"
+              description: ""
+              disabled: false
+            - id: pair_ca1f47e99b6b4643823d87277b54a848
+              name: route[pick_up_location_details][address]
+              value: Pickup Warehouse A
+              description: ""
+              disabled: false
+            - id: pair_8a5ff61d6dcf46a895297e4e91eb73ae
+              name: route[pick_up_location_details][city]
+              value: Rotterdam
+              description: ""
+              disabled: false
+            - id: pair_f73641c69b8b423db094572906818718
+              name: route[pick_up_location_details][postal_code]
+              value: 3011 AA
+              description: ""
+              disabled: false
+            - id: pair_f23420da0b16422d84cc8c2a89aef07d
+              name: route[delivery_lat]
+              value: "52.3676"
+              description: ""
+              disabled: false
+            - id: pair_dfa10d8be8c94657ba070c45e95018ea
+              name: route[delivery_lng]
+              value: "4.9041"
+              description: ""
+              disabled: false
+            - id: pair_1c4da0a707bc49698fa4cac5385d6f9c
+              name: route[delivery_location_details][address]
+              value: Delivery Hub B
+              description: ""
+              disabled: false
+            - id: pair_35d4a5f7e1154f2691c62437c2e0cf43
+              name: route[delivery_location_details][city]
+              value: Amsterdam
+              description: ""
+              disabled: false
+            - id: pair_9df0823c1aa84b2fb4478b180e29c791
+              name: route[delivery_location_details][postal_code]
+              value: 1012 AB
+              description: ""
+              disabled: false
+            - id: pair_b2826817b1534ce98cecb03a79b572b2
+              name: route[distance]
+              value: "75.4"
+              description: ""
+              disabled: false
+            - id: pair_6c28fac8117a4397a9155615ab34c224
+              name: route[duration_minutes]
+              value: "90"
+              description: ""
+              disabled: false
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_4d01d89b20b84211a8be13963b9d544a
+          - id: pair_5659b1c27df94863aabcf459e15e44b4
+            name: Accept
+            value: application/json
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Driver
+    meta:
+      id: fld_7a89079b659f43d8b9fc8c70f4248a13
+      created: 1777852806108
+      modified: 1778139266579
+      sortKey: -1777852806108
+      description: ""
+    children:
+      - url: "{{ _.localhost }}/api/driver/shipments/available"
+        name: Get Availabel Shipments
+        meta:
+          id: req_ba817d07fa68447fb2e0b9d4e6fcd11b
+          created: 1778138257644
+          modified: 1778138626946
+          isPrivate: false
+          description: ""
+          sortKey: -1778138257644
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_9400f22222b746038cfcd2f6e7097e44
+          - id: pair_7bfd0d1c7dbb4007b1308d13649a9553
+            name: Accept
+            value: application/json
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/api/driver/shipments/accept"
+        name: Accept Shipment
+        meta:
+          id: req_47c07dd4a91b49a481f8375fdad292a0
+          created: 1778139286276
+          modified: 1778195637922
+          isPrivate: false
+          description: ""
+          sortKey: -1778131534061.75
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"shipment_id" : "1"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_9400f22222b746038cfcd2f6e7097e44
+          - id: pair_7bfd0d1c7dbb4007b1308d13649a9553
+            name: Accept
+            value: application/json
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/api/driver/shipments/update-status"
+        name: Update Trip Status
+        meta:
+          id: req_bc3cbf483ed141c490abc7ccb4f83160
+          created: 1778140140538
+          modified: 1778319462152
+          isPrivate: false
+          description: ""
+          sortKey: -1778121448688.375
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"shipment_id" : "1",
+            	"status" : "in_transit"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_9400f22222b746038cfcd2f6e7097e44
+          - id: pair_7bfd0d1c7dbb4007b1308d13649a9553
+            name: Accept
+            value: application/json
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/api/driver/shipments/send-delivery-otp"
+        name: Send Delivery OTP
+        meta:
+          id: req_fb27c8619a0f4cbb8edf380e3123ad62
+          created: 1778157183113
+          modified: 1778157211335
+          isPrivate: false
+          description: ""
+          sortKey: -1778126491375.0625
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"shipment_id" : "1"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_9400f22222b746038cfcd2f6e7097e44
+          - id: pair_7bfd0d1c7dbb4007b1308d13649a9553
+            name: Accept
+            value: application/json
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/api/driver/shipments/complete"
+        name: Complete Trip
+        meta:
+          id: req_9c551b58d48e4da0ac7683089982e741
+          created: 1778157245474
+          modified: 1778160116661
+          isPrivate: false
+          description: ""
+          sortKey: -1778123970031.7188
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"shipment_id" : "1",
+            	"otp" : "151772"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_9400f22222b746038cfcd2f6e7097e44
+          - id: pair_7bfd0d1c7dbb4007b1308d13649a9553
+            name: Accept
+            value: application/json
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Rating
+    meta:
+      id: fld_660a9e3c76634cc3ae57211548226fa8
+      created: 1778111356278
+      modified: 1778134621540
+      sortKey: -1778111356278
+      description: ""
+    children:
+      - url: "{{ _.localhost }}/api/ratings/users/1"
+        name: GET Ratings summery
+        meta:
+          id: req_bca3e75e0a9c4fe48c1163ad16c6a639
+          created: 1778111349074
+          modified: 1778137074238
+          isPrivate: false
+          description: ""
+          sortKey: -1778111363308.75
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/api/ratings/shipments/1"
+        name: Rate Shipment Delivery
+        meta:
+          id: req_c55697ccc8474f97bfe22119372f962e
+          created: 1778134622568
+          modified: 1778135741181
+          isPrivate: false
+          description: ""
+          sortKey: -1778111363315
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"rating" : "4",
+            	"comment": "Quite Excusit"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_6de7d179a9b449148bb12278fee162c3
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_2bf7ea97d2064b7d98b7dd11fee767ef
+          - id: pair_02194d10eafc4bfdb1738fcd5ed96cee
+            name: Accept
+            value: application/json
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/api/ratings/my-given-ratings"
+        name: GIven Ratings
+        meta:
+          id: req_6f57c6ed29e747068f9f6ea620c8cfcb
+          created: 1778135624524
+          modified: 1778135669651
+          isPrivate: false
+          description: ""
+          sortKey: -1778111363265
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/api/ratings/users/1/ratings"
+        name: User Ratings
+        meta:
+          id: req_6a739354c2d744329981f5bdafed4110
+          created: 1778135692500
+          modified: 1778135746582
+          isPrivate: false
+          description: ""
+          sortKey: -1778111363302.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - url: "{{ _.localhost }}/api/test"
+    name: test
+    meta:
+      id: req_f4548f6a97ae45b58165b959817ab951
+      created: 1777466716272
+      modified: 1778140489092
+      isPrivate: false
+      description: ""
+      sortKey: -1777466716272
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.5.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_1076b712cea75f78bee0ab64ddb3c668ceec1d46
+    created: 1777466716213
+    modified: 1778655070540
+  cookies:
+    - id: fbdce8a4-7365-4416-8620-517dd44332a5
+      key: XSRF-TOKEN
+      value: eyJpdiI6InE3V1VROHlUQ1BDK1Y3ZHk0NEYwVGc9PSIsInZhbHVlIjoiUzlVK2UvRVhyQ0JUak5BZXJuTUVIT3ZMWEsxQlFpQ0QrUTExUTEwemFsaU4vTHBLK0VIQWlKQnd4SmhCMmowUTBBaU10dWw4eGlaUXhKTGw5OFFmaWFFQWt6S2dqOHp2Yzh3ZXVvRUFmcENKdGphMVRQaFNtY25mazc5QkxKaXIiLCJtYWMiOiJiYmY2Y2Q1NmYyMDY3MDBlMTNlYmY5NTRhMjU4YmU1NTU0MTUyMGE5MWFlMzMxMjgxZTAyZWJhYmFjYThhODZmIiwidGFnIjoiIn0%3D
+      domain: 127.0.0.1
+      path: /
+      secure: false
+      httpOnly: false
+      creation: 2026-05-06T17:41:14.719Z
+      hostOnly: true
+      lastAccessed: 2026-05-07T06:18:50.797Z
+    - id: 7e27fd5d-1b44-48f3-be2d-1f6b202f36d2
+      key: laravel-session
+      value: eyJpdiI6IjNjVDk1Zis1ckNidzZQWjNDdlJjOUE9PSIsInZhbHVlIjoiK05qOU9CeFNlWjNMenBrbUlzRjdHeTBWVERwdllEV3VoR3ExRC9vV0Y3NzBUcjNEU0dVRXZBNEgycy9WQVFOZ1pkTDdDM0htcGlLM0xCd3JXSkRTaUh6VjhENjB0NERWaktQOTVQZktaNEhVZkw0eEJPb1A1SmhrSG11US9ZbHgiLCJtYWMiOiJkOTZiNzhjOTNjMDcxMTE2NzZmNTkyZmJjZTY4NzNmMmFlZjIzYjNlNWJiYTUyNWM2ZDFkYTVkYmQ0NWMyMTEyIiwidGFnIjoiIn0%3D
+      domain: 127.0.0.1
+      path: /
+      secure: false
+      httpOnly: true
+      creation: 2026-05-06T17:41:14.720Z
+      hostOnly: true
+      lastAccessed: 2026-05-07T06:18:50.798Z
+environments:
+  name: Base Environment
+  meta:
+    id: env_1076b712cea75f78bee0ab64ddb3c668ceec1d46
+    created: 1777466716212
+    modified: 1778655070541
+    isPrivate: false
+  data:
+    localhost: 127.0.0.1:8000
+    auth_token: 3|PzgyI773VnwN7rTF24u2TeGMLtO0zZ8z9xvVm7tzfbfc4e3e

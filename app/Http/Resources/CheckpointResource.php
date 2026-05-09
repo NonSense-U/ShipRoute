@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MerchantPreviewResource extends JsonResource
+class CheckpointResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,11 +15,13 @@ class MerchantPreviewResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->user->id,
-            'full_name' => $this->user->full_name,
-            'email' => $this->user->email,
-            'phone_number' => $this->user->phone_number,
+            'id' => $this->id,
+            'supervisor_name' => $this->supervisor_name,
+            'supervisor_phone_number' => $this->supervisor_phone_number,
             'address' => $this->address,
+            'street' => $this->street,
+            'building_number' => $this->building_number,
+            'notes' => $this->notes,
         ];
     }
 }

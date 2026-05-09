@@ -24,7 +24,7 @@ class DriverService
 		return Shipment::query()
 			->whereIn('status', ['created', 'offered'])
 			->where('vehicle_type', $driver->vehicle_type)
-			->where('vehicle_capacity_kg', '<=', $driver->vehicle_capacity_kg)
+			->whereRaw('CAST(vehicle_capacity_kg AS DECIMAL(10,2)) <= ?', [$driver->vehicle_capacity_kg])
 			->whereNull('driver_id')
 			->with('merchant', 'driver')
 			->paginate(20);
@@ -53,7 +53,7 @@ class DriverService
 
 			$driver->update(['is_available' => false]);
 
-			return $shipment;
+			return $shipment->fresh();
 		});
 	}
 
@@ -72,7 +72,7 @@ class DriverService
 		]);
 	}
 
-	public function startTrip(User $user, array $payload): Shipment
+	public function updateStatus(User $user, array $payload): Shipment
 	{
 		$driver = $user->driver;
 
@@ -167,6 +167,21 @@ class DriverService
 		return $shipment;
 	}
 
+
+	public function getMyShipmentsLog(User $user)
+	{
+		$driver = $user->driver;
+
+		if (!$driver) {
+			throw new RuntimeException('Driver profile not found.');
+		}
+
+		return Shipment::query()
+			->where('driver_id', $driver->id)
+			->with('merchant', 'driver')
+			->latest()
+			->paginate(20);
+	}
 
 	private function validateShipmentAcceptable(Driver $driver, Shipment $shipment): void
 	{
