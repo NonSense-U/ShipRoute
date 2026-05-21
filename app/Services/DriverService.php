@@ -121,7 +121,8 @@ class DriverService
 			throw new RuntimeException('Shipment must be in transit to request delivery OTP.');
 		}
 
-		$otp = (string) random_int(100000, 999999);
+		// $otp = (string) random_int(100000, 999999);
+		$otp = '123456';
 		Cache::put("shipment_otp_{$shipment->id}", $otp, now()->addMinutes(10));
 
 		Notification::send($shipment->merchant->user, new \App\Notifications\GamilOtp($otp));

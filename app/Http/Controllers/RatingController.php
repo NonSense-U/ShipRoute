@@ -38,8 +38,20 @@ class RatingController extends Controller
         return ApiResponse::success('Rating summary retrieved successfully.', $summary);
     }
 
-    public function getGivenRatings(Request $request)
+    public function getReceivedRatings(Request $request, User $user)
     {   
+        $ratings = $this->ratingService->getRatingsReceived($user);
+        return ApiResponse::success(data: new RatingCollection($ratings));   
+    }
+    
+    public function getGivenRatings(Request $request, User $user)
+    {   
+        $ratings = $this->ratingService->getRatingsGiven($user);
+        return ApiResponse::success(data: new RatingCollection($ratings));   
+    }
+
+    public function myGivenRatings(Request $request)
+    {
         $ratings = $this->ratingService->getRatingsGiven($request->user());
         return ApiResponse::success(data: new RatingCollection($ratings));   
     }

@@ -10,7 +10,7 @@ collection:
     meta:
       id: fld_483607b8342648fcb2c6addd25de9b2c
       created: 1777534714346
-      modified: 1778655070542
+      modified: 1779360436984
       sortKey: -1777534714346
       description: ""
     children:
@@ -18,7 +18,7 @@ collection:
         meta:
           id: fld_6d414d3578434f26b8e98c025939b0de
           created: 1777534732200
-          modified: 1778655070542
+          modified: 1779360436984
           sortKey: -1777534734053
           description: ""
         children:
@@ -27,7 +27,7 @@ collection:
             meta:
               id: req_984d25770fc94a63b5ce7f907082b31a
               created: 1777466786107
-              modified: 1778654736266
+              modified: 1779360435680
               isPrivate: false
               description: ""
               sortKey: -1777534737148
@@ -519,7 +519,7 @@ collection:
         meta:
           id: req_3193617bd58e4f418de9eef2970bbe55
           created: 1778105286595
-          modified: 1778318884497
+          modified: 1779010365473
           isPrivate: false
           description: ""
           sortKey: -1777850647941
@@ -776,7 +776,7 @@ collection:
         meta:
           id: req_bc3cbf483ed141c490abc7ccb4f83160
           created: 1778140140538
-          modified: 1778319462152
+          modified: 1779010433707
           isPrivate: false
           description: ""
           sortKey: -1778121448688.375
@@ -853,7 +853,7 @@ collection:
         meta:
           id: req_9c551b58d48e4da0ac7683089982e741
           created: 1778157245474
-          modified: 1778160116661
+          modified: 1779360053886
           isPrivate: false
           description: ""
           sortKey: -1778123970031.7188
@@ -863,7 +863,7 @@ collection:
           text: |-
             {
             	"shipment_id" : "1",
-            	"otp" : "151772"
+            	"otp" : "123456"
             }
         headers:
           - name: Content-Type
@@ -900,7 +900,7 @@ collection:
         meta:
           id: req_bca3e75e0a9c4fe48c1163ad16c6a639
           created: 1778111349074
-          modified: 1778137074238
+          modified: 1779360084868
           isPrivate: false
           description: ""
           sortKey: -1778111363308.75
@@ -983,12 +983,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.localhost }}/api/ratings/users/1/ratings"
+      - url: "{{ _.localhost }}/api/ratings/users/2/ratings"
         name: User Ratings
         meta:
           id: req_6a739354c2d744329981f5bdafed4110
           created: 1778135692500
-          modified: 1778135746582
+          modified: 1779360378824
           isPrivate: false
           description: ""
           sortKey: -1778111363302.5
@@ -1033,7 +1033,7 @@ cookieJar:
   meta:
     id: jar_1076b712cea75f78bee0ab64ddb3c668ceec1d46
     created: 1777466716213
-    modified: 1778655070540
+    modified: 1779360436973
   cookies:
     - id: fbdce8a4-7365-4416-8620-517dd44332a5
       key: XSRF-TOKEN
@@ -1060,8 +1060,8 @@ environments:
   meta:
     id: env_1076b712cea75f78bee0ab64ddb3c668ceec1d46
     created: 1777466716212
-    modified: 1778655070541
+    modified: 1779360436976
     isPrivate: false
   data:
     localhost: 127.0.0.1:8000
-    auth_token: 3|PzgyI773VnwN7rTF24u2TeGMLtO0zZ8z9xvVm7tzfbfc4e3e
+    auth_token: 3|4VcaFcv5svnWGVDp1eRhFuGUjBvTkfjADL8W8G9yeb485131
