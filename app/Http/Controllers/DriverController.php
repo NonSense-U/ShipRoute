@@ -76,7 +76,7 @@ class DriverController extends Controller
         return ApiResponse::success('Location updated successfully.');
     }
 
-    public function myShipmentsLog(Request $request)
+    public function myShipmentLogs(Request $request)
     {
         $shipments = $this->driverService->getMyShipmentsLog($request->user());
 

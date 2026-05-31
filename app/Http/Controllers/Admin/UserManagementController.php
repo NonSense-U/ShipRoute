@@ -17,9 +17,4 @@ class UserManagementController extends Controller
         $this->adminService = $adminService;
     }
 
-    public function addDriver(NewDriverRequest $request)
-    {
-        $driver = $this->adminService->addDriver($request->validated());
-        return ApiResponse::success('Driver added successfully', $driver, 201);
-    }
 }

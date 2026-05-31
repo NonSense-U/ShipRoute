@@ -15,9 +15,10 @@ class DriverPreviewResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->user->id,
+            'id' => $this->id,
             'full_name' => $this->user->full_name,
             'email' => $this->user->email,
+            'phone_number' => $this->user->phone_number,
             'age' => $this->age,
             'gender' => $this->gender,
             'vehicle_type' => $this->vehicle_type,

@@ -26,6 +26,7 @@ class NewDriverRequest extends FormRequest
             'base' => ['required', 'array'],
             'base.full_name' => ['required', 'string', 'max:255'],
             'base.email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'base.phone_number' => ['required', 'string', 'max:255', 'unique:users,phone_number'],
             'base.password' => ['required', 'string', 'min:8', 'confirmed'],
             'profile' => ['required', 'array'],
             'profile.age' => ['required', 'integer', 'min:18'],
