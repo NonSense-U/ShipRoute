@@ -22,7 +22,7 @@ class DriverService
 		}
 
 		return Shipment::query()
-			->whereIn('status', ['created', 'offered'])
+			->where('status', 'created')
 			->where('vehicle_type', $driver->vehicle_type)
 			->whereRaw('CAST(vehicle_capacity_kg AS DECIMAL(10,2)) <= ?', [$driver->vehicle_capacity_kg])
 			->whereNull('driver_id')
@@ -71,7 +71,7 @@ class DriverService
 			'last_location_at' => now(),
 		]);
 
-		
+		broadcast(new \App\Events\DriverLocationUpdated($driver->id));
 	}
 
 	public function updateStatus(User $user, array $payload): Shipment
@@ -188,7 +188,7 @@ class DriverService
 
 	private function validateShipmentAcceptable(Driver $driver, Shipment $shipment): void
 	{
-		if (!in_array($shipment->status, ['created', 'offered'], true)) {
+		if ($shipment->status !== 'created') {
 			throw new RuntimeException('Shipment is no longer available.');
 		}
 

@@ -30,7 +30,6 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->enum('status', [
                 'created',
-                'offered',
                 'accepted',
                 'heading_to_pickup',
                 'in_transit',

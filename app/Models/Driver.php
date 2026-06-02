@@ -28,9 +28,19 @@ class Driver extends Model
         'vehicle_capacity_kg' => 'integer',
         'is_available' => 'boolean',
     ];
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function shipments()
+    {
+        return $this->hasMany(Shipment::class);
+    }
+
+    public function currentShipment()
+    {
+        return $this->hasOne(Shipment::class)->latestOfMany();
     }
 }

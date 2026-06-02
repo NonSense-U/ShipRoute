@@ -291,7 +291,7 @@ class ShipmentRoutesTest extends TestCase
             'vehicle_capacity_kg' => '900',
         ]);
         $matchTwo = $this->createShipment($merchantUser->merchant, $route, [
-            'status' => 'offered',
+            'status' => 'created',
             'vehicle_type' => 'van',
             'vehicle_capacity_kg' => '800',
         ]);

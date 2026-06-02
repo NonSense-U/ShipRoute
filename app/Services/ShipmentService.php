@@ -112,63 +112,6 @@ class ShipmentService
         return round($subtotal, 2);
     }
 
-    // public function updateShipment(User $user, Shipment $shipment, array $payload): Shipment
-    // {
-    //     $merchant = $user->merchant;
-
-    //     if (!$merchant) {
-    //         throw new RuntimeException('Merchant profile not found.');
-    //     }
-
-    //     return DB::transaction(function () use ($merchant, $shipment, $payload) {
-    //         $lockedShipment = Shipment::query()
-    //             ->whereKey($shipment->id)
-    //             ->lockForUpdate()
-    //             ->firstOrFail();
-
-    //         if ((int) $lockedShipment->merchant_id !== (int) $merchant->id) {
-    //             throw new RuntimeException('You are not allowed to update this shipment.');
-    //         }
-
-    //         if (!in_array($lockedShipment->status, ['created', 'offered'], true) || $lockedShipment->driver_id !== null) {
-    //             throw new RuntimeException('Shipment cannot be updated after being taken by a driver.');
-    //         }
-
-    //         if (isset($payload['route']) && is_array($payload['route'])) {
-    //             $lockedRoute = ShipmentRoute::query()
-    //                 ->whereKey($lockedShipment->shipment_route_id)
-    //                 ->lockForUpdate()
-    //                 ->firstOrFail();
-
-    //             if (!empty($payload['route'])) {
-    //                 $lockedRoute->update($payload['route']);
-    //             }
-    //         }
-
-    //         $shipmentUpdateData = $payload['shipment'] ?? [];
-
-    //         $shipmentUpdateData['is_night_shipping'] = array_key_exists('scheduled_pickup_at', $shipmentUpdateData) ?
-    //             $this->isNightShipping(Carbon::parse($shipmentUpdateData['scheduled_pickup_at'])) : $lockedShipment->is_night_shipping;
-
-    //         if (array_key_exists('media', $payload) && is_array($payload['media'])) {
-    //             $mediaPaths = $this->storeShipmentMedia($lockedShipment, $payload['media']);
-    //             if (!empty($mediaPaths)) {
-    //                 $existing = is_array($lockedShipment->media) ? $lockedShipment->media : [];
-    //                 $shipmentUpdateData['media'] = array_values(array_merge($existing, $mediaPaths));
-    //             }
-    //         }
-    //         $shipmentUpdateData['price'] = $this->calculatePrice([
-    //             'distance' => $lockedShipment->route->distance,
-    //             'weight' => $shipmentUpdateData['weight'] ?? $lockedShipment->weight,
-    //             'vehicle_type' => $shipmentUpdateData['vehicle_type'] ?? $lockedShipment->vehicle_type,
-    //             'is_night_shipping' => $shipmentUpdateData['is_night_shipping'] ?? $lockedShipment->is_night_shipping,
-    //         ]);
-
-    //         $lockedShipment->update($shipmentUpdateData);
-    //         return $lockedShipment->fresh(['route', 'merchant', 'driver']);
-    //     });
-    // }
-
     public function cancelShipment(Shipment $shipment): void
     {
         if (!in_array($shipment->status, ['created', 'scheduled'])) {
