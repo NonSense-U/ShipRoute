@@ -70,6 +70,8 @@ class DriverService
 			'current_lng' => $payload['current_lng'],
 			'last_location_at' => now(),
 		]);
+
+		
 	}
 
 	public function updateStatus(User $user, array $payload): Shipment
