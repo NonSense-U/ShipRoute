@@ -27,13 +27,20 @@ class MerchantController extends Controller
             throw new RuntimeException('Merchant profile not found.');
         }
 
-        $shipments = Shipment::query()
-            ->where('merchant_id', $merchant->id)
-            ->with('route', 'driver')
-            ->latest()
-            ->paginate(20);
 
+        $query = Shipment::query()
+            ->where('merchant_id', $merchant->id)
+            ->with('route', 'driver');
+
+        if ($request->has('filter')) {
+            if ($request->input('filter') === 'current') {
+                $query->whereNotIn('status', ['delivered', 'cancelled', 'expired']);
+            }
+            else{
+                $query->where('status', $request->input('filter'));
+            }
+        }
+        $shipments = $query->latest()->paginate(20);
         return ApiResponse::success('Shipments retrieved successfully.', new ShipmentCollection($shipments));
     }
-
 }
