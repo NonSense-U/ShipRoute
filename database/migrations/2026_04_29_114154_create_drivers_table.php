@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->integer('age')->nullable();
             $table->enum('gender', ['male', 'female']);
+            $table->string('current_governorate')->nullable();
             $table->string('current_lat')->nullable();
-            $table->string('current_lng')->nullable();
+            $table->string('current_lon')->nullable();
             $table->timestamp('last_location_at')->nullable();
             $table->string('vehicle_type');
             $table->decimal('vehicle_capacity_kg', 10, 2)->nullable();

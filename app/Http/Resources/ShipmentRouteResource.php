@@ -21,10 +21,10 @@ class ShipmentRouteResource extends JsonResource
         return [
             'overview_polyline' => $this->overview_polyline,
             'pick_up_lat' => $this->pick_up_lat,
-            'pick_up_lng' => $this->pick_up_lng,
+            'pick_up_lon' => $this->pick_up_lon,
             'pick_up_checkpoint_details' => new CheckpointResource($pickUpCheckpoint),
             'delivery_lat' => $this->delivery_lat,
-            'delivery_lng' => $this->delivery_lng,
+            'delivery_lon' => $this->delivery_lon,
             'delivery_checkpoint_details' => new CheckpointResource($deliveryCheckpoint),
             'distance' => (float) $this->distance,
             'duration_minutes' => $this->duration_minutes,

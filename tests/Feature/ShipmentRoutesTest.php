@@ -85,9 +85,9 @@ class ShipmentRoutesTest extends TestCase
             'pick_up_location_details' => ['city' => 'Origin'],
             'delivery_location_details' => ['city' => 'Destination'],
             'pick_up_lat' => '30.1111',
-            'pick_up_lng' => '31.2222',
+            'pick_up_lon' => '31.2222',
             'delivery_lat' => '29.3333',
-            'delivery_lng' => '30.4444',
+            'delivery_lon' => '30.4444',
             'distance' => 12.5,
             'duration_minutes' => 45,
         ], $overrides));
@@ -150,9 +150,9 @@ class ShipmentRoutesTest extends TestCase
             'route' => [
                 'overview_polyline' => 'encoded',
                 'pick_up_lat' => '30.1',
-                'pick_up_lng' => '31.2',
+                'pick_up_lon' => '31.2',
                 'delivery_lat' => '29.3',
-                'delivery_lng' => '30.4',
+                'delivery_lon' => '30.4',
                 'distance' => 10.5,
                 'duration_minutes' => 40,
                 'pick_up_checkpoint_details' => [

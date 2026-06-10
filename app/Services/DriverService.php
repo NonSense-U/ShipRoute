@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use RuntimeException;
 
+use function Illuminate\Log\log;
+
 class DriverService
 {
 
@@ -23,6 +25,9 @@ class DriverService
 
 		return Shipment::query()
 			->where('status', 'created')
+			->whereHas('route', function ($query) use ($driver) {
+				$query->where('pick_up_governorate', $driver->current_governorate);
+			})
 			->where('vehicle_type', $driver->vehicle_type)
 			->whereRaw('CAST(vehicle_capacity_kg AS DECIMAL(10,2)) <= ?', [$driver->vehicle_capacity_kg])
 			->whereNull('driver_id')
@@ -65,13 +70,30 @@ class DriverService
 			throw new RuntimeException('Driver profile not found.');
 		}
 
-		$driver->update([
-			'current_lat' => $payload['current_lat'],
-			'current_lng' => $payload['current_lng'],
-			'last_location_at' => now(),
-		]);
+		$update_counter = Cache::get("driver_location_{$driver->id}")['update_counter'] ?? 0;
 
-		broadcast(new \App\Events\DriverLocationUpdated($driver->id));
+		if ($update_counter == 3) {
+			$driver->update([
+				'current_lat' => $payload['current_lat'],
+				'current_lon' => $payload['current_lon'],
+			]);
+			dispatch(new \App\Jobs\SyncDriverGovernorate($driver->id));
+			$update_counter = 0;
+		}
+
+		Cache::put("driver_location_{$driver->id}", [
+			'lat' => $payload['current_lat'],
+			'lon' => $payload['current_lon'],
+			'update_counter' => $update_counter + 1,
+		], now()->addMinutes(10));
+
+		if (isset($payload['shipment_id'])) {
+			$shipment = Shipment::findOrFail($payload['shipment_id']);
+			if ($shipment->driver_id !== $driver->id) {
+				throw new RuntimeException('You are not assigned to this shipment.');
+			}
+			broadcast(new \App\Events\DriverLocationUpdated($driver->id, $payload['shipment_id']));
+		}
 	}
 
 	public function updateStatus(User $user, array $payload): Shipment

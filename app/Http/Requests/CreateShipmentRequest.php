@@ -27,7 +27,7 @@ class CreateShipmentRequest extends FormRequest
             'route.overview_polyline' => ['required', 'string'],
 
             'route.pick_up_lat' => ['required', 'string', 'max:50'],
-            'route.pick_up_lng' => ['required', 'string', 'max:50'],
+            'route.pick_up_lon' => ['required', 'string', 'max:50'],
             'route.pick_up_checkpoint_details' => ['required', 'array'],
             'route.pick_up_checkpoint_details.supervisor_name' => ['required', 'string', 'max:255'],
             'route.pick_up_checkpoint_details.supervisor_phone_number' => ['required', 'string', 'max:20'],
@@ -37,7 +37,7 @@ class CreateShipmentRequest extends FormRequest
             'route.pick_up_checkpoint_details.notes' => ['nullable', 'string', 'max:255'],
 
             'route.delivery_lat' => ['required', 'string', 'max:50'],
-            'route.delivery_lng' => ['required', 'string', 'max:50'],
+            'route.delivery_lon' => ['required', 'string', 'max:50'],
             'route.delivery_checkpoint_details' => ['required', 'array'],
             'route.delivery_checkpoint_details.supervisor_name' => ['required', 'string', 'max:255'],
             'route.delivery_checkpoint_details.supervisor_phone_number' => ['required', 'string', 'max:20'],

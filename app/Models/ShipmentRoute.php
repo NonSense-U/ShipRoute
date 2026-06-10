@@ -15,9 +15,9 @@ class ShipmentRoute extends Model
         'pick_up_location_details',
         'delivery_location_details',
         'pick_up_lat',
-        'pick_up_lng',
+        'pick_up_lon',
         'delivery_lat',
-        'delivery_lng',
+        'delivery_lon',
         'distance',
         'duration_minutes',
     ];
@@ -31,9 +31,9 @@ class ShipmentRoute extends Model
 
     protected $with = ['checkpoints'];
 
-    public function shipments()
+    public function shipment()
     {
-        return $this->hasMany(Shipment::class);
+        return $this->belongsTo(Shipment::class);
     }
 
     public function checkpoints()

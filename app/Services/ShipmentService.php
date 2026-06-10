@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\SyncShipmentPickUpGovernorate;
 use App\Models\Checkpoint;
 use App\Models\Shipment;
 use App\Models\ShipmentRoute;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\UploadedFile;
 use RuntimeException;
+use Throwable;
 
 class ShipmentService
 {
@@ -21,18 +23,47 @@ class ShipmentService
             throw new RuntimeException('Merchant profile not found.');
         }
 
-        return DB::transaction(function () use ($merchant, $payload) {
+        DB::beginTransaction();
+
+        try {
             $scheduledPickupAt = isset($payload['scheduled_pickup_at'])
                 ? Carbon::parse($payload['scheduled_pickup_at'])
                 : now();
             $isNightShipping = $this->isNightShipping($scheduledPickupAt);
 
-            $route = ShipmentRoute::create([
+            $price = $this->calculatePrice([
+                'distance' => $payload['route']['distance'],
+                'weight' => $payload['weight'],
+                'vehicle_type' => $payload['vehicle_type'],
+                'is_night_shipping' => $isNightShipping,
+            ]);
+
+            $shipment = Shipment::create([
+                'merchant_id' => $merchant->id,
+                'goods_type' => $payload['goods_type'],
+                'vehicle_type' => $payload['vehicle_type'],
+                'vehicle_capacity_kg' => $payload['vehicle_capacity_kg'],
+                'who_pays' => $payload['who_pays'],
+                'weight' => $payload['weight'],
+                'additional_details' => $payload['additional_details'] ?? null,
+                'is_night_shipping' => $isNightShipping,
+                'scheduled_pickup_at' => $payload['scheduled_pickup_at'] ?? null,
+                'price' => $price,
+                'status' => 'created',
+            ]);
+
+            $mediaPaths = $this->storeShipmentMedia($shipment, $payload['media'] ?? []);
+            if (!empty($mediaPaths)) {
+                $shipment->media = $mediaPaths;
+                $shipment->save();
+            }
+
+            $route = $shipment->route()->create([
                 'overview_polyline' => $payload['route']['overview_polyline'],
                 'pick_up_lat' => $payload['route']['pick_up_lat'],
-                'pick_up_lng' => $payload['route']['pick_up_lng'],
+                'pick_up_lon' => $payload['route']['pick_up_lon'],
                 'delivery_lat' => $payload['route']['delivery_lat'],
-                'delivery_lng' => $payload['route']['delivery_lng'],
+                'delivery_lon' => $payload['route']['delivery_lon'],
                 'distance' => $payload['route']['distance'],
                 'duration_minutes' => $payload['route']['duration_minutes'],
             ]);
@@ -57,37 +88,13 @@ class ShipmentService
                     'notes' => $payload['route']['delivery_checkpoint_details']['notes'] ?? null,
                 ],
             ]);
-
-            $price = $this->calculatePrice([
-                'distance' => $route->distance,
-                'weight' => $payload['weight'],
-                'vehicle_type' => $payload['vehicle_type'],
-                'is_night_shipping' => $isNightShipping,
-            ]);
-
-            $shipment = Shipment::create([
-                'merchant_id' => $merchant->id,
-                'shipment_route_id' => $route->id,
-                'goods_type' => $payload['goods_type'],
-                'vehicle_type' => $payload['vehicle_type'],
-                'vehicle_capacity_kg' => $payload['vehicle_capacity_kg'],
-                'who_pays' => $payload['who_pays'],
-                'weight' => $payload['weight'],
-                'additional_details' => $payload['additional_details'] ?? null,
-                'is_night_shipping' => $isNightShipping,
-                'scheduled_pickup_at' => $payload['scheduled_pickup_at'] ?? null,
-                'price' => $price,
-                'status' => 'created',
-            ]);
-
-            $mediaPaths = $this->storeShipmentMedia($shipment, $payload['media'] ?? []);
-            if (!empty($mediaPaths)) {
-                $shipment->media = $mediaPaths;
-                $shipment->save();
-            }
-
+            DB::commit();
+            dispatch(new SyncShipmentPickUpGovernorate($route->id));
             return $shipment->fresh(['route', 'merchant', 'driver']);
-        });
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function calculatePrice(array $payload): float

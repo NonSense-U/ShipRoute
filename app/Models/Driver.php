@@ -11,7 +11,7 @@ class Driver extends Model
         'age',
         'gender',
         'current_lat',
-        'current_lng',
+        'current_lon',
         'last_location_at',
         'vehicle_type',
         'vehicle_capacity_kg',
@@ -24,7 +24,7 @@ class Driver extends Model
     protected $casts = [
         'age' => 'integer',
         'current_lat' => 'float',
-        'current_lng' => 'float',
+        'current_lon' => 'float',
         'vehicle_capacity_kg' => 'integer',
         'is_available' => 'boolean',
     ];

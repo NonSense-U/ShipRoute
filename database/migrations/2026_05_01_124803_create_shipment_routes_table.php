@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Shipment;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,13 +16,15 @@ return new class extends Migration
     {
         Schema::create('shipment_routes', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Shipment::class)->constrained()->cascadeOnDelete();
             $table->string('overview_polyline');
+            $table->string('pick_up_governorate')->nullable();
             $table->json('pick_up_location_details')->nullable();
             $table->json('delivery_location_details')->nullable();
             $table->string('pick_up_lat');
-            $table->string('pick_up_lng');
+            $table->string('pick_up_lon');
             $table->string('delivery_lat');
-            $table->string('delivery_lng');
+            $table->string('delivery_lon');
             $table->decimal('distance', 10, 2);
             $table->unsignedInteger('duration_minutes');
             $table->timestamps();

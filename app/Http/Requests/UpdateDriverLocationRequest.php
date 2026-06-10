@@ -14,8 +14,9 @@ class UpdateDriverLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'shipment_id' => ['nullable', 'integer', 'exists:shipments,id'],
             'current_lat' => ['required', 'string', 'max:50'],
-            'current_lng' => ['required', 'string', 'max:50'],
+            'current_lon' => ['required', 'string', 'max:50'],
         ];
     }
 }

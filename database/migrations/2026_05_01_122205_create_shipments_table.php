@@ -18,7 +18,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Merchant::class)->constrained()->nullOnDelete();
             $table->foreignIdFor(Driver::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(ShipmentRoute::class)->constrained()->cascadeOnDelete();
             $table->string('goods_type');
             $table->enum('who_pays', ['sender', 'receiver']);
             $table->string('vehicle_type');
@@ -30,6 +29,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->enum('status', [
                 'created',
+                'scheduled',
                 'accepted',
                 'heading_to_pickup',
                 'in_transit',

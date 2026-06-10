@@ -78,7 +78,7 @@ class AuthService
                 $user = User::where('phone_number', $payload['phone_number'])->first();
             }
 
-            if (!$user) {
+            if (!$user || !$user->hasRole($payload['role'])) {
                 throw new AuthenticationException('There is no user associated with the ' . $key . ' you provided.');
             } elseif (!Hash::check($payload['password'], $user->password)) {
                 throw new AuthenticationException("Invalid credentials.");

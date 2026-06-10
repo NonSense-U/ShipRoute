@@ -13,7 +13,6 @@ class Shipment extends Model
     protected $fillable = [
         'merchant_id',
         'driver_id',
-        'shipment_route_id',
         'goods_type',
         'who_pays',
         'vehicle_type',
@@ -61,7 +60,7 @@ class Shipment extends Model
 
     public function route()
     {
-        return $this->belongsTo(ShipmentRoute::class, 'shipment_route_id');
+        return $this->hasOne(ShipmentRoute::class);
     }
 
     public function ratings()

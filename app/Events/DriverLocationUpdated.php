@@ -11,6 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 
 class DriverLocationUpdated implements ShouldBroadcast
 {
@@ -19,14 +20,18 @@ class DriverLocationUpdated implements ShouldBroadcast
 
     protected Driver $driver;
     protected Shipment $shipment;
-
+    protected array $coordinates;
     /**
      * Create a new event instance.
      */
-    public function __construct(int $driver_id)
+    public function __construct(int $driver_id, int $shipment_id)
     {
         $this->driver = Driver::findOrFail($driver_id);
-        $this->shipment = $this->driver->currentShipment()->firstOrFail();
+        $this->shipment = Shipment::findOrFail($shipment_id);
+        $this->coordinates = Cache::get("driver_location_{$this->driver->id}", [
+            'current_lat' => $this->driver->current_lat,
+            'current_lon' => $this->driver->current_lon,
+        ]);
     }
 
     /**
@@ -51,8 +56,8 @@ class DriverLocationUpdated implements ShouldBroadcast
     {
         return [
             'shipment_id' => $this->shipment->id,
-            'current_lat' => $this->driver->current_lat,
-            'current_lng' => $this->driver->current_lng,
+            'current_lat' => $this->coordinates['lat'],
+            'current_lon' => $this->coordinates['lon'],
         ];
     }
 }
