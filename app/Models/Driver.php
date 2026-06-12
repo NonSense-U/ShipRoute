@@ -39,7 +39,7 @@ class Driver extends Model
         return $this->hasMany(Shipment::class);
     }
 
-    public function currentShipment()
+    public function latestShipment()
     {
         return $this->hasOne(Shipment::class)->latestOfMany();
     }

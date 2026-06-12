@@ -13,7 +13,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::patch('/fcm-token', [FcmController::class, 'setFcmToken'])->middleware('auth:sanctum');
 Route::delete('/fcm-token', [FcmController::class, 'removeFcmToken'])->middleware('auth:sanctum');
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/{role}/login', [AuthController::class, 'login']);
 Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 // Route::patch('/fcm-token', [FcmController::class, 'setFcmToken'])->middleware('auth:sanctum');

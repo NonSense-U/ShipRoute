@@ -29,6 +29,7 @@ class ShipmentService
             $scheduledPickupAt = isset($payload['scheduled_pickup_at'])
                 ? Carbon::parse($payload['scheduled_pickup_at'])
                 : now();
+
             $isNightShipping = $this->isNightShipping($scheduledPickupAt);
 
             $price = $this->calculatePrice([

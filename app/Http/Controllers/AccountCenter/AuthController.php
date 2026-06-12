@@ -46,9 +46,9 @@ class AuthController extends Controller
         return ApiResponse::success('OTP verified successfully');
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request, string $role)
     {
-        $response = $this->authService->login($request->validated());
+        $response = $this->authService->login($request->validated(), $role);
         return ApiResponse::success('Login successful', $response);
     }
 

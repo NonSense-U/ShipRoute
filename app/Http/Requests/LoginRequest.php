@@ -22,7 +22,6 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'role' => ['required', 'string', 'in:driver,merchant,admin'],
             'email' => ['required_without:phone_number', 'string', 'email', 'max:255'],
             'phone_number' => ['required_without:email', 'string', 'max:50'],
             'password' => ['required', 'string', 'min:8'],

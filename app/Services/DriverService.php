@@ -23,6 +23,8 @@ class DriverService
 			throw new RuntimeException('Driver profile not found.');
 		}
 
+		$last_shipment = $driver->latestShipment();
+
 		return Shipment::query()
 			->where('status', 'created')
 			->whereHas('route', function ($query) use ($driver) {

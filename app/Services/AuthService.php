@@ -65,7 +65,7 @@ class AuthService
     }
 
 
-    public function login(array $payload)
+    public function login(array $payload, string $role)
     {
         try {
             $user = null;
@@ -78,8 +78,8 @@ class AuthService
                 $user = User::where('phone_number', $payload['phone_number'])->first();
             }
 
-            if (!$user || !$user->hasRole($payload['role'])) {
-                throw new AuthenticationException('There is no user associated with the ' . $key . ' you provided.');
+            if (!$user || !$user->hasRole($role ?? '')) {
+                throw new AuthenticationException('There is no'. $role .' associated with the ' . $key . ' you provided.');
             } elseif (!Hash::check($payload['password'], $user->password)) {
                 throw new AuthenticationException("Invalid credentials.");
             }
