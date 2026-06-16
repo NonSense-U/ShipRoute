@@ -25,7 +25,7 @@ class Driver extends Model
         'age' => 'integer',
         'current_lat' => 'float',
         'current_lon' => 'float',
-        'vehicle_capacity_kg' => 'integer',
+        'vehicle_capacity_kg' => 'float',
         'is_available' => 'boolean',
     ];
 

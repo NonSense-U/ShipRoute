@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('current_lon')->nullable();
             $table->timestamp('last_location_at')->nullable();
             $table->string('vehicle_type');
+            $table->enum('vehicle_size', ['small', 'medium', 'large']);
             $table->decimal('vehicle_capacity_kg', 10, 2)->nullable();
             $table->boolean('is_available')->default(true);
             $table->string('license_plate_number')->nullable()->unique();

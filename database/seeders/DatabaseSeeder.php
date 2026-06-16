@@ -48,6 +48,7 @@ class DatabaseSeeder extends Seeder
             'age' => 30,
             'gender' => 'male',
             'vehicle_type' => 'refrigerated',
+            'vehicle_size' => 'medium',
             'vehicle_capacity_kg' => 5000,
         ]);
 

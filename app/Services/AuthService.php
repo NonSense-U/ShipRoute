@@ -79,7 +79,7 @@ class AuthService
             }
 
             if (!$user || !$user->hasRole($role ?? '')) {
-                throw new AuthenticationException('There is no'. $role .' associated with the ' . $key . ' you provided.');
+                throw new AuthenticationException('There is no '. $role .' associated with the ' . $key . ' you provided.');
             } elseif (!Hash::check($payload['password'], $user->password)) {
                 throw new AuthenticationException("Invalid credentials.");
             }

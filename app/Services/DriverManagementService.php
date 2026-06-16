@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\VehicleHelper;
 use App\Models\Driver;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,7 @@ class DriverManagementService
         try {
             $user = User::create($data['base']);
             $user->assignRole('driver');
+            $data['profile']['vehicle_size'] = VehicleHelper::getVehicleSize($data['profile']['vehicle_capacity_kg']);
             $driver = $user->driver()->create($data['profile']);
             DB::commit();
 

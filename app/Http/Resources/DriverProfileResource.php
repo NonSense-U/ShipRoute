@@ -19,6 +19,7 @@ class DriverProfileResource extends JsonResource
             'age' => $this->age,
             'gender' => $this->gender,
             'vehicle_type' => $this->vehicle_type,
+            'vehicle_size' => $this->vehicle_size,
             'vehicle_capacity_kg' => $this->vehicle_capacity_kg,
             'description' => $this->description,
         ];

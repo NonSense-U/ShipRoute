@@ -32,8 +32,8 @@ class NewDriverRequest extends FormRequest
             'profile.age' => ['required', 'integer', 'min:18'],
             'profile.gender' => ['required', 'string', 'in:male,female'],
             'profile.license_plate_number' => ['required', 'string', 'max:255'],
-            //TODO Sepcify the allowed vehicle types
-            'profile.vehicle_type' => ['required', 'string', 'max:255'],
+            'profile.vehicle_type' => ['required', 'string', 'max:255', 'in:open,closed,refrigerated'],
+            'profile.vehicle_capacity_kg' => ['required', 'decimal:0,2', 'min:0'],
             'profile.driver_license_number' => ['required', 'string', 'max:255'],
             'profile.description' => ['nullable', 'string'],
             ];
