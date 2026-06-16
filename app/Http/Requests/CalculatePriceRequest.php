@@ -23,10 +23,10 @@ class CalculatePriceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'scheduled_pickup_at' => ['nullable', 'date', 'after_or_equal:now'],
-            'distance' => ['required', 'numeric', 'min:0'],
-            'weight' => ['required', 'numeric', 'min:0'],
-            'vehicle_type' => ['nullable', 'in:standard,refrigerated'],
+            'scheduled_pickup_at' => ['required', 'date', 'after_or_equal:now'],
+            'distance' => ['required', 'decimal:0,2', 'min:0'],
+            'weight' => ['required', 'decimal:0,2', 'min:0'],
+            'vehicle_type' => ['required', 'string'],
         ];
     }
 }

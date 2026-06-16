@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use App\Helpers\PricingMultiplierHelper;
+use App\Helpers\VehicleHelper;
 use App\Jobs\SyncShipmentPickUpGovernorate;
-use App\Models\Checkpoint;
+use App\Models\PricingMultiplier;
 use App\Models\Shipment;
-use App\Models\ShipmentRoute;
 use App\Models\User;
+use App\Models\VehicleSizePricing;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\UploadedFile;
@@ -26,9 +28,7 @@ class ShipmentService
         DB::beginTransaction();
 
         try {
-            $scheduledPickupAt = isset($payload['scheduled_pickup_at'])
-                ? Carbon::parse($payload['scheduled_pickup_at'])
-                : now();
+            $scheduledPickupAt = Carbon::parse($payload['scheduled_pickup_at']);
 
             $isNightShipping = $this->isNightShipping($scheduledPickupAt);
 
@@ -43,14 +43,14 @@ class ShipmentService
                 'merchant_id' => $merchant->id,
                 'goods_type' => $payload['goods_type'],
                 'vehicle_type' => $payload['vehicle_type'],
-                'vehicle_capacity_kg' => $payload['vehicle_capacity_kg'],
+                'vehicle_size' => VehicleHelper::getVehicleSize($payload['weight']),
                 'who_pays' => $payload['who_pays'],
                 'weight' => $payload['weight'],
                 'additional_details' => $payload['additional_details'] ?? null,
                 'is_night_shipping' => $isNightShipping,
                 'scheduled_pickup_at' => $payload['scheduled_pickup_at'] ?? null,
                 'price' => $price,
-                'status' => 'created',
+                'status' => 'scheduled',
             ]);
 
             $mediaPaths = $this->storeShipmentMedia($shipment, $payload['media'] ?? []);
@@ -100,21 +100,26 @@ class ShipmentService
 
     public function calculatePrice(array $payload): float
     {
-        $baseFee = (float) config('shipping.pricing.base_fee');
-        $perKm = (float) config('shipping.pricing.per_km');
-        $perKg = (float) config('shipping.pricing.per_kg');
+        $vehicle_size = VehicleHelper::getVehicleSize($payload['weight']);
+        $pricing_rules = VehicleSizePricing::query()
+            ->where('size', $vehicle_size)
+            ->firstOrFail();
 
-        $distanceCharge = $payload['distance'] * $perKm;
-        $weightCharge = $payload['weight'] * $perKg;
+        $distanceCharge = $payload['distance'] * $pricing_rules->per_km_fee;
 
-        $subtotal = $baseFee + $distanceCharge + $weightCharge;
+        $subtotal = $pricing_rules->strating_fee + $distanceCharge;
 
-        if (!empty($payload['vehicle_type']) && $payload['vehicle_type'] === 'refrigerated') {
-            $subtotal += $subtotal * (float) config('shipping.pricing.refrigeration_surcharge');
+
+        if ($payload['vehicle_type'] === 'refrigerated') {
+            $subtotal += $subtotal * PricingMultiplierHelper::getRefrigeratedMultiplier();
         }
 
-        if ($payload['is_night_shipping']) {
-            $subtotal += $subtotal * (float) config('shipping.pricing.night_surcharge');
+        $weight_factor = ($payload['weight'] / VehicleHelper::getMaxCapacityForSize($vehicle_size)) * 100;
+
+        $subtotal += $subtotal * PricingMultiplierHelper::getWeightMultiplier($weight_factor);
+
+        if ($this->isNightShipping(Carbon::parse($payload['scheduled_pickup_at']))) {
+            $subtotal += $subtotal * PricingMultiplierHelper::getNightShippingMultiplier();
         }
 
         return round($subtotal, 2);

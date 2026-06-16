@@ -16,7 +16,7 @@ class Shipment extends Model
         'goods_type',
         'who_pays',
         'vehicle_type',
-        'vehicle_capacity_kg',
+        'vehicle_size',
         'weight',
         'additional_details',
         'requires_refrigeration',

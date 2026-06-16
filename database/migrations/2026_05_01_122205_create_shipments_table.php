@@ -21,14 +21,13 @@ return new class extends Migration
             $table->string('goods_type');
             $table->enum('who_pays', ['sender', 'receiver']);
             $table->string('vehicle_type');
-            $table->string('vehicle_capacity_kg');
+            $table->string('vehicle_size');
             $table->decimal('weight', 10, 2);
             $table->text('additional_details')->nullable();
             $table->timestamp('scheduled_pickup_at')->nullable();
             $table->boolean('is_night_shipping')->default(false);
             $table->decimal('price', 10, 2);
             $table->enum('status', [
-                'created',
                 'scheduled',
                 'accepted',
                 'heading_to_pickup',
@@ -36,7 +35,7 @@ return new class extends Migration
                 'delivered',
                 'cancelled',
                 'expired'
-            ])->default('created');
+            ])->default('scheduled');
             $table->json('media')->nullable();
             $table->timestamp('picked_up_at')->nullable();
             $table->timestamp('delivered_at')->nullable();

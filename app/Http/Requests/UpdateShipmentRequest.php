@@ -18,7 +18,6 @@ class UpdateShipmentRequest extends FormRequest
             'shipment.goods_type' => ['sometimes', 'string', 'max:255'],
             'shipment.weight' => ['sometimes', 'numeric', 'min:0.1'],
             'shipment.vehicle_type' => ['sometimes', 'string', 'max:255'],
-            'shipment.vehicle_capacity_kg' => ['sometimes', 'string', 'max:255'],
             'shipment.who_pays' => ['sometimes', 'string', 'in:sender,receiver'],
             'shipment.scheduled_pickup_at' => ['sometimes', 'nullable', 'date', 'after_or_equal:now'],
             'shipment.additional_details' => ['sometimes', 'nullable', 'string'],

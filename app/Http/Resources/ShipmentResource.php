@@ -17,9 +17,9 @@ class ShipmentResource extends JsonResource
         return [
             'id' => $this->id,
             'goods_type' => $this->goods_type,
-            'vehicle_type' => $this->vehicle_type,
-            'capacity_kg' => (float) $this->vehicle_capacity_kg,
             'weight' => (float) $this->weight,
+            'vehicle_type' => $this->vehicle_type,
+            'vehicle_size' => $this->vehicle_size,
             'night_shipping' => $this->is_night_shipping,
             'who_pays' => $this->who_pays,
             'price' => (float) $this->price,

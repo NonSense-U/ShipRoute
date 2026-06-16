@@ -18,4 +18,15 @@ class VehicleHelper
             throw new \InvalidArgumentException('Vehicle capacity exceeds the maximum limit of 4000 kg.');
         }
     }
+
+
+    public  static function getMaxCapacityForSize(string $size): float
+    {
+        return match ($size) {
+            'small' => 900,
+            'medium' => 2000,
+            'large' => 4000,
+            default => throw new \InvalidArgumentException('Invalid vehicle size: ' . $size),
+        };
+    }
 }

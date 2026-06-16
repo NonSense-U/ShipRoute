@@ -26,12 +26,12 @@ class DriverService
 		$last_shipment = $driver->latestShipment();
 
 		return Shipment::query()
-			->where('status', 'created')
+			->where('status', 'scheduled')
 			->whereHas('route', function ($query) use ($driver) {
 				$query->where('pick_up_governorate', $driver->current_governorate);
 			})
 			->where('vehicle_type', $driver->vehicle_type)
-			->whereRaw('CAST(vehicle_capacity_kg AS DECIMAL(10,2)) <= ?', [$driver->vehicle_capacity_kg])
+			->where('weight', '<=', $driver->vehicle_capacity_kg)
 			->whereNull('driver_id')
 			->with('merchant', 'driver')
 			->paginate(20);

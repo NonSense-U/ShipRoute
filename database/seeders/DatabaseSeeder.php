@@ -48,12 +48,14 @@ class DatabaseSeeder extends Seeder
             'age' => 30,
             'gender' => 'male',
             'vehicle_type' => 'refrigerated',
-            'vehicle_size' => 'medium',
-            'vehicle_capacity_kg' => 5000,
+            'vehicle_size' => 'small',
+            'vehicle_capacity_kg' => 500,
         ]);
 
         $this->call([
             RolesAndPermissionsSeeder::class,
+            VehicleSizePricingSeeder::class,
+            PricingMultiplierSeeder::class,
         ]);
 
         $admin->assignRole('admin');
