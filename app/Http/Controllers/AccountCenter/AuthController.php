@@ -9,6 +9,8 @@ use App\Http\Requests\MerchantRegisterRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -42,10 +44,11 @@ class AuthController extends Controller
             'otp' => ['required', 'string', 'size:6'],
         ]);
 
-        $this->authService->verifyOtp($validated);
+        $this->authService->verifyOtp($validated, $request->user()->id);
         return ApiResponse::success('OTP verified successfully');
     }
 
+    
     public function login(LoginRequest $request, string $role)
     {
         $response = $this->authService->login($request->validated(), $role);

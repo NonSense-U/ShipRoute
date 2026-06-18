@@ -21,22 +21,25 @@ class AuthService
     }
 
 
-    public function verifyOTP(array $payload)
+    public function verifyOTP(array $payload, string $user_id)
     {
         $user = User::query()
             ->where('phone_number', $payload['phone_number'])
             ->firstOrFail();
 
-        if (Cache::get("otp_{$payload['phone_number']}") !== $payload['otp_code']) {
+        if (Cache::get('otp_' . $payload['phone_number']) !== $payload['otp_code']) {
             throw new \Exception('Invalid OTP code');
         }
 
         $user->update([
             'phone_verified_at' => now(),
-            'otp_code' => null,
         ]);
 
-        Cache::forget("otp_{$payload['phone_number']}");
+        if (isset($user_id)) {
+            Cache::put('user' . $user_id . '_trusted', true);
+        }
+
+        Cache::forget('otp_' . $payload['phone_number']);
     }
 
     public function register(array $payload)
@@ -49,7 +52,7 @@ class AuthService
             $user = User::create($payload['base']);;
             $user->assignRole('merchant');
             $user->merchant()->create($payload['profile']);
-            
+
             $data['user'] = $user;
 
             if (!empty($payload['login']) && $payload['login']) {
@@ -79,7 +82,7 @@ class AuthService
             }
 
             if (!$user || !$user->hasRole($role ?? '')) {
-                throw new AuthenticationException('There is no '. $role .' associated with the ' . $key . ' you provided.');
+                throw new AuthenticationException('There is no ' . $role . ' associated with the ' . $key . ' you provided.');
             } elseif (!Hash::check($payload['password'], $user->password)) {
                 throw new AuthenticationException("Invalid credentials.");
             }

@@ -18,3 +18,7 @@ Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth:sa
 
 // Route::patch('/fcm-token', [FcmController::class, 'setFcmToken'])->middleware('auth:sanctum');
 // Route::delete('/fcm-token', [FcmController::class, 'removeFcmToken'])->middleware('auth:sanctum');
+
+Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
+    require base_path('routes/api/v1/User/settings.php');
+});
