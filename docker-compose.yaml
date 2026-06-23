@@ -34,18 +34,6 @@ services:
       start_period: 5s
     restart: unless-stopped
 
-  meilisearch:
-    image: getmeili/meilisearch:latest
-    container_name: shiproute-meilisearch
-    environment:
-      MEILI_NO_ANALYTICS: "true"
-      MEILI_MASTER_KEY: "AOVE92osaOPcIx81Lxai"
-    ports:
-      - "7700:7700"
-    volumes:
-      - meili_data:/meili_data
-    restart: unless-stopped
-
   redis:
     image: redis:7-alpine
     container_name: shiproute-redis
@@ -64,5 +52,4 @@ services:
 
 volumes:
   postgres_data:
-  meili_data:
   redis_data:
