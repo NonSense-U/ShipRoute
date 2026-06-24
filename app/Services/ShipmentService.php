@@ -32,7 +32,7 @@ class ShipmentService
 
             $isNightShipping = $this->isNightShipping($scheduledPickupAt);
 
-            $price = $this->calculatePrice([
+            $pricing = $this->calculatePrice([
                 'distance' => $payload['route']['distance'],
                 'weight' => $payload['weight'],
                 'vehicle_type' => $payload['vehicle_type'],
@@ -49,7 +49,7 @@ class ShipmentService
                 'additional_details' => $payload['additional_details'] ?? null,
                 'is_night_shipping' => $isNightShipping,
                 'scheduled_pickup_at' => $payload['scheduled_pickup_at'] ?? null,
-                'price' => $price,
+                'price' => $pricing['total_price'],
                 'status' => 'scheduled',
             ]);
 
@@ -98,31 +98,30 @@ class ShipmentService
         }
     }
 
-    public function calculatePrice(array $payload): float
+    public function calculatePrice(array $payload)
     {
+        $pricing = collect();
         $vehicle_size = VehicleHelper::getVehicleSize($payload['weight']);
         $pricing_rules = VehicleSizePricing::query()
             ->where('size', $vehicle_size)
             ->firstOrFail();
 
-        $distanceCharge = $payload['distance'] * $pricing_rules->per_km_fee;
-
-        $subtotal = $pricing_rules->strating_fee + $distanceCharge;
-
+        $pricing['distance_charge'] = $payload['distance'] * $pricing_rules->per_km_fee;
+        $pricing['total_price'] = $pricing_rules->strating_fee + $pricing['distance_charge'];
+        $pricing['starting_fee'] = $pricing_rules->strating_fee;
 
         if ($payload['vehicle_type'] === 'refrigerated') {
-            $subtotal += $subtotal * PricingMultiplierHelper::getRefrigeratedMultiplier();
+            $pricing['total_price'] += $pricing['refrigerated_surcharge'] = $pricing['total_price'] * PricingMultiplierHelper::getRefrigeratedMultiplier();
         }
 
         $weight_factor = ($payload['weight'] / VehicleHelper::getMaxCapacityForSize($vehicle_size)) * 100;
+        $pricing['total_price'] += $pricing['weight_surcharge'] = $pricing['total_price'] * PricingMultiplierHelper::getWeightMultiplier($weight_factor);
 
-        $subtotal += $subtotal * PricingMultiplierHelper::getWeightMultiplier($weight_factor);
-
-        if ($this->isNightShipping(Carbon::parse($payload['scheduled_pickup_at']))) {
-            $subtotal += $subtotal * PricingMultiplierHelper::getNightShippingMultiplier();
+        if ($payload['is_night_shipping'] ?? $this->isNightShipping(Carbon::parse($payload['scheduled_pickup_at']))) {
+            $pricing['total_price'] += $pricing['night_shipping_surcharge'] = $pricing['total_price'] * PricingMultiplierHelper::getNightShippingMultiplier();
         }
 
-        return round($subtotal, 2);
+        return $pricing;
     }
 
     public function cancelShipment(Shipment $shipment): void

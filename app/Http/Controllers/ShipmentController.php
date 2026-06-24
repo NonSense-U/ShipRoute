@@ -28,7 +28,7 @@ class ShipmentController extends Controller
 
     public function getPrice(CalculatePriceRequest $request)
     {
-        return ApiResponse::success(data: ['estimated_price' => $this->shipmentService->calculatePrice($request->validated())]);
+        return ApiResponse::success(data: $this->shipmentService->calculatePrice($request->validated()));
     }
 
     public function cancelShipment(Shipment $shipment): JsonResponse
