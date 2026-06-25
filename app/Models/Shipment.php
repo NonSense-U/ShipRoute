@@ -48,6 +48,14 @@ class Shipment extends Model
         'driver',
     ];
 
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('ExcludeInvalidShipments', function ($query) {
+            $query->whereNotIn('status', ['cancelled', 'expired', 'failed']);
+        });
+    }
+
     public function merchant()
     {
         return $this->belongsTo(Merchant::class);

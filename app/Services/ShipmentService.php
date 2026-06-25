@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Helpers\PricingMultiplierHelper;
 use App\Helpers\VehicleHelper;
 use App\Jobs\SyncShipmentPickUpGovernorate;
+use App\Jobs\UploadShipmentMedia;
 use App\Models\PricingMultiplier;
 use App\Models\Shipment;
 use App\Models\User;
@@ -50,14 +51,10 @@ class ShipmentService
                 'is_night_shipping' => $isNightShipping,
                 'scheduled_pickup_at' => $payload['scheduled_pickup_at'] ?? null,
                 'price' => $pricing['total_price'],
-                'status' => 'scheduled',
+                'status' => !empty($payload['media']) ? 'pending' : 'scheduled',
             ]);
 
-            $mediaPaths = $this->storeShipmentMedia($shipment, $payload['media'] ?? []);
-            if (!empty($mediaPaths)) {
-                $shipment->media = $mediaPaths;
-                $shipment->save();
-            }
+            $this->storeShipmentMedia($shipment, $payload['media'] ?? []);
 
             $route = $shipment->route()->create([
                 'overview_polyline' => $payload['route']['overview_polyline'],
@@ -147,21 +144,26 @@ class ShipmentService
         return $hour >= $startHour || $hour < $endHour;
     }
 
-    private function storeShipmentMedia(Shipment $shipment, array $mediaItems): array
+    private function storeShipmentMedia(Shipment $shipment, array $mediaItems)
     {
         if (empty($mediaItems)) {
             return [];
         }
 
-        $paths = [];
+        $mediaFiles = [];
         foreach ($mediaItems as $file) {
             if (!$file instanceof UploadedFile) {
                 continue;
             }
+            $path = $file->store('temp'); // stores in storage/app/temp
 
-            $paths[] = $file->store("shipments/{$shipment->id}", 'public');
+            $mediaFiles[] = [
+                'path' => $path,
+                'original_name' => $file->getClientOriginalName(),
+                'mime_type' => $file->getMimeType(),
+                'extension' => $file->getClientOriginalExtension(),
+            ];
         }
-
-        return $paths;
+        dispatch(new UploadShipmentMedia($shipment, $mediaFiles, 'Shipment Media'));
     }
 }

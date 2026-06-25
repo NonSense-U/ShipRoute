@@ -74,7 +74,7 @@ class DriverService
 
 		$update_counter = Cache::get("driver_location_{$driver->id}")['update_counter'] ?? 0;
 
-		if ($update_counter == 3) {
+		if ($update_counter == 3 || $driver->current_governorate === null) {
 			$driver->update([
 				'current_lat' => $payload['current_lat'],
 				'current_lon' => $payload['current_lon'],
@@ -151,7 +151,7 @@ class DriverService
 		$otp = '123456';
 		Cache::put("shipment_otp_{$shipment->id}", $otp, now()->addMinutes(10));
 
-		Notification::send($shipment->merchant->user, new \App\Notifications\GamilOtp($otp));
+		// Notification::send($shipment->merchant->user, new \App\Notifications\GamilOtp($otp));
 
 		return $shipment;
 	}
@@ -212,10 +212,6 @@ class DriverService
 
 	private function validateShipmentAcceptable(Driver $driver, Shipment $shipment): void
 	{
-		if ($shipment->status !== 'created') {
-			throw new RuntimeException('Shipment is no longer available.');
-		}
-
 		if ($shipment->driver_id) {
 			throw new RuntimeException('Shipment already assigned.');
 		}

@@ -28,13 +28,15 @@ return new class extends Migration
             $table->boolean('is_night_shipping')->default(false);
             $table->decimal('price', 10, 2);
             $table->enum('status', [
+                'pending',
                 'scheduled',
                 'accepted',
                 'heading_to_pickup',
                 'in_transit',
                 'delivered',
                 'cancelled',
-                'expired'
+                'expired',
+                'failed'
             ])->default('scheduled');
             $table->json('media')->nullable();
             $table->timestamp('picked_up_at')->nullable();
