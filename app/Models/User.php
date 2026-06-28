@@ -35,6 +35,10 @@ class User extends Authenticatable
         'fcm_token',
     ];
 
+    protected $appends = [
+        'rating_info',
+    ];
+
     protected string $guard_name = 'api';
     /**
      * Get the attributes that should be cast.
@@ -68,6 +72,16 @@ class User extends Authenticatable
     public function ratingsReceived()
     {
         return $this->hasMany(Rating::class, 'ratee_id');
+    }
+
+
+    public function getRatingInfoAttribute()
+    {
+        $info = [
+            'average_rating' => $this->ratingsReceived()->avg('rating'),
+            'total_ratings' => $this->ratingsReceived()->count(),
+        ];
+        return $info;
     }
 
     //! Firebase

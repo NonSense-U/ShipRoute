@@ -25,8 +25,8 @@ return new class extends Migration
             $table->enum('vehicle_size', ['small', 'medium', 'large']);
             $table->decimal('vehicle_capacity_kg', 10, 2)->nullable();
             $table->boolean('is_available')->default(true);
-            $table->string('license_plate_number')->nullable()->unique();
-            $table->string('driver_license_number')->nullable()->unique();
+            $table->string('license_plate_number')->unique();
+            $table->string('driver_license_number')->unique();
             $table->text('description')->nullable();
             $table->timestamps();
         });

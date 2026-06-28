@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Helpers\ApiResponse;
+use App\Jobs\SyncDriverGovernorate;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Cache;
@@ -87,11 +88,17 @@ class AuthService
                 throw new AuthenticationException("Invalid credentials.");
             }
 
-            $response['id'] = $user->id;
-            $response['username'] = $user->username;
-            $response['role'] = $user->getRoleNames()->first();
-            $response['access_token'] = $user->createToken('auth_token')->plainTextToken;
-            $response['token_type'] = 'Bearer';
+            $response = [
+                'id' => $user->id,
+                'username' => $user->username,
+                'role' => $user->getRoleNames()->first(),
+                'access_token' => $user->createToken('auth_token')->plainTextToken,
+                'token_type' => 'Bearer',
+            ];
+
+            if ($role === 'driver') {
+                dispatch(new SyncDriverGovernorate($user->driver->id));
+            }
 
             return $response;
         } catch (Throwable $e) {

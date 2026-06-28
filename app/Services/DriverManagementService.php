@@ -12,7 +12,7 @@ class DriverManagementService
 
     public function listDrivers(int $perPage = 20)
     {
-        return Driver::query()->with('user')->latest()->paginate($perPage);
+        return Driver::query()->with('user')->withCount('shipments')->latest()->paginate($perPage);
     }
 
     public function addDriver(array $data)

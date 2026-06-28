@@ -50,6 +50,10 @@ class DatabaseSeeder extends Seeder
             'vehicle_type' => 'refrigerated',
             'vehicle_size' => 'small',
             'vehicle_capacity_kg' => 500,
+            'license_plate_number' => 'ABC123',
+            'driver_license_number' => 'DL123456',
+            'current_lat' => 33.80,
+            'current_lon' => 37.88,
         ]);
 
         $this->call([
