@@ -19,15 +19,8 @@ class DriverPreviewResource extends JsonResource
             'full_name' => $this->user->full_name,
             'email' => $this->user->email,
             'phone_number' => $this->user->phone_number,
-            'age' => $this->age,
-            'gender' => $this->gender,
             'vehicle_type' => $this->vehicle_type,
             'vehicle_size' => $this->vehicle_size,
-            'vehicle_capacity_kg' => $this->vehicle_capacity_kg,
-            'license_plate_number' => $this->license_plate_number,
-            'shipments_count' => $this->whenCounted('shipments'),
-            'rating_info' => $this->user->rating_info,
-            'description' => $this->description,
         ];
     }
 }

@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'testUser1@gmail.com',
             'phone_number' => 'merchant',
             "password" => 'password',
+            'id_card_number' => '0987654321',
         ]);
 
         $merchant->merchant()->create([
@@ -42,6 +43,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'testUser3@gmail.com',
             'phone_number' => 'driver',
             "password" => 'password',
+            'id_card_number' => '1111111111',
         ]); 
 
         $driver->driver()->create([

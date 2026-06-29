@@ -10,7 +10,7 @@ class MerchantManagementService
 {
     public function listMerchants(int $perPage = 20)
     {
-        return Merchant::query()->with('user')->latest()->paginate($perPage);
+        return Merchant::query()->with('user')->withCount('shipments')->latest()->paginate($perPage);
     }
 
     public function deleteMerchant(int $merchantId)

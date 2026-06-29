@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class DriverPreviewCollection extends ResourceCollection
+class DriverProfileCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,7 +15,7 @@ class DriverPreviewCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'drivers' => DriverPreviewResource::collection($this->collection),
+            'drivers' => DriverProfileResource::collection($this->collection),
             'pagination' => [
                 'current_page' => $this->currentPage(),
                 'per_page'     => $this->perPage(),

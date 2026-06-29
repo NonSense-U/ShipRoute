@@ -6,8 +6,8 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewDriverRequest;
 use App\Http\Requests\UpdateDriverRequest;
-use App\Http\Resources\DriverPreviewCollection;
-use App\Http\Resources\DriverPreviewResource;
+use App\Http\Resources\DriverProfileCollection;
+use App\Http\Resources\DriverProfileResource;
 use App\Services\DriverManagementService;
 use Illuminate\Http\Request;
 
@@ -23,19 +23,19 @@ class DriverManagementController extends Controller
     public function index(Request $request)
     {
         $drivers = $this->driverManagementService->listDrivers($request->input('perPage', 20));
-        return ApiResponse::success('Drivers retrieved successfully', new DriverPreviewCollection($drivers));
+        return ApiResponse::success('Drivers retrieved successfully', new DriverProfileCollection($drivers));
     }
 
     public function store(NewDriverRequest $request)
     {
         $driver = $this->driverManagementService->addDriver($request->validated());
-        return ApiResponse::success('Driver added successfully', new DriverPreviewResource($driver), 201);
+        return ApiResponse::success('Driver added successfully', new DriverProfileResource($driver), 201);
     }
 
     public function update(UpdateDriverRequest $request, int $driverId)
     {
         $updatedDriver = $this->driverManagementService->updateDriver($request->validated(), $driverId);
-        return ApiResponse::success('Driver updated successfully', new DriverPreviewResource($updatedDriver));
+        return ApiResponse::success('Driver updated successfully', new DriverProfileResource($updatedDriver));
     }
 
     public function destroy(Request $request, int $driverId)
