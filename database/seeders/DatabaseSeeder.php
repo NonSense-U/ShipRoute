@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Driver;
+use App\Models\Merchant;
 use App\Models\User;
+use Database\Factories\DriverFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -62,6 +65,7 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             VehicleSizePricingSeeder::class,
             PricingMultiplierSeeder::class,
+            ShipmentSeeder::class,
         ]);
 
         $admin->assignRole('admin');

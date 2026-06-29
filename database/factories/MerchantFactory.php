@@ -1,0 +1,28 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Merchant;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends Factory<Merchant>
+ */
+class MerchantFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'user_id' => User::factory()->merchant(),
+            'commercial_registration_number' => fake()->unique()->numerify('CRN-########'),
+            'address' => fake()->address(),
+
+        ];
+    }
+}

@@ -18,11 +18,9 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Shipment::class)->constrained()->cascadeOnDelete();
             $table->string('overview_polyline');
-            $table->string('pick_up_governorate')->nullable();
-            $table->json('pick_up_location_details')->nullable();
-            $table->json('delivery_location_details')->nullable();
-            $table->string('pick_up_lat');
-            $table->string('pick_up_lon');
+            $table->string('pickup_governorate')->nullable();
+            $table->string('pickup_lat');
+            $table->string('pickup_lon');
             $table->string('delivery_lat');
             $table->string('delivery_lon');
             $table->decimal('distance', 10, 2);

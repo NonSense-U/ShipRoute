@@ -15,14 +15,14 @@ class ShipmentRouteResource extends JsonResource
     public function toArray(Request $request): array
     {
         $this->loadMissing('checkpoints');
-        $pickUpCheckpoint = $this->checkpoints->where('type', 'pick_up')->first();
+        $pickUpCheckpoint = $this->checkpoints->where('type', 'pickup')->first();
         $deliveryCheckpoint = $this->checkpoints->where('type', 'delivery')->first();
 
         return [
             'overview_polyline' => $this->overview_polyline,
-            'pick_up_lat' => $this->pick_up_lat,
-            'pick_up_lon' => $this->pick_up_lon,
-            'pick_up_checkpoint_details' => new CheckpointResource($pickUpCheckpoint),
+            'pickup_lat' => $this->pickup_lat,
+            'pickup_lon' => $this->pickup_lon,
+            'pickup_checkpoint_details' => new CheckpointResource($pickUpCheckpoint),
             'delivery_lat' => $this->delivery_lat,
             'delivery_lon' => $this->delivery_lon,
             'delivery_checkpoint_details' => new CheckpointResource($deliveryCheckpoint),

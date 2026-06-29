@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('checkpoints', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(ShipmentRoute::class)->constrained()->onDelete('cascade');
-            $table->enum('type', ['pick_up', 'delivery']);
+            $table->enum('type', ['pickup', 'delivery']);
             $table->string('supervisor_name')->nullable();
             $table->string('supervisor_phone_number')->nullable();
             $table->string('address')->nullable();

@@ -29,6 +29,10 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'role:admin'])->group(functi
     Route::prefix('user-management')->group(function () {
         require base_path('routes/api/v1/Admin/user_management.php');
     });
+
+    Route::prefix('shipment-management')->group(function () {
+        require base_path('routes/api/v1/Admin/shipment_management.php');
+    });
 });
 
 Route::prefix('ratings')->middleware(['auth:sanctum', 'role:merchant|driver'])->group(function () {

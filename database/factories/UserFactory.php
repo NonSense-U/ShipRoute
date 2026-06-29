@@ -30,9 +30,31 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'phone_number' => fake()->unique()->phoneNumber(),
             'phone_verified_at' => now(),
+            'id_card_number' => fake()->unique()->numerify('ID-########'),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
+    }
+
+    public function merchant(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole('merchant');
+        });
+    }
+
+    public function driver(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole('driver');
+        });
+    }
+
+    public function admin(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole('admin');
+        });
     }
 
     /**
@@ -40,7 +62,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

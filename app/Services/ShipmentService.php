@@ -58,8 +58,8 @@ class ShipmentService
 
             $route = $shipment->route()->create([
                 'overview_polyline' => $payload['route']['overview_polyline'],
-                'pick_up_lat' => $payload['route']['pick_up_lat'],
-                'pick_up_lon' => $payload['route']['pick_up_lon'],
+                'pickup_lat' => $payload['route']['pickup_lat'],
+                'pickup_lon' => $payload['route']['pickup_lon'],
                 'delivery_lat' => $payload['route']['delivery_lat'],
                 'delivery_lon' => $payload['route']['delivery_lon'],
                 'distance' => $payload['route']['distance'],
@@ -68,13 +68,13 @@ class ShipmentService
 
             $route->checkpoints()->createMany([
                 [
-                    'type' => 'pick_up',
-                    'supervisor_name' => $payload['route']['pick_up_checkpoint_details']['supervisor_name'] ?? null,
-                    'supervisor_phone_number' => $payload['route']['pick_up_checkpoint_details']['supervisor_phone_number'] ?? null,
-                    'address' => $payload['route']['pick_up_checkpoint_details']['address'] ?? null,
-                    'street' => $payload['route']['pick_up_checkpoint_details']['street'] ?? null,
-                    'building_number' => $payload['route']['pick_up_checkpoint_details']['building_number'] ?? null,
-                    'notes' => $payload['route']['pick_up_checkpoint_details']['notes'] ?? null,
+                    'type' => 'pickup',
+                    'supervisor_name' => $payload['route']['pickup_checkpoint_details']['supervisor_name'] ?? null,
+                    'supervisor_phone_number' => $payload['route']['pickup_checkpoint_details']['supervisor_phone_number'] ?? null,
+                    'address' => $payload['route']['pickup_checkpoint_details']['address'] ?? null,
+                    'street' => $payload['route']['pickup_checkpoint_details']['street'] ?? null,
+                    'building_number' => $payload['route']['pickup_checkpoint_details']['building_number'] ?? null,
+                    'notes' => $payload['route']['pickup_checkpoint_details']['notes'] ?? null,
                 ],
                 [
                     'type' => 'delivery',

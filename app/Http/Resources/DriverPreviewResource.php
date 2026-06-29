@@ -21,6 +21,8 @@ class DriverPreviewResource extends JsonResource
             'phone_number' => $this->user->phone_number,
             'vehicle_type' => $this->vehicle_type,
             'vehicle_size' => $this->vehicle_size,
+            'current_lat' => $this->current_lat,
+            'current_lon' => $this->current_lon,
         ];
     }
 }

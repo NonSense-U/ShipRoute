@@ -29,7 +29,7 @@ class DriverService
 		return Shipment::query()
 			->where('status', 'scheduled')
 			->whereHas('route', function ($query) use ($driver) {
-				$query->where('pick_up_governorate', $driver->current_governorate);
+				$query->where('pickup_governorate', $driver->current_governorate);
 			})
 			->where('vehicle_type', $driver->vehicle_type)
 			->where('vehicle_size', $driver->vehicle_size)

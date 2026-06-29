@@ -82,10 +82,10 @@ class ShipmentRoutesTest extends TestCase
     {
         $route = ShipmentRoute::create(array_merge([
             'overview_polyline' => 'encoded-polyline',
-            'pick_up_location_details' => ['city' => 'Origin'],
+            'pickup_location_details' => ['city' => 'Origin'],
             'delivery_location_details' => ['city' => 'Destination'],
-            'pick_up_lat' => '30.1111',
-            'pick_up_lon' => '31.2222',
+            'pickup_lat' => '30.1111',
+            'pickup_lon' => '31.2222',
             'delivery_lat' => '29.3333',
             'delivery_lon' => '30.4444',
             'distance' => 12.5,
@@ -94,7 +94,7 @@ class ShipmentRoutesTest extends TestCase
 
         $route->checkpoints()->createMany([
             [
-                'type' => 'pick_up',
+                'type' => 'pickup',
                 'supervisor_name' => 'Pickup Manager',
                 'supervisor_phone_number' => '0100000000',
                 'address' => 'Pickup Address',
@@ -149,13 +149,13 @@ class ShipmentRoutesTest extends TestCase
             'additional_details' => 'Fragile',
             'route' => [
                 'overview_polyline' => 'encoded',
-                'pick_up_lat' => '30.1',
-                'pick_up_lon' => '31.2',
+                'pickup_lat' => '30.1',
+                'pickup_lon' => '31.2',
                 'delivery_lat' => '29.3',
                 'delivery_lon' => '30.4',
                 'distance' => 10.5,
                 'duration_minutes' => 40,
-                'pick_up_checkpoint_details' => [
+                'pickup_checkpoint_details' => [
                     'supervisor_name' => 'Pickup Manager',
                     'supervisor_phone_number' => '0100000000',
                     'address' => 'Pickup Address',
@@ -192,13 +192,13 @@ class ShipmentRoutesTest extends TestCase
         $this->assertDatabaseHas('shipment_routes', [
             'id' => $route->id,
             'overview_polyline' => 'encoded',
-            'pick_up_lat' => '30.1',
+            'pickup_lat' => '30.1',
             'delivery_lat' => '29.3',
         ]);
 
         $this->assertDatabaseHas('checkpoints', [
             'shipment_route_id' => $route->id,
-            'type' => 'pick_up',
+            'type' => 'pickup',
             'supervisor_name' => 'Pickup Manager',
         ]);
 

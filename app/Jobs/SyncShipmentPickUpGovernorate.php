@@ -30,15 +30,15 @@ class SyncShipmentPickUpGovernorate implements ShouldQueue
         $response = Http::withHeaders([
             'User-Agent' => config('name') . '/' . config('version', '1.0'),
         ])->get('https://nominatim.openstreetmap.org/reverse', [
-            'lat' => $shipment_route->pick_up_lat,
-            'lon' => $shipment_route->pick_up_lon,
+            'lat' => $shipment_route->pickup_lat,
+            'lon' => $shipment_route->pickup_lon,
             'format' => 'jsonv2',
         ]);
 
         $data = $response->json();
 
         $shipment_route->update([
-            'pick_up_governorate' => $data['address']['state']
+            'pickup_governorate' => $data['address']['state']
         ]);
 
         $shipment = $shipment_route->shipment()->first();
