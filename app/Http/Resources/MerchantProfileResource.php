@@ -16,6 +16,7 @@ class MerchantProfileResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'uid' => $this->user->id,
             'full_name' => $this->user->full_name,
             'email' => $this->email,
             'phone_number' => $this->phone_number,

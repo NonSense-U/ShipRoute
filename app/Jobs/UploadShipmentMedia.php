@@ -45,8 +45,10 @@ class UploadShipmentMedia implements ShouldQueue
                 'status' => 'scheduled',
                 'media' => $media_paths,
             ]);
-
         } catch (Throwable $e) {
+            foreach ($this->files as $file) {
+                unlink(storage_path('app/private/' . $file['path']));
+            }
             $this->shipment->update([
                 'status' => 'failed'
             ]);

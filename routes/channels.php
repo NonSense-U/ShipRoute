@@ -9,5 +9,6 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 
 Broadcast::channel('shipment.{shipment_id}', function (User $user, $shipment_id) {
     $shipment = \App\Models\Shipment::findOrFail($shipment_id);
+    //! Add admin role check
     return $shipment->merchant_id === $user->merchant->id;
 }, ['guards' => ['sanctum']]);

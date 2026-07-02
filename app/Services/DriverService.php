@@ -23,7 +23,7 @@ class DriverService
 			throw new RuntimeException('Driver profile not found.');
 		}
 
-		$last_shipment = $driver->latestShipment();
+		// $last_shipment = $driver->latestShipment();
 
 
 		return Shipment::query()
@@ -35,7 +35,7 @@ class DriverService
 			->where('vehicle_size', $driver->vehicle_size)
 			->where('weight', '<=', $driver->vehicle_capacity_kg)
 			->whereNull('driver_id')
-			->with('merchant', 'driver')
+			->with('merchant')
 			->paginate(20);
 	}
 

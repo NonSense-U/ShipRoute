@@ -16,6 +16,7 @@ class DriverPreviewResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'uid' => $this->user->id,
             'full_name' => $this->user->full_name,
             'email' => $this->user->email,
             'phone_number' => $this->user->phone_number,
