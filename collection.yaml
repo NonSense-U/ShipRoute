@@ -10,7 +10,7 @@ collection:
     meta:
       id: fld_9af0de03927141eea50dcbb7be31ae59
       created: 1777534714346
-      modified: 1782770668894
+      modified: 1782960344597
       sortKey: -1777534714346
       description: ""
     children:
@@ -18,7 +18,7 @@ collection:
         meta:
           id: fld_08d96ece037540198d1949367b23205b
           created: 1777534732200
-          modified: 1782770668894
+          modified: 1782960344597
           sortKey: -1777534734053
           description: ""
         children:
@@ -664,7 +664,7 @@ collection:
         meta:
           id: req_095d8e2cf3b743af948f383425c08110
           created: 1777850647741
-          modified: 1782770713591
+          modified: 1782959902343
           isPrivate: false
           description: ""
           sortKey: -1777850647741
@@ -703,7 +703,7 @@ collection:
             - name: media[]
               value: ""
               description: ""
-              disabled: false
+              disabled: true
               id: pair_a168a2e7efe543c081d5c1e5acb275a3
               fileName: /home/nonsense/Pictures/Wallpepers/Monster.jpeg
               type: file
@@ -810,12 +810,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.localhost }}/api/merchant/shipments"
+      - url: "{{ _.localhost }}/api/merchant/shipments?page=1"
         name: My Shipments
         meta:
           id: req_e703e76005394f62ac9b85864c644ac8
           created: 1777852534202
-          modified: 1782397015365
+          modified: 1782903557548
           isPrivate: false
           description: ""
           sortKey: -1777850647841
@@ -1046,7 +1046,7 @@ collection:
         meta:
           id: req_73a1af4813244e039ec2e7f6fd6fdb0e
           created: 1778139286276
-          modified: 1782620565400
+          modified: 1782960294431
           isPrivate: false
           description: ""
           sortKey: -1778131534061.75
@@ -1080,7 +1080,7 @@ collection:
         meta:
           id: req_388df7d23ab049d2bcc1377fd259c343
           created: 1778140140538
-          modified: 1782435605835
+          modified: 1782960320756
           isPrivate: false
           description: ""
           sortKey: -1778121448688.375
@@ -1115,7 +1115,7 @@ collection:
         meta:
           id: req_9c0bd71c03014d548ed53544e66d6aa3
           created: 1778157183113
-          modified: 1782435681013
+          modified: 1782960325571
           isPrivate: false
           description: ""
           sortKey: -1778126491375.0625
@@ -1149,7 +1149,7 @@ collection:
         meta:
           id: req_2f2572e869b94ca5a0d92ea8fefe719e
           created: 1778157245474
-          modified: 1782435626824
+          modified: 1782960335953
           isPrivate: false
           description: ""
           sortKey: -1778123970031.7188
@@ -1158,7 +1158,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"shipment_id" : "2",
+            	"shipment_id" : "1",
             	"otp" : "123456"
             }
         headers:
@@ -1272,12 +1272,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.localhost }}/api/ratings/shipments/1"
+      - url: "{{ _.localhost }}/api/ratings/shipments/41"
         name: Rate Shipment Delivery
         meta:
           id: req_ee6367962bf14cf0bc2e2e7ea8d715b9
           created: 1778134622568
-          modified: 1782435702260
+          modified: 1782960353347
           isPrivate: false
           description: ""
           sortKey: -1778111363315
@@ -1286,7 +1286,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"rating" : "2",
+            	"rating" : "4",
             	"comment": "Quite Excusit"
             }
         headers:
@@ -1402,7 +1402,7 @@ cookieJar:
   meta:
     id: jar_352c0bc298e74d8bad4da539c31dda27
     created: 1777466716213
-    modified: 1782770668880
+    modified: 1782960344594
   cookies:
     - id: c2ffbed1-1d80-4fea-bc83-9ac4f4fc976a
       key: XSRF-TOKEN
@@ -1439,8 +1439,8 @@ environments:
   meta:
     id: env_d3234be8309b45f595a64f6721a32ed5
     created: 1777466716212
-    modified: 1782770668892
+    modified: 1782960344596
     isPrivate: false
   data:
     localhost: 127.0.0.1:8000
-    auth_token: 1|hOplZyMugJktmAfT3MsxrXPoPn4I6qBZLhQwO2u7e45fc541
+    auth_token: 4|LeXhnW3HWdihhIiZ7JOJi9FoNIrXMpQauWYrEwpv993183c4

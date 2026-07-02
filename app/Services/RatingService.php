@@ -9,7 +9,7 @@ use RuntimeException;
 
 class RatingService
 {
-    	public function rateShipmentCounterparty(User $rater, Shipment $shipment, array $payload): Rating
+	public function rateShipmentCounterparty(User $rater, Shipment $shipment, array $payload): Rating
 	{
 		$shipment->loadMissing(['merchant.user', 'driver.user']);
 
@@ -55,7 +55,8 @@ class RatingService
 	}
 
 
-	public function getRatingsReceived(User $user) {
+	public function getRatingsReceived(User $user)
+	{
 		return $user->ratingsReceived()->with('ratee', 'rater')->paginate(20);
 	}
 
@@ -70,13 +71,13 @@ class RatingService
 			if (!$shipment->merchant || $shipment->merchant->user_id !== $rater->id) {
 				throw new RuntimeException('You are not assigned to this shipment as a merchant.');
 			}
-
+			$shipment->update(['rated_by_merchant' => true]);
 			$ratee = $shipment->driver?->user;
 		} elseif ($rater->hasRole('driver')) {
 			if (!$shipment->driver || $shipment->driver->user_id !== $rater->id) {
 				throw new RuntimeException('You are not assigned to this shipment as a driver.');
 			}
-
+			$shipment->update(['rated_by_driver' => true]);
 			$ratee = $shipment->merchant?->user;
 		} else {
 			throw new RuntimeException('Only drivers and merchants can submit ratings.');

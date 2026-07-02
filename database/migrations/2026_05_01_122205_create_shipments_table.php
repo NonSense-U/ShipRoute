@@ -41,6 +41,8 @@ return new class extends Migration
             $table->json('media')->nullable();
             $table->timestamp('picked_up_at')->nullable();
             $table->timestamp('delivered_at')->nullable();
+            $table->boolean('rated_by_driver')->default(false);
+            $table->boolean('rated_by_merchant')->default(false);
             $table->timestamps();
         });
     }

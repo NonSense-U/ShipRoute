@@ -34,6 +34,8 @@ class ShipmentResource extends JsonResource
             'merchant' => new MerchantPreviewResource($this->whenLoaded('merchant')),
             'driver' => new DriverPreviewResource($this->whenLoaded('driver')),
             'route' => new ShipmentRouteResource($this->whenLoaded('route')),
+            'rated_by_merchant' => $this->when($this->status === 'delivered', $this->rated_by_merchant),
+            'rated_by_driver' => $this->when($this->status === 'delivered', $this->rated_by_driver),
             'created_at' => $this->created_at,
         ];
     }
