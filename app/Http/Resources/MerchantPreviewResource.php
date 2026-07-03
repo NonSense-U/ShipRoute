@@ -20,6 +20,7 @@ class MerchantPreviewResource extends JsonResource
             'full_name' => $this->user->full_name,
             'email' => $this->user->email,
             'phone_number' => $this->user->phone_number,
+            'profile_picture_url' => $this->user->profile_picture_url,
             'address' => $this->address,
         ];
     }

@@ -24,6 +24,7 @@ class DriverPreviewResource extends JsonResource
             'vehicle_size' => $this->vehicle_size,
             'current_lat' => $this->current_lat,
             'current_lon' => $this->current_lon,
+            'profile_picture_url' => $this->user->profile_picture_url,
         ];
     }
 }

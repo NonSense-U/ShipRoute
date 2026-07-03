@@ -5,7 +5,7 @@ use Cloudinary\Cloudinary;
 
 class UploadMediaHelper
 {
-    static public function uploadImage(Cloudinary $cloudinary, $upload_preset, $file)
+    static public function uploadImage(Cloudinary $cloudinary, string $upload_preset, array $file)
     {
         $result = $cloudinary->UploadApi()->upload(storage_path('app/private/' . $file['path']), [
             'upload_preset' => $upload_preset,

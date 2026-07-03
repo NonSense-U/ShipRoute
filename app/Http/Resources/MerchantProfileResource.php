@@ -20,6 +20,7 @@ class MerchantProfileResource extends JsonResource
             'full_name' => $this->user->full_name,
             'email' => $this->email,
             'phone_number' => $this->phone_number,
+            'profile_picture_url' => $this->user->profile_picture_url,
             'commercial_registration_number' => $this->commercial_registration_number,
             'id_card_number' => $this->user->id_card_number,
             'rating_info' => $this->user->rating_info,

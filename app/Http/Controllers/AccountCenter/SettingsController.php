@@ -20,6 +20,16 @@ class SettingsController extends Controller
         $this->userService = $userService;
     }
 
+    public function updateProfilePicture(Request $request)
+    {
+        $validated = $request->validate([
+            'profile_picture' => ['required', 'image', 'max:2048'],
+        ]);
+
+        $this->userService->uploadProfilePicture($request->user(), $validated['profile_picture']);
+        return ApiResponse::success('Profile picture updated successfully');
+    }
+
 
     public function updatePassword(Request $request)
     {
