@@ -10,7 +10,7 @@ collection:
     meta:
       id: fld_9af0de03927141eea50dcbb7be31ae59
       created: 1777534714346
-      modified: 1782960344597
+      modified: 1783110293024
       sortKey: -1777534714346
       description: ""
     children:
@@ -18,7 +18,7 @@ collection:
         meta:
           id: fld_08d96ece037540198d1949367b23205b
           created: 1777534732200
-          modified: 1782960344597
+          modified: 1783110293025
           sortKey: -1777534734053
           description: ""
         children:
@@ -296,7 +296,7 @@ collection:
         meta:
           id: fld_8c5f48130fef4866b5aff92612c18652
           created: 1781742711896
-          modified: 1781986835698
+          modified: 1783109995331
           sortKey: -1781742711896
           description: ""
         children:
@@ -321,6 +321,42 @@ collection:
             headers:
               - name: Content-Type
                 value: application/json
+              - name: User-Agent
+                value: insomnia/11.5.0
+            authentication:
+              type: bearer
+              token: "{{ _.auth_token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.localhost }}/api/account-center/settings/update-profile-picture"
+            name: Update Profile Picture
+            meta:
+              id: req_f9309672b1b147e4a4391eef309d2160
+              created: 1783109996358
+              modified: 1783110115561
+              isPrivate: false
+              description: ""
+              sortKey: -1781742729883
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - id: pair_e3b0d6e69be54a1eb36238c5a51dc17b
+                  name: profile_picture
+                  value: ""
+                  description: ""
+                  disabled: false
+                  type: file
+                  fileName: /home/nonsense/Pictures/Wallpepers/avatar.jpeg
+            headers:
+              - name: Content-Type
+                value: multipart/form-data
               - name: User-Agent
                 value: insomnia/11.5.0
             authentication:
@@ -640,6 +676,129 @@ collection:
                 value: insomnia/11.5.0
               - name: Accept
                 value: application/json
+            authentication:
+              type: bearer
+              token: "{{ _.auth_token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Pricing Management
+        meta:
+          id: fld_a6f6fa22978c4cc98f978faf49b84b61
+          created: 1783107259490
+          modified: 1783107264333
+          sortKey: -1777537228261
+          description: ""
+        children:
+          - url: "{{ _.localhost }}/api/admin/pricing-management/vehicle-pricing"
+            name: Edit Vehicle Pricing
+            meta:
+              id: req_d1a9bbef62f34e5ab1b93ee6298ec3d1
+              created: 1783107271364
+              modified: 1783108021267
+              isPrivate: false
+              description: ""
+              sortKey: -1783107271364
+            method: PATCH
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"vehicle_size" : "small",
+                	"starting_fee" : 15,
+                	"per_km_fee" : 0.7
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.5.0
+            authentication:
+              type: bearer
+              token: "{{ _.auth_token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.localhost }}/api/admin/pricing-management/pricing-multiplier"
+            name: Edit Pricing Multiplier
+            meta:
+              id: req_5a6708b318b045c4bd6b8c6e70f6143f
+              created: 1783107361591
+              modified: 1783108109617
+              isPrivate: false
+              description: ""
+              sortKey: -1782196583629.75
+            method: PATCH
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"multiplier" : "night_shipping",
+                	"value" : 1.9
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.5.0
+            authentication:
+              type: bearer
+              token: "{{ _.auth_token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.localhost }}/api/admin/pricing-management/vehicle-pricing"
+            name: Index Vehicle Pricings
+            meta:
+              id: req_24706299f55c41228863c9226dfdf8f7
+              created: 1783107492065
+              modified: 1783107516550
+              isPrivate: false
+              description: ""
+              sortKey: -1783107271464
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.5.0
+            authentication:
+              type: bearer
+              token: "{{ _.auth_token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.localhost }}/api/admin/pricing-management/pricing-multiplier"
+            name: Index Pricing Multipliers
+            meta:
+              id: req_41446e65e82d4f4cb23290433f1d550d
+              created: 1783107509883
+              modified: 1783107514944
+              isPrivate: false
+              description: ""
+              sortKey: -1782196583729.75
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.5.0
             authentication:
               type: bearer
               token: "{{ _.auth_token }}"
@@ -1402,7 +1561,7 @@ cookieJar:
   meta:
     id: jar_352c0bc298e74d8bad4da539c31dda27
     created: 1777466716213
-    modified: 1782960344594
+    modified: 1783110293023
   cookies:
     - id: c2ffbed1-1d80-4fea-bc83-9ac4f4fc976a
       key: XSRF-TOKEN
@@ -1439,8 +1598,8 @@ environments:
   meta:
     id: env_d3234be8309b45f595a64f6721a32ed5
     created: 1777466716212
-    modified: 1782960344596
+    modified: 1783110293024
     isPrivate: false
   data:
     localhost: 127.0.0.1:8000
-    auth_token: 4|LeXhnW3HWdihhIiZ7JOJi9FoNIrXMpQauWYrEwpv993183c4
+    auth_token: 1|4Tc209v70m5UczzCL72x6Hf5JxVl6fPvqBJd8Ipc2ff5e289
