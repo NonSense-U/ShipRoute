@@ -16,21 +16,21 @@ class VehicleSizePricingSeeder extends Seeder
         VehicleSizePricing::create([
             'size' => 'small',
             'max_capacity_kg' => 900,
-            'strating_fee' => 10.00,
+            'starting_fee' => 10.00,
             'per_km_fee' => 0.40,
         ]);
 
         VehicleSizePricing::create([
             'size' => 'medium',
             'max_capacity_kg' => 2000,
-            'strating_fee' => 15.00,
+            'starting_fee' => 15.00,
             'per_km_fee' => 0.60,
         ]);
 
         VehicleSizePricing::create([
             'size' => 'large',
             'max_capacity_kg' => 4000,
-            'strating_fee' => 20.00,
+            'starting_fee' => 20.00,
             'per_km_fee' => 0.90,
         ]);
     }

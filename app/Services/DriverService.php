@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use RuntimeException;
 
-use function Illuminate\Log\log;
-
 class DriverService
 {
 
@@ -225,7 +223,7 @@ class DriverService
 		if ($shipment->vehicle_type !== $driver->vehicle_type) {
 			throw new RuntimeException('Vehicle type mismatch.');
 		}
-		if ($shipment->vehicle_capacity_kg > $driver->vehicle_capacity_kg) {
+		if ($shipment->weight > $driver->vehicle_capacity_kg) {
 			throw new RuntimeException('Vehicle capacity insufficient.');
 		}
 	}

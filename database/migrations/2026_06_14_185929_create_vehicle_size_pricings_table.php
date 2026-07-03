@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->enum('size', ['small', 'medium', 'large']);
             $table->decimal('max_capacity_kg', 10, 2);
-            $table->decimal('strating_fee', 10, 2);
+            $table->decimal('starting_fee', 10, 2);
             $table->decimal('per_km_fee', 10, 2);
             $table->timestamps();
         });

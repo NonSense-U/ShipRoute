@@ -104,8 +104,8 @@ class ShipmentService
             ->firstOrFail();
 
         $pricing['distance_charge'] = $payload['distance'] * $pricing_rules->per_km_fee;
-        $pricing['total_price'] = $pricing_rules->strating_fee + $pricing['distance_charge'];
-        $pricing['starting_fee'] = $pricing_rules->strating_fee;
+        $pricing['total_price'] = $pricing_rules->starting_fee + $pricing['distance_charge'];
+        $pricing['starting_fee'] = $pricing_rules->starting_fee;
 
         if ($payload['vehicle_type'] === 'refrigerated') {
             $pricing['total_price'] += $pricing['refrigerated_surcharge'] = $pricing['total_price'] * PricingMultiplierHelper::getRefrigeratedMultiplier();
