@@ -66,6 +66,7 @@ class DatabaseSeeder extends Seeder
             VehicleSizePricingSeeder::class,
             PricingMultiplierSeeder::class,
             ShipmentSeeder::class,
+            RatingSeeder::class,
         ]);
 
         $admin->assignRole('admin');

@@ -78,7 +78,7 @@ class DriverController extends Controller
 
     public function myShipmentLogs(Request $request)
     {
-        $shipments = $this->driverService->getMyShipmentsLog($request->user());
+        $shipments = $this->driverService->getMyShipmentsLog($request->user(), $request->query('status'));
 
         return ApiResponse::success('My shipments retrieved successfully.', new ShipmentCollection($shipments));
     }

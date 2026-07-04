@@ -10,7 +10,7 @@ collection:
     meta:
       id: fld_9af0de03927141eea50dcbb7be31ae59
       created: 1777534714346
-      modified: 1783110293024
+      modified: 1783208593730
       sortKey: -1777534714346
       description: ""
     children:
@@ -18,7 +18,7 @@ collection:
         meta:
           id: fld_08d96ece037540198d1949367b23205b
           created: 1777534732200
-          modified: 1783110293025
+          modified: 1783208593730
           sortKey: -1777534734053
           description: ""
         children:
@@ -1170,8 +1170,8 @@ collection:
     meta:
       id: fld_4d7690a06aef41ec93e1194f1f4f1451
       created: 1777852806108
-      modified: 1778139266579
-      sortKey: -1777852806108
+      modified: 1783208428256
+      sortKey: -1779491673840.5
       description: ""
     children:
       - url: "{{ _.localhost }}/api/driver/shipments/available"
@@ -1274,7 +1274,7 @@ collection:
         meta:
           id: req_9c0bd71c03014d548ed53544e66d6aa3
           created: 1778157183113
-          modified: 1782960325571
+          modified: 1783208760714
           isPrivate: false
           description: ""
           sortKey: -1778126491375.0625
@@ -1283,7 +1283,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"shipment_id" : "1"
+            	"shipment_id" : "31"
             }
         headers:
           - name: Content-Type
@@ -1338,12 +1338,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.localhost }}/api/driver/shipments/logs"
+      - url: "{{ _.localhost }}/api/driver/shipments/logs?status=in_transit"
         name: My Shipments Logs
         meta:
           id: req_a91d177342d5497ba35652a53aaafb26
           created: 1780239259256
-          modified: 1780245709324
+          modified: 1783208748108
           isPrivate: false
           description: ""
           sortKey: -1778134895852.875
@@ -1403,16 +1403,16 @@ collection:
     meta:
       id: fld_65051fb504e2427bbff5316f9eb92428
       created: 1778111356278
-      modified: 1778134621540
-      sortKey: -1778111356278
+      modified: 1783208432116
+      sortKey: -1780181832621.75
       description: ""
     children:
-      - url: "{{ _.localhost }}/api/ratings/users/1"
+      - url: "{{ _.localhost }}/api/ratings/users/3"
         name: GET Ratings summery
         meta:
           id: req_827689eaaa2a4d2baff2777898182cdb
           created: 1778111349074
-          modified: 1779360084868
+          modified: 1783208469370
           isPrivate: false
           description: ""
           sortKey: -1778111363308.75
@@ -1490,12 +1490,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.localhost }}/api/ratings/users/2/ratings"
+      - url: "{{ _.localhost }}/api/ratings/users/3/ratings"
         name: User Ratings
         meta:
           id: req_51ef49bb3ce245ccbe897ddf1646a843
           created: 1778135692500
-          modified: 1779360378824
+          modified: 1783208520155
           isPrivate: false
           description: ""
           sortKey: -1778111363302.5
@@ -1561,7 +1561,7 @@ cookieJar:
   meta:
     id: jar_352c0bc298e74d8bad4da539c31dda27
     created: 1777466716213
-    modified: 1783110293023
+    modified: 1783208593724
   cookies:
     - id: c2ffbed1-1d80-4fea-bc83-9ac4f4fc976a
       key: XSRF-TOKEN
@@ -1598,8 +1598,8 @@ environments:
   meta:
     id: env_d3234be8309b45f595a64f6721a32ed5
     created: 1777466716212
-    modified: 1783110293024
+    modified: 1783208593727
     isPrivate: false
   data:
     localhost: 127.0.0.1:8000
-    auth_token: 1|4Tc209v70m5UczzCL72x6Hf5JxVl6fPvqBJd8Ipc2ff5e289
+    auth_token: 2|qayT3ahrxlCSgHc7n2OPYJmnLiIycm5GWTSWvhPH99cd7bd0

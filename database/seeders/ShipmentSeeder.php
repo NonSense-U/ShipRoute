@@ -13,7 +13,16 @@ class ShipmentSeeder extends Seeder
      */
     public function run(): void
     {
-        Shipment::factory(20)->create();
-        Shipment::factory(20)->assigned()->create();
+        Shipment::factory(10)->create();
+        Shipment::factory(10)->assigned()->create();
+        Shipment::factory(10)->completed()->create([
+            'driver_id' => 1,
+            'merchant_id' => 1,
+        ]);
+        
+        Shipment::factory()->inTransit()->create([
+            'driver_id' => 1,
+            'merchant_id' => 1,
+        ]);
     }
 }

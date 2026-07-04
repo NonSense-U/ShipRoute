@@ -39,7 +39,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'role:admin'])->group(functi
     });
 });
 
-Route::prefix('ratings')->middleware(['auth:sanctum', 'role:merchant|driver'])->group(function () {
+Route::prefix('ratings')->middleware(['auth:sanctum', 'role:merchant|driver|admin'])->group(function () {
     Route::post('/shipments/{shipment}', [RatingController::class, 'store']);
     Route::get('/users/{user}', [RatingController::class, 'summary']);
     Route::get('/users/{user}/ratings', [RatingController::class, 'getReceivedRatings']);

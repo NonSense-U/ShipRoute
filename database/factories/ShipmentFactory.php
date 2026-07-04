@@ -56,4 +56,20 @@ class ShipmentFactory extends Factory
             $shipment->save();
         });
     }
+
+    public function inTransit(): static
+    {
+        return $this->afterCreating(function (Shipment $shipment) {
+            $shipment->status = $status ?? 'in_transit';
+            $shipment->save();
+        });
+    }
+
+    public function completed(): static
+    {
+        return $this->afterCreating(function (Shipment $shipment) {
+            $shipment->status = 'delivered';
+            $shipment->save();
+        });
+    }
 }

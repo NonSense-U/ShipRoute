@@ -195,7 +195,7 @@ class DriverService
 	}
 
 
-	public function getMyShipmentsLog(User $user)
+	public function getMyShipmentsLog(User $user, ?string $status = null)
 	{
 		$driver = $user->driver;
 
@@ -203,11 +203,14 @@ class DriverService
 			throw new RuntimeException('Driver profile not found.');
 		}
 
-		return Shipment::query()
-			->where('driver_id', $driver->id)
-			->with('merchant', 'driver')
-			->latest()
-			->paginate(20);
+		$query = Shipment::query()->where('driver_id', $driver->id)->with('merchant', 'driver');
+
+		if ($status) {
+			$query->where('status', $status);
+		}
+
+		return $query->latest()
+			->paginate(20);;
 	}
 
 	private function validateShipmentAcceptable(Driver $driver, Shipment $shipment): void

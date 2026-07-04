@@ -29,13 +29,12 @@ class ShipmentStatusUpdated extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['database', FcmChannel::class];
+        return [FcmChannel::class];
     }
 
     public function viaQueues(): array
     {
         return [
-            'database' => 'notifications',
             FcmChannel::class => 'notifications',
         ];
     }
