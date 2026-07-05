@@ -31,7 +31,7 @@ class UploadProfilePicture implements ShouldQueue
             $cloudinary = $this->cloudinary ?? app(Cloudinary::class);
             $result = UploadMediaHelper::uploadImage($cloudinary, 'shipments', $this->file);
             $this->user->update(['profile_picture_url' => $result['secure_url']]);
-            unlink(storage_path('app/private/' . $this->file['path']));
+            unlink(storage_path('app/private/' . $this->file['path'])); 
         } catch (Throwable $e) {
             unlink(storage_path('app/private/' . $this->file['path']));
             throw $e;

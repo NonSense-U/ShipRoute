@@ -20,7 +20,7 @@ class ShipmentSeeder extends Seeder
             'merchant_id' => 1,
         ]);
         
-        Shipment::factory()->inTransit()->create([
+        Shipment::factory()->inTransit(1)->create([
             'driver_id' => 1,
             'merchant_id' => 1,
         ]);

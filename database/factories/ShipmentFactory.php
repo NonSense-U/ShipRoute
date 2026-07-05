@@ -53,14 +53,23 @@ class ShipmentFactory extends Factory
         return $this->afterCreating(function (Shipment $shipment) use ($driver_id, $status) {
             $shipment->driver_id = $driver_id ?? Driver::factory()->create()->id;
             $shipment->status = $status ?? 'accepted';
+            $driver = Driver::find($shipment->driver_id);
+            $driver->update([
+                'is_available' => false,
+            ]);
             $shipment->save();
         });
     }
 
-    public function inTransit(): static
+    public function inTransit(?int $driver_id = null): static
     {
-        return $this->afterCreating(function (Shipment $shipment) {
-            $shipment->status = $status ?? 'in_transit';
+        return $this->afterCreating(function (Shipment $shipment) use ($driver_id) {
+            $shipment->driver_id = $driver_id ?? Driver::factory()->create()->id;
+            $driver = Driver::find($shipment->driver_id);
+            $driver->update([
+                'is_available' => false
+            ]);
+            $shipment->status = 'in_transit';
             $shipment->save();
         });
     }

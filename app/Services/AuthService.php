@@ -89,8 +89,8 @@ class AuthService
             }
 
             $response = [
-                'id' => $user->id,
-                'username' => $user->username,
+                'id' => $user->profile->id,
+                'uid' => $user->id,
                 'role' => $user->getRoleNames()->first(),
                 'access_token' => $user->createToken('auth_token')->plainTextToken,
                 'token_type' => 'Bearer',

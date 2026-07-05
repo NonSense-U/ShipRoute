@@ -21,7 +21,7 @@ class NewRatingAdded extends Notification
     public string $shipmentId,
         public int $rating,
         public string $comment,
-        public string $userName
+        public string $fullName
     ) {}
 
     /**
@@ -47,14 +47,14 @@ class NewRatingAdded extends Notification
         return new FcmMessage(
             notification: new FcmNotification(
                 title: 'New Rating Added',
-                body: "You received a new rating of " . $this->rating . " from " . $this->userName
+                body: "You received a new rating of " . $this->rating . " from " . $this->fullName . ". Comment: " . $this->comment
             ),
             data: [
                 'type' => 'new_rating_added',
                 'shipment_id' => (string) $this->shipmentId,
                 'rating' => $this->rating,
                 'comment' => $this->comment,
-                'user_name' => $this->userName,
+                'fullName' => $this->fullName . ". Comment: " . $this->comment,
             ]
         );
     }
@@ -71,7 +71,7 @@ class NewRatingAdded extends Notification
             'shipment_id' => (string) $this->shipmentId,
             'rating' => $this->rating,
             'comment' => $this->comment,
-            'user_name' => $this->userName,
+            'fullName' => $this->fullName,
         ];
     }
 }

@@ -34,16 +34,16 @@ class UploadShipmentMedia implements ShouldQueue
         try {
 
             $cloudinary = $this->cloudinary ?? app(Cloudinary::class);
-            $media_paths = [];
+            $media_urls = [];
             foreach ($this->files as $file) {
                 $result = UploadMediaHelper::uploadImage($cloudinary, 'shipments', $file);
-                $media_paths[] = $result['secure_url'];
+                $media_urls[] = $result['secure_url'];
                 unlink(storage_path('app/private/' . $file['path']));
             }
 
             $this->shipment->update([
                 'status' => 'scheduled',
-                'media' => $media_paths,
+                'media' => $media_urls,
             ]);
         } catch (Throwable $e) {
             foreach ($this->files as $file) {

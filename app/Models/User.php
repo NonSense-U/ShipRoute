@@ -54,6 +54,16 @@ class User extends Authenticatable
         ];
     }
 
+    public function profile()
+    {
+        if ($this->hasRole('merchant')) {
+            return $this->merchant();
+        } elseif ($this->hasRole('driver')) {
+            return $this->driver();
+        }
+        return null;
+    }
+
     public function merchant()
     {
         return $this->hasOne(Merchant::class);
