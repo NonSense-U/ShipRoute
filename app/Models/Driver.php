@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Driver extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'user_id',
         'age',
@@ -42,8 +42,18 @@ class Driver extends Model
         return $this->hasMany(Shipment::class);
     }
 
+    public function current_shipment()
+    {
+        return $this->hasOne(Shipment::class)->whereIn('status', ['heading_to_pickup', 'in_transit'])->first();
+    }
+
     public function latestShipment()
     {
         return $this->hasOne(Shipment::class)->latestOfMany();
+    }
+
+    public function getLatestShipmentDateAttribute()
+    {
+        return $this->latestShipment ? $this->latestShipment->created_at : null;
     }
 }

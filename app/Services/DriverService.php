@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use RuntimeException;
+use SplPriorityQueue;
 
 class DriverService
 {
@@ -20,8 +21,6 @@ class DriverService
 		if (!$driver) {
 			throw new RuntimeException('Driver profile not found.');
 		}
-
-		// $last_shipment = $driver->latestShipment();
 
 
 		return Shipment::query()
@@ -89,12 +88,12 @@ class DriverService
 			'update_counter' => $update_counter + 1,
 		], now()->addMinutes(10));
 
-		if (isset($payload['shipment_id'])) {
-			$shipment = Shipment::findOrFail($payload['shipment_id']);
+		$shipment = $driver->current_shipment();
+		if ($shipment) {
 			if ($shipment->driver_id !== $driver->id) {
 				throw new RuntimeException('You are not assigned to this shipment.');
 			}
-			broadcast(new \App\Events\DriverLocationUpdated($driver->id, $payload['shipment_id']));
+			broadcast(new \App\Events\DriverLocationUpdated($driver->id, $shipment->id));
 		}
 	}
 
@@ -210,7 +209,7 @@ class DriverService
 		}
 
 		return $query->latest()
-			->paginate(20);;
+			->paginate(20);
 	}
 
 	private function validateShipmentAcceptable(Driver $driver, Shipment $shipment): void

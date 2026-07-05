@@ -19,7 +19,7 @@ class UserProfileResource extends JsonResource
             'full_name' => $this->full_name,
             'email' => $this->email,
             'phone_number' => $this->phone_number,
-            'profile_picture_url' => $this->user->profile_picture_url,
+            'profile_picture_url' => $this->profile_picture_url,
             'merchant_profile' => $this->when(
                 $this->hasRole('merchant') && $this->merchant,
                 new MerchantProfileResource($this->merchant)
