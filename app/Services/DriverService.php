@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\GovernorateQueueHelper;
 use App\Models\Driver;
 use App\Models\Shipment;
 use App\Models\User;
@@ -22,6 +23,7 @@ class DriverService
 			throw new RuntimeException('Driver profile not found.');
 		}
 
+		$cooldown_period = 2 * GovernorateQueueHelper::getGovernorateQueueIndex($driver);
 
 		return Shipment::query()
 			->where('status', 'scheduled')
@@ -32,6 +34,7 @@ class DriverService
 			->where('vehicle_size', $driver->vehicle_size)
 			->where('weight', '<=', $driver->vehicle_capacity_kg)
 			->whereNull('driver_id')
+			->where('created_at', '<=', now()->subMinutes($cooldown_period))
 			->with('merchant')
 			->paginate(20);
 	}

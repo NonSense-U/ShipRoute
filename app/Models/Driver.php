@@ -24,13 +24,14 @@ class Driver extends Model
         'description',
     ];
 
-    protected $casts = [
-        'age' => 'integer',
-        'current_lat' => 'float',
-        'current_lon' => 'float',
-        'vehicle_capacity_kg' => 'float',
-        'is_available' => 'boolean',
-    ];
+        protected $casts = [
+            'age' => 'integer',
+            'current_lat' => 'float',
+            'current_lon' => 'float',
+            'vehicle_capacity_kg' => 'float',
+            'is_available' => 'boolean',
+            'latest_shipment_at' => 'datetime',
+        ];
 
     public function user()
     {
@@ -52,8 +53,8 @@ class Driver extends Model
         return $this->hasOne(Shipment::class)->latestOfMany();
     }
 
-    public function getLatestShipmentDateAttribute()
-    {
-        return $this->latestShipment ? $this->latestShipment->created_at : null;
-    }
+public function getLatestShipmentAtAttribute()
+{
+    return $this->latestShipment?->created_at?->toDateTimeString();
+}
 }

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Helpers\GovernorateQueueHelper;
 use App\Models\Driver;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -37,8 +38,15 @@ class SyncDriverGovernorate implements ShouldQueue
 
         $data = $response->json();
         log('info', ['nominatim_response' => $data]);
+        
+        if($driver->current_governorate && $driver->current_governorate != $data['address']['state']) {
+            GovernorateQueueHelper::removeDriverFromQueue($driver);
+        }
+
         $driver->update([
             'current_governorate' => $data['address']['state']
         ]);
+
+        GovernorateQueueHelper::updateGovernorateQueue($driver);
     }
 }

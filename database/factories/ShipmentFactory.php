@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Helpers\GovernorateQueueHelper;
 use App\Helpers\VehicleHelper;
 use App\Models\Driver;
 use App\Models\Merchant;
@@ -20,7 +21,7 @@ class ShipmentFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (Shipment $shipment) {
-            $route = ShipmentRoute::factory()->create([
+            ShipmentRoute::factory()->create([
                 'shipment_id' => $shipment->id,
             ]);
         });
@@ -74,11 +75,16 @@ class ShipmentFactory extends Factory
         });
     }
 
-    public function completed(): static
+    public function completed(?int $driver_id = null): static
     {
-        return $this->afterCreating(function (Shipment $shipment) {
+        return $this->afterCreating(function (Shipment $shipment) use ($driver_id) {
+            if($shipment->driver_id === null) {
+                $shipment->driver_id = $driver_id ?? Driver::factory()->create()->id;
+            }
             $shipment->status = 'delivered';
             $shipment->save();
+            GovernorateQueueHelper::updateGovernorateQueue($shipment->driver);
+
         });
     }
 }
