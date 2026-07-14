@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('license_plate_number')->unique();
             $table->string('driver_license_number')->unique();
             $table->text('description')->nullable();
+            $table->timestamp('last_processed_at')->nullable();
             $table->timestamps();
         });
     }

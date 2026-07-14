@@ -8,6 +8,7 @@ use App\Http\Requests\CompleteTripRequest;
 use App\Http\Requests\SendDeliveryOtpRequest;
 use App\Http\Requests\UpdateShipmentStatusRequest;
 use App\Http\Requests\UpdateDriverLocationRequest;
+use App\Http\Resources\ProfitCollection;
 use App\Http\Resources\ShipmentCollection;
 use App\Http\Resources\ShipmentResource;
 use App\Services\DriverService;
@@ -81,5 +82,12 @@ class DriverController extends Controller
         $shipments = $this->driverService->getMyShipmentsLog($request->user(), $request->query('status'));
 
         return ApiResponse::success('My shipments retrieved successfully.', new ShipmentCollection($shipments));
+    }
+
+    public function myProfits(Request $request)
+    {
+        $shipments = $this->driverService->myProfits($request->user()->driver);
+
+        return ApiResponse::success('My profits retrieved successfully.', new ProfitCollection($shipments));
     }
 }

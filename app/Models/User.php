@@ -54,13 +54,16 @@ class User extends Authenticatable
         ];
     }
 
-    public function profile()
+    public function getProfileAttribute()
     {
         if ($this->hasRole('merchant')) {
-            return $this->merchant();
-        } elseif ($this->hasRole('driver')) {
-            return $this->driver();
+            return $this->merchant;
         }
+
+        if ($this->hasRole('driver')) {
+            return $this->driver;
+        }
+
         return null;
     }
 

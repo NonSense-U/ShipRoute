@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\PricingMultiplierHelper;
 use App\Helpers\VehicleHelper;
 use App\Models\Driver;
 use App\Models\User;
@@ -53,6 +54,38 @@ class DriverManagementService
             DB::rollBack();
             throw $e;
         }
+    }
+    public function getDriverProfits(int $driverId, ?string $processed, int $perPage = 20)
+    {
+        $driver = Driver::findOrFail($driverId);
+
+
+        if($processed === 'true') {
+            $query = $driver->shipments()
+                ->where('created_at', '<=', $driver->last_processed_at ?? now()->subYears(10));
+        } else {
+            $query = $driver->shipments()
+                ->where('created_at', '>', $driver->last_processed_at ?? now()->subYears(10));
+        }
+
+        $total_profits = (clone $query)->sum('price');
+
+        $shipments = $query
+            ->with('merchant')
+            ->latest()
+            ->paginate($perPage);
+
+        return [
+            'total_price' => $total_profits,
+            'owed_amount' => $total_profits * PricingMultiplierHelper::getMultiplier('app_share'),
+            'shipments' => $shipments,
+        ];
+    }
+
+
+    public function markProfitsAsProcessed(int $driverId)
+    {
+        Driver::query()->where('id', $driverId)->updateOrFail(['last_processed_at' => now()]);
     }
 
     public function deleteDriver(int $driverId)

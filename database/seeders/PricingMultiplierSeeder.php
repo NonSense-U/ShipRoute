@@ -13,6 +13,12 @@ class PricingMultiplierSeeder extends Seeder
      */
     public function run(): void
     {
+
+        PricingMultiplier::create([
+            'key' => 'app_share',
+            'multiplier' => 0.20,
+        ]);
+
         PricingMultiplier::create([
             'key' => 'night_shipping',
             'multiplier' => 1.20,

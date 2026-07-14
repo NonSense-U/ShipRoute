@@ -8,6 +8,7 @@ use App\Http\Requests\NewDriverRequest;
 use App\Http\Requests\UpdateDriverRequest;
 use App\Http\Resources\DriverProfileCollection;
 use App\Http\Resources\DriverProfileResource;
+use App\Http\Resources\ProfitCollection;
 use App\Services\DriverManagementService;
 use Illuminate\Http\Request;
 
@@ -43,4 +44,20 @@ class DriverManagementController extends Controller
         $this->driverManagementService->deleteDriver($driverId);
         return ApiResponse::success('Driver deleted successfully');
     }
+
+    public function getDriverProfits(Request $request, int $driverId)
+    {
+        $unprocessedProfits = $this->driverManagementService->getDriverProfits($driverId, $request->input('perPage', 20), $request->input('processed', false));
+        return ApiResponse::success('Unprocessed profits retrieved successfully', [
+            'total_profits' => $unprocessedProfits['total_price'],
+            'owed_amount' => $unprocessedProfits['owed_amount'],
+            'records' => new ProfitCollection($unprocessedProfits['shipments'])
+        ]);
+    }
+
+    // public function processDriverProfits(Request $request, int $driverId)
+    // {
+    //     $this->driverManagementService->processDriverProfits($driverId);
+    //     return ApiResponse::success('Driver profits processed successfully');
+    // }
 }

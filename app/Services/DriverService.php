@@ -215,6 +215,11 @@ class DriverService
 			->paginate(20);
 	}
 
+	public function myProfits(Driver $driver, ?int $perPage = 20)
+	{
+		return Shipment::query()->where('driver_id', $driver->id)->with('merchant', 'driver')->latest()->paginate($perPage);
+	}
+
 	private function validateShipmentAcceptable(Driver $driver, Shipment $shipment): void
 	{
 		if ($shipment->driver_id) {

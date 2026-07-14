@@ -6,6 +6,12 @@ use App\Models\PricingMultiplier;
 
 class PricingMultiplierHelper
 {
+
+    public static function getMultiplier(string $key): float
+    {
+        return PricingMultiplier::query()->where('key', $key)->first()->multiplier ?? 1.0;
+    }
+
     public static function getRefrigeratedMultiplier(): float
     {
         return PricingMultiplier::query()->where('key', 'refrigerated_vehicle')->first()->multiplier ?? 1.4;
