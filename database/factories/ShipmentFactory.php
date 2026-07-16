@@ -46,6 +46,7 @@ class ShipmentFactory extends Factory
             'scheduled_pickup_at' => fake()->dateTimeBetween('now', '+1 month'),
             'price' => fake()->randomFloat(2, 100, 3000),
             'status' => 'scheduled',
+            'created_at' => fake()->dateTimeBetween('-12 month', 'now'),
         ];
     }
 

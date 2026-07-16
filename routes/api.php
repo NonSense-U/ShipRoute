@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RatingController;
 use App\Http\Resources\UserProfileResource;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,8 @@ Route::prefix('driver')->middleware(['auth:sanctum', 'role:driver'])->group(func
 });
 
 Route::prefix('admin')->middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::get('/dashboard/analytics', [DashboardController::class, 'analytics']);
+
     Route::prefix('user-management')->group(function () {
         require base_path('routes/api/v1/Admin/user_management.php');
     });

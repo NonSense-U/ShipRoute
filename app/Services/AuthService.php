@@ -88,6 +88,10 @@ class AuthService
                 throw new AuthenticationException("Invalid credentials.");
             }
 
+            $user->update([
+                'last_login_at' => now(),
+            ]);
+
             $response = [
                 'id' => $user->profile?->id,
                 'uid' => $user->id,
