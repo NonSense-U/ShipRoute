@@ -13,7 +13,9 @@ class ShipmentSeeder extends Seeder
      */
     public function run(): void
     {
-        Shipment::factory(10)->create();
+        Shipment::factory(10)->create([
+            'vehicle_type' => 'open',
+        ]);
         Shipment::factory(10)->assigned()->create();
         Shipment::factory(10)->completed()->create([
             'driver_id' => 1,

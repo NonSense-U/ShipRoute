@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'whatsapp' => [
+        'api_url' => env('WHATSAPP_API_URL', 'http://localhost:3000/api/'),
+        'api_key' => env('WHATSAPP_API_KEY', 'your-api-key'),
+    ],
+
 ];

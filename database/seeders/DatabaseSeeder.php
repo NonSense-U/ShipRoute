@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
             'gender' => 'male',
             'vehicle_type' => 'refrigerated',
             'vehicle_size' => 'small',
-            'vehicle_capacity_kg' => 500,
+            'vehicle_capacity_kg' => 900,
             'license_plate_number' => 'ABC123',
             'driver_license_number' => 'DL123456',
             'current_lat' => '33.509194',

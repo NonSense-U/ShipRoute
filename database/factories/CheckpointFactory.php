@@ -20,7 +20,7 @@ class CheckpointFactory extends Factory
         return [
             'type' => fake()->randomElement(['pickup', 'delivery']),
             'supervisor_name' => fake()->name(),
-            'supervisor_phone_number' => fake()->phoneNumber(),
+            'supervisor_phone_number' => '0992522375',
             'address' => fake()->address(),
             'street' => fake()->streetName(),
             'building_number' => fake()->buildingNumber(),

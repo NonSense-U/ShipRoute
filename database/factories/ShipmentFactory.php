@@ -33,11 +33,11 @@ class ShipmentFactory extends Factory
      */
     public function definition(): array
     {
-        $weight = fake()->randomFloat(2, 200, 4000);
+        $weight = fake()->randomFloat(2, 200, 1300);
         return [
             'merchant_id' => 1,
             'goods_type' => fake()->randomElement(['electronics', 'food', 'furniture']),
-            'vehicle_type' => fake()->randomElement(['bike', 'car', 'van', 'truck']),
+            'vehicle_type' => fake()->randomElement(['open', 'covered', 'refrigerated']),
             'vehicle_size' => VehicleHelper::getVehicleSize($weight),
             'who_pays' => fake()->randomElement(['sender', 'receiver']),
             'weight' => $weight,

@@ -132,7 +132,7 @@ class DriverService
 		return $shipment;
 	}
 
-	public function sendDeliveryOTP(User $user, array $payload): Shipment
+	public function sendDeliveryOTP(User $user): Shipment
 	{
 		$driver = $user->driver;
 
@@ -140,19 +140,14 @@ class DriverService
 			throw new RuntimeException('Driver profile not found.');
 		}
 
-		$shipment = Shipment::query()
-			->where('id', $payload['shipment_id'])
-			->where('driver_id', $driver->id)
-			->firstOrFail();
-
-		if ($shipment->status !== 'in_transit') {
-			throw new RuntimeException('Shipment must be in transit to request delivery OTP.');
-		}
+		$shipment = $driver->current_shipment();
+		$supervisor_phone_number = $shipment->route->checkpoints()->where('type', 'delivery')->first()?->supervisor_phone_number;
 
 		// $otp = (string) random_int(100000, 999999);
 		$otp = '123456';
 		Cache::put("shipment_otp_{$shipment->id}", $otp, now()->addMinutes(10));
-
+		
+		dispatch(new \App\Jobs\SendWhatsappOTP($supervisor_phone_number, $otp));
 		// Notification::send($shipment->merchant->user, new \App\Notifications\GamilOtp($otp));
 
 		return $shipment;

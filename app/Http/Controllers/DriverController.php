@@ -50,12 +50,9 @@ class DriverController extends Controller
         return ApiResponse::success('Shipment status updated successfully.', new ShipmentResource($shipment));
     }
 
-    public function sendDeliveryOTP(SendDeliveryOtpRequest $request)
+    public function sendDeliveryOTP(Request $request)
     {
-        $shipment = $this->driverService->sendDeliveryOTP(
-            $request->user(),
-            $request->validated()
-        );
+        $shipment = $this->driverService->sendDeliveryOTP($request->user());
 
         return ApiResponse::success('Delivery OTP sent to merchant.', new ShipmentResource($shipment));
     }
