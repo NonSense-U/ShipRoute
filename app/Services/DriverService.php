@@ -171,7 +171,7 @@ class DriverService
 		}
 
 		$expectedOtp = (string) Cache::get("shipment_otp_{$shipment->id}");
-		if ($expectedOtp === '' || $expectedOtp !== (string) $payload['otp']) {
+		if ($expectedOtp !== (string) $payload['otp']) {
 			throw new RuntimeException('Invalid delivery OTP.');
 		}
 

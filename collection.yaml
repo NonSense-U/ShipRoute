@@ -10,7 +10,7 @@ collection:
     meta:
       id: fld_9af0de03927141eea50dcbb7be31ae59
       created: 1777534714346
-      modified: 1783208593730
+      modified: 1784240145872
       sortKey: -1777534714346
       description: ""
     children:
@@ -18,7 +18,7 @@ collection:
         meta:
           id: fld_08d96ece037540198d1949367b23205b
           created: 1777534732200
-          modified: 1783208593730
+          modified: 1784240145872
           sortKey: -1777534734053
           description: ""
         children:
@@ -339,7 +339,7 @@ collection:
             meta:
               id: req_f9309672b1b147e4a4391eef309d2160
               created: 1783109996358
-              modified: 1783110115561
+              modified: 1783250489517
               isPrivate: false
               description: ""
               sortKey: -1781742729883
@@ -353,7 +353,7 @@ collection:
                   description: ""
                   disabled: false
                   type: file
-                  fileName: /home/nonsense/Pictures/Wallpepers/avatar.jpeg
+                  fileName: /home/nonsense/Pictures/Wallpepers/Subaru and Emilia Matc.jpg
             headers:
               - name: Content-Type
                 value: multipart/form-data
@@ -560,6 +560,54 @@ collection:
               sortKey: -1780208058408
             method: DELETE
             headers:
+              - name: User-Agent
+                value: insomnia/11.5.0
+              - name: Accept
+                value: application/json
+            authentication:
+              type: bearer
+              token: "{{ _.auth_token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.localhost }}/api/admin/user-management/drivers/1/profits"
+            name: GET Unhandled Driver Profits
+            meta:
+              id: req_0d719ec7fa384c75acc9acbb2ea22198
+              created: 1783892876693
+              modified: 1784046863420
+              isPrivate: false
+              description: ""
+              sortKey: -1780258492119
+            method: GET
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                  "base": {
+                    "full_name": "John Doe",
+                    "email": "{% faker 'randomEmail' %}",
+                		"phone_number" : "{% faker 'randomPhoneNumber' %}",
+                    "password": "password",
+                    "password_confirmation": "password"
+                  },
+                  "profile": {
+                    "age": 28,
+                    "gender": "male",
+                    "license_plate_number": "{% faker 'randomUUID' %}",
+                    "vehicle_type": "Sedan",
+                    "driver_license_number": "{% faker 'randomUUID' %}",
+                    "description": "Experienced driver with 5 years of professional driving experience."
+                  }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
               - name: User-Agent
                 value: insomnia/11.5.0
               - name: Accept
@@ -810,6 +858,38 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
+      - name: Analytics
+        meta:
+          id: fld_f111d6c6cf4a45db91df70dee2bacede
+          created: 1784199553445
+          modified: 1784199555667
+          sortKey: -1777537228361
+          description: ""
+        children:
+          - url: "{{ _.localhost }}/api/admin/dashboard/analytics"
+            name: Get Analytics
+            meta:
+              id: req_a600efafda734ec9a3e3269ab85a3956
+              created: 1784199570089
+              modified: 1784199583747
+              isPrivate: false
+              description: ""
+              sortKey: -1784199572278
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.5.0
+            authentication:
+              type: bearer
+              token: "{{ _.auth_token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
   - name: Merchant
     meta:
       id: fld_b3365ea94a2c4d9cab4b0a722607b416
@@ -823,7 +903,7 @@ collection:
         meta:
           id: req_095d8e2cf3b743af948f383425c08110
           created: 1777850647741
-          modified: 1782959902343
+          modified: 1784204754821
           isPrivate: false
           description: ""
           sortKey: -1777850647741
@@ -922,7 +1002,7 @@ collection:
               disabled: false
               id: pair_abc142bb11e441368caf849809a3e0af
             - name: route[delivery_checkpoint_details][supervisor_phone_number]
-              value: "8888888888"
+              value: "0992522375"
               description: ""
               disabled: false
               id: pair_2bc8dd23990f4d2bae49d63a9bd3c521
@@ -1170,7 +1250,7 @@ collection:
     meta:
       id: fld_4d7690a06aef41ec93e1194f1f4f1451
       created: 1777852806108
-      modified: 1783208428256
+      modified: 1783881019509
       sortKey: -1779491673840.5
       description: ""
     children:
@@ -1274,20 +1354,12 @@ collection:
         meta:
           id: req_9c0bd71c03014d548ed53544e66d6aa3
           created: 1778157183113
-          modified: 1783208760714
+          modified: 1784204488499
           isPrivate: false
           description: ""
           sortKey: -1778126491375.0625
         method: POST
-        body:
-          mimeType: application/json
-          text: |-
-            {
-            	"shipment_id" : "31"
-            }
         headers:
-          - name: Content-Type
-            value: application/json
           - name: User-Agent
             value: insomnia/11.5.0
           - name: Accept
@@ -1384,6 +1456,32 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+          - name: Accept
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/api/driver/my-profits"
+        name: My Profits
+        meta:
+          id: req_349ae86ba8094a5a94aec15b730a48ac
+          created: 1783881026802
+          modified: 1783881033179
+          isPrivate: false
+          description: ""
+          sortKey: -1778136576748.4375
+        method: GET
+        headers:
           - name: User-Agent
             value: insomnia/11.5.0
           - name: Accept
@@ -1556,12 +1654,36 @@ collection:
         send: true
         store: true
       rebuildPath: true
+  - url: "{{ _.localhost }}/api/notification-test"
+    name: Notification Test
+    meta:
+      id: req_77f2dbb351534dafa4d0114bf52bf402
+      created: 1784239868928
+      modified: 1784239940790
+      isPrivate: false
+      description: ""
+      sortKey: -1777424470700
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.5.0
+    authentication:
+      type: bearer
+      token: "{{ _.auth_token }}"
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
 cookieJar:
   name: Default Jar
   meta:
     id: jar_352c0bc298e74d8bad4da539c31dda27
     created: 1777466716213
-    modified: 1783208593724
+    modified: 1784240145864
   cookies:
     - id: c2ffbed1-1d80-4fea-bc83-9ac4f4fc976a
       key: XSRF-TOKEN
@@ -1598,8 +1720,8 @@ environments:
   meta:
     id: env_d3234be8309b45f595a64f6721a32ed5
     created: 1777466716212
-    modified: 1783208593727
+    modified: 1784240145868
     isPrivate: false
   data:
     localhost: 127.0.0.1:8000
-    auth_token: 2|qayT3ahrxlCSgHc7n2OPYJmnLiIycm5GWTSWvhPH99cd7bd0
+    auth_token: 1|i91Ul9imyReotk6nFolinShILZGZc5ynovFjfSiC6be8581a

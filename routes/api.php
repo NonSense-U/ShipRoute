@@ -4,7 +4,9 @@ use App\Http\Controllers\RatingController;
 use App\Http\Resources\UserProfileResource;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Jobs\SendWhatsappOTP;
+use App\Notifications\TestNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('account-center')->group(function () {
@@ -58,7 +60,10 @@ Route::get('/me', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/test', function (Request $request) {
-    $otp = rand(100000, 999999);
-    dispatch(new SendWhatsappOTP("963935644159", $otp));
     return response()->json(["message" => "API is working fine"]);
 });
+
+Route::get('/notification-test', function(Request $request){
+    Notification::send($request->user(), new TestNotification());
+    return response()->json(["message" => "Notification sent successfully"]);
+})->middleware('auth:sanctum');

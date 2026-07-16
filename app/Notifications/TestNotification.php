@@ -30,15 +30,15 @@ class TestNotification extends Notification implements ShouldQueue
         return [FcmChannel::class];
     }
 
-    /**
-     * Assign queues
-     */
-    public function viaQueues(): array
-    {
-        return [
-            FcmChannel::class => 'notifications',
-        ];
-    }
+    // /**
+    //  * Assign queues
+    //  */
+    // public function viaQueues(): array
+    // {
+    //     return [
+    //         FcmChannel::class => 'notifications',
+    //     ];
+    // }
 
     /**
      * Push notification (FCM)
@@ -47,11 +47,11 @@ class TestNotification extends Notification implements ShouldQueue
     {
         return new FcmMessage(
             notification: new FcmNotification(
-                title: 'New Follow Request',
-                body: "requested to follow you."
+                title: 'Test Notification',
+                body: "Hurray!! the notifications are working :)"
             ),
             data: [
-                'type' => 'new_follow_request',
+                'type' => 'test_notification',
                 'user_id' => (string) "dashboard",
             ]
         );
