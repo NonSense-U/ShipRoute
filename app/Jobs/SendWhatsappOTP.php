@@ -25,15 +25,24 @@ class SendWhatsappOTP implements ShouldQueue
     public function handle(): void
     {
         $processed_phone_number = '963' . preg_replace('/^0/', '', $this->phoneNumber);
+
+        
+        $message = "Hi! 👋\n\n"
+            . "Your shipment is almost there.\n\n"
+            . "Your delivery verification code is: *{$this->otp}*\n\n"
+            . "Please share this code with the delivery agent when you receive your package.\n\n"
+            . "⏳ This code will expire in 10 minutes.\n\n"
+            . "Thank you for choosing us! 📦";
+
+
         $result = Http::withHeaders([
-            'Authorization' => 'Bearer your-token',
             'X-API-Key' => config('services.whatsapp.api_key'),
             'Accept' => 'application/json',
         ])->post(config('services.whatsapp.api_url') . 'sendText', [
-            "chatId" => $processed_phone_number . "@c.us",
+            "chatId" => $processed_phone_number . "@c.us",  
             "id" => null,
             "reply_to" => null,
-            "text" => (string) $this->otp,
+            "text" => $message,
             "linkPreview" => true,
             "linkPreviewHighQuality" => false,
             "session" => "default"
