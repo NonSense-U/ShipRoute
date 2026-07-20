@@ -3,7 +3,6 @@
 use App\Http\Controllers\RatingController;
 use App\Http\Resources\UserProfileResource;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Jobs\SendWhatsappOTP;
 use App\Notifications\TestNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;

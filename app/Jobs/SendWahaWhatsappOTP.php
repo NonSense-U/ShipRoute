@@ -7,7 +7,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class SendWhatsappOTP implements ShouldQueue
+class SendWahaWhatsappOTP implements ShouldQueue
 {
     use Queueable;
 
@@ -36,9 +36,9 @@ class SendWhatsappOTP implements ShouldQueue
 
 
         $result = Http::withHeaders([
-            'X-API-Key' => config('services.whatsapp.api_key'),
+            'X-API-Key' => config('services.waha.api_key'),
             'Accept' => 'application/json',
-        ])->post(config('services.whatsapp.api_url') . 'sendText', [
+        ])->post(config('services.waha.api_url') . 'sendText', [
             "chatId" => $processed_phone_number . "@c.us",  
             "id" => null,
             "reply_to" => null,

@@ -35,9 +35,14 @@ return [
         ],
     ],
 
-    'whatsapp' => [
-        'api_url' => env('WHATSAPP_API_URL', 'http://localhost:3000/api/'),
-        'api_key' => env('WHATSAPP_API_KEY', 'your-api-key'),
+    'waha' => [
+        'api_url' => env('WHA_API_URL', 'http://localhost:3000/api/'),
+        'api_key' => env('WHA_API_KEY', 'your-api-key'),
+    ],
+
+    'ultramsg' => [
+        'api_url' => env('ULTRAMSG_API_URL', 'https://api.ultramsg.com/'),
+        'token' => env('ULTRAMSG_TOKEN', 'your-token'),
     ],
 
 ];

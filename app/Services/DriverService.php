@@ -147,7 +147,7 @@ class DriverService
 		$otp = '123456';
 		Cache::put("shipment_otp_{$shipment->id}", $otp, now()->addMinutes(10));
 		
-		dispatch(new \App\Jobs\SendWhatsappOTP($supervisor_phone_number, $otp));
+		dispatch(new \App\Jobs\SendUltraMessageWhatsappOTP($supervisor_phone_number, $otp));
 		// Notification::send($shipment->merchant->user, new \App\Notifications\GamilOtp($otp));
 
 		return $shipment;
