@@ -14,7 +14,7 @@ class SendUltraMessageWhatsappOTP implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public string $phoneNumber, public string $otp)
+    public function __construct(public string $phoneNumber, public string $otp, public string $message)
     {
         //
     }
@@ -26,19 +26,12 @@ class SendUltraMessageWhatsappOTP implements ShouldQueue
     {
         $processedPhoneNumber = '+963' . preg_replace('/^0/', '', $this->phoneNumber);
 
-        $message = "Hi! 👋\n\n"
-            . "Your shipment is almost there.\n\n"
-            . "Your delivery verification code is: *{$this->otp}*\n\n"
-            . "Please share this code with the delivery agent when you receive your package.\n\n"
-            . "⏳ This code will expire in 10 minutes.\n\n"
-            . "Thank you for choosing us! 📦";
-
         $result = Http::asForm()->post(
             config('services.ultramsg.api_url') . '/messages/chat',
             [
                 'token' => config('services.ultramsg.token'),
                 'to'    => $processedPhoneNumber,
-                'body'  => $message,
+                'body'  => $this->message,
             ]
         );
 

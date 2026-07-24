@@ -143,11 +143,11 @@ class DriverService
 		$shipment = $driver->current_shipment();
 		$supervisor_phone_number = $shipment->route->checkpoints()->where('type', 'delivery')->first()?->supervisor_phone_number;
 
-		// $otp = (string) random_int(100000, 999999);
-		$otp = '123456';
+		$otp = (string) random_int(100000, 999999);
 		Cache::put("shipment_otp_{$shipment->id}", $otp, now()->addMinutes(10));
-		
-		dispatch(new \App\Jobs\SendUltraMessageWhatsappOTP($supervisor_phone_number, $otp));
+
+		$message = \App\Helpers\OTPMessageHelper::generateDeliveryOTPMessage($otp, 'ar');
+		dispatch(new \App\Jobs\SendUltraMessageWhatsappOTP($supervisor_phone_number, $otp, $message));
 		// Notification::send($shipment->merchant->user, new \App\Notifications\GamilOtp($otp));
 
 		return $shipment;

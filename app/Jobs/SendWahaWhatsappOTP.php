@@ -14,7 +14,7 @@ class SendWahaWhatsappOTP implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public string $phoneNumber, public string $otp)
+    public function __construct(public string $phoneNumber, public string $otp, public string $message)
     {
         //
     }
@@ -25,16 +25,6 @@ class SendWahaWhatsappOTP implements ShouldQueue
     public function handle(): void
     {
         $processed_phone_number = '963' . preg_replace('/^0/', '', $this->phoneNumber);
-
-        
-        $message = "Hi! 👋\n\n"
-            . "Your shipment is almost there.\n\n"
-            . "Your delivery verification code is: *{$this->otp}*\n\n"
-            . "Please share this code with the delivery agent when you receive your package.\n\n"
-            . "⏳ This code will expire in 10 minutes.\n\n"
-            . "Thank you for choosing us! 📦";
-
-
         $result = Http::withHeaders([
             'X-API-Key' => config('services.waha.api_key'),
             'Accept' => 'application/json',
@@ -42,7 +32,7 @@ class SendWahaWhatsappOTP implements ShouldQueue
             "chatId" => $processed_phone_number . "@c.us",  
             "id" => null,
             "reply_to" => null,
-            "text" => $message,
+            "text" => $this->message,
             "linkPreview" => true,
             "linkPreviewHighQuality" => false,
             "session" => "default"

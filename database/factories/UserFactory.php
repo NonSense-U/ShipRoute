@@ -29,7 +29,6 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'phone_number' => fake()->unique()->phoneNumber(),
-            'phone_verified_at' => now(),
             'profile_picture_url' => "https://res.cloudinary.com/dlonjpaf1/image/upload/v1783110169/wixe1mxt9eznrtr4rj2z.jpg",
             'id_card_number' => fake()->unique()->numerify('ID-########'),
             'password' => static::$password ??= Hash::make('password'),

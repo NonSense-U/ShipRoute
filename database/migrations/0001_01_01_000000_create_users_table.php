@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone_number')->unique();
-            $table->timestamp('phone_verified_at')->nullable();
             $table->string('profile_picture_url')->nullable();
             $table->string('id_card_number')->nullable()->unique();
             $table->string('password');

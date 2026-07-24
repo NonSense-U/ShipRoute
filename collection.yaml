@@ -10,7 +10,7 @@ collection:
     meta:
       id: fld_9af0de03927141eea50dcbb7be31ae59
       created: 1777534714346
-      modified: 1784240145872
+      modified: 1785008048007
       sortKey: -1777534714346
       description: ""
     children:
@@ -18,10 +18,77 @@ collection:
         meta:
           id: fld_08d96ece037540198d1949367b23205b
           created: 1777534732200
-          modified: 1784240145872
+          modified: 1785008048007
           sortKey: -1777534734053
           description: ""
         children:
+          - name: OTP
+            meta:
+              id: fld_f5386c52098143ef8674fafeb2844844
+              created: 1784859448794
+              modified: 1784859484816
+              sortKey: -1784859448794
+              description: ""
+            children:
+              - url: "{{ _.localhost }}/api/account-center/verify-otp"
+                name: Verify OTP
+                meta:
+                  id: req_4294b4b8a9e04f6b9f2094e393c41c36
+                  created: 1784859457364
+                  modified: 1784860588391
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1784859470289
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"phone_number" : "0983718712",
+                    	"otp" : "123456"
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.5.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.localhost }}/api/account-center/send-otp"
+                name: Send OTP
+                meta:
+                  id: req_948514c0649840829940717968cd3b80
+                  created: 1784859491464
+                  modified: 1784860293886
+                  isPrivate: false
+                  description: ""
+                  sortKey: -1784859470389
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"phone_number" : "0983718712"
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.5.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
           - url: "{{ _.localhost }}/api/account-center/merchant/login"
             name: Merchant Login
             meta:
@@ -66,7 +133,7 @@ collection:
             meta:
               id: req_c3cc6f44c59f4b27aa23339badb2b4c4
               created: 1777466812687
-              modified: 1778595775130
+              modified: 1785008041121
               isPrivate: false
               description: ""
               sortKey: -1777534737173
@@ -78,7 +145,7 @@ collection:
                   "base": {
                     "full_name": "{% faker 'randomLastName' %}",
                     "email": "{% faker 'randomEmail' %}",
-                		"phone_number" : "9999999",
+                		"phone_number" : "0983718712",
                     "password": "password",
                     "password_confirmation": "password"
                   },
@@ -406,7 +473,7 @@ collection:
         meta:
           id: fld_f894619dbb024c679bcbfb5f3f6db6d1
           created: 1780258483073
-          modified: 1780258486748
+          modified: 1784859319631
           sortKey: -1777537228161
           description: ""
         children:
@@ -683,7 +750,7 @@ collection:
         meta:
           id: fld_5c401f93b7734846aefb747528d4d1eb
           created: 1782694568782
-          modified: 1782694568782
+          modified: 1784859320416
           sortKey: -1777537223242.5
           description: ""
         children:
@@ -1683,7 +1750,7 @@ cookieJar:
   meta:
     id: jar_352c0bc298e74d8bad4da539c31dda27
     created: 1777466716213
-    modified: 1784240145864
+    modified: 1785008047989
   cookies:
     - id: c2ffbed1-1d80-4fea-bc83-9ac4f4fc976a
       key: XSRF-TOKEN
@@ -1720,8 +1787,8 @@ environments:
   meta:
     id: env_d3234be8309b45f595a64f6721a32ed5
     created: 1777466716212
-    modified: 1784240145868
+    modified: 1785008047996
     isPrivate: false
   data:
     localhost: 127.0.0.1:8000
-    auth_token: 1|i91Ul9imyReotk6nFolinShILZGZc5ynovFjfSiC6be8581a
+    auth_token: 5|VPAbFIxbaEnGcG8yBMU6MYrubiEazC15EHFrS8aUb27680ef

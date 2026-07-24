@@ -16,31 +16,25 @@ class AuthService
 {
     public function sendOTP(string $phoneNumber)
     {
-        $otpCode = rand(100000, 999999);
-        Cache::put("otp_{$phoneNumber}", $otpCode, now()->addMinutes(5));
-        //TODO send OTP code to the user's phone number using an SMS gateway
+        $otp = (string) random_int(100000, 999999);
+        Cache::put("otp_{$phoneNumber}", $otp, now()->addMinutes(10));
+        $message = \App\Helpers\OTPMessageHelper::generateSignupOTPMessage($otp, 'ar');
+        dispatch(new \App\Jobs\SendUltraMessageWhatsappOTP($phoneNumber, $otp, $message));
     }
 
 
-    public function verifyOTP(array $payload, string $user_id)
+    public function verifyOTP(string $phoneNumber, string $otp, ?string $user_id)
     {
-        $user = User::query()
-            ->where('phone_number', $payload['phone_number'])
-            ->firstOrFail();
-
-        if (Cache::get('otp_' . $payload['phone_number']) !== $payload['otp_code']) {
+        if (Cache::get('otp_' . $phoneNumber) !== $otp) {
             throw new \Exception('Invalid OTP code');
         }
 
-        $user->update([
-            'phone_verified_at' => now(),
-        ]);
-
-        if (isset($user_id)) {
+        if ($user_id) {
             Cache::put('user' . $user_id . '_trusted', true);
+        } else {
+            Cache::put('trusted_number_' . $phoneNumber, true, now()->addMinutes(10));
         }
-
-        Cache::forget('otp_' . $payload['phone_number']);
+        Cache::forget('otp_' . $phoneNumber);
     }
 
     public function register(array $payload)
@@ -49,11 +43,15 @@ class AuthService
         DB::beginTransaction();
 
         try {
+
+            if (Cache::get('trusted_number_' . $payload['base']['phone_number']) !== true) {
+                throw new \Exception('The phone number is not verified');
+            }
+
             $data = collect();
             $user = User::create($payload['base']);;
             $user->assignRole('merchant');
             $user->merchant()->create($payload['profile']);
-
             $data['user'] = $user;
 
             if (!empty($payload['login']) && $payload['login']) {

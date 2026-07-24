@@ -41,7 +41,7 @@ class AuthController extends Controller
             'otp' => ['required', 'string', 'size:6'],
         ]);
 
-        $this->authService->verifyOtp($validated, $request->user()->id);
+        $this->authService->verifyOtp($validated['phone_number'], $validated['otp'], $request->user()?->id);
         return ApiResponse::success('OTP verified successfully');
     }
 
