@@ -1,0 +1,28 @@
+FROM php:8.3-fpm
+
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libpq-dev \
+    libfcgi-bin \
+    && docker-php-ext-install pdo_pgsql pcntl \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY docker/prod/php/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+
+COPY composer.json composer.lock ./
+RUN composer install --optimize-autoloader --no-scripts
+
+RUN printf '#!/bin/sh\nSCRIPT_NAME=/status SCRIPT_FILENAME=/status REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000\n' \
+    > /usr/local/bin/healthcheck.sh \
+    && chmod +x /usr/local/bin/healthcheck.sh
+
+EXPOSE 9000
+
+CMD ["php-fpm"]

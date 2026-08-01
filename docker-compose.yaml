@@ -3,7 +3,7 @@ services:
     container_name: ship_route_backend
     build:
       context: .
-      dockerfile: docker/php/dockerfile.dev
+      dockerfile: docker/dev/php/dockerfile.dev
     ports:
       - "8000:8000"
       - "8080:8080"
@@ -11,6 +11,7 @@ services:
       - .:/var/www/html
       - vendor:/var/www/html/vendor
       - composer_cache:/root/.composer/cache
+      - ./.env.docker:/var/www/html/.env:ro
     env_file:
       - .env.docker
     depends_on:
@@ -54,6 +55,21 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: shiproute-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/dev/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/dev/nginx/ssl:/etc/nginx/ssl
+      - .:/var/www/html
+    depends_on:
+      app:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:
