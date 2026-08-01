@@ -10,7 +10,7 @@ use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
 use NotificationChannels\Fcm\Resources\Notification as FcmNotification;
 
-class NewRatingAdded extends Notification
+class NewRatingAdded extends Notification implements ShouldQueue
 {
     use Queueable;
 

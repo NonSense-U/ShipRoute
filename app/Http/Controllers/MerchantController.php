@@ -34,7 +34,7 @@ class MerchantController extends Controller
 
         if ($request->has('filter')) {
             if ($request->input('filter') === 'current') {
-                $query->whereNotIn('status', ['delivered', 'cancelled', 'expired']);
+                $query->whereNotIn('status', ['delivered', 'cancelled_by_merchant', 'cancelled_by_driver', 'expired']);
             }
             else{
                 $query->where('status', $request->input('filter'));

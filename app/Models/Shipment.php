@@ -51,9 +51,9 @@ class Shipment extends Model
 
     protected static function booted(): void
     {
-        static::addGlobalScope('ExcludeInvalidShipments', function ($query) {
-            $query->whereNotIn('status', ['cancelled', 'expired', 'failed']);
-        });
+        // static::addGlobalScope('ExcludeInvalidShipments', function ($query) {
+        //     $query->whereNotIn('status', ['cancelled_by_merchant', 'cancelled_by_driver', 'expired', 'failed']);
+        // });
     }
 
     public function merchant()

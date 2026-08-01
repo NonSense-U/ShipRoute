@@ -10,7 +10,7 @@ collection:
     meta:
       id: fld_9af0de03927141eea50dcbb7be31ae59
       created: 1777534714346
-      modified: 1785008048007
+      modified: 1785626788573
       sortKey: -1777534714346
       description: ""
     children:
@@ -18,7 +18,7 @@ collection:
         meta:
           id: fld_08d96ece037540198d1949367b23205b
           created: 1777534732200
-          modified: 1785008048007
+          modified: 1785626788573
           sortKey: -1777534734053
           description: ""
         children:
@@ -1177,127 +1177,25 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.localhost }}/api/merchant/shipments/8"
+      - url: "{{ _.localhost }}/api/merchant/shipments/cancel/41"
         name: Cancel shipment
         meta:
           id: req_03f8fcc9314148b5a8771d44b7e06d41
           created: 1778195048273
-          modified: 1778318843757
+          modified: 1785626095670
           isPrivate: false
           description: ""
           sortKey: -1777788292363
-        method: DELETE
+        method: PATCH
         body:
-          mimeType: multipart/form-data
-          params:
-            - name: goods_type
-              value: Electronics
-              id: pair_f81a08173219405abd66611a4faa5dfa
-            - name: weight
-              value: "150.5"
-              description: ""
-              disabled: false
-              id: pair_6a856fc7fb07472ca2c1ea198975a497
-            - name: vehicle_type
-              value: refrigerated
-              description: ""
-              disabled: false
-              id: pair_ea930069b7f848faa08e493d1a303de7
-            - name: vehicle_capacity_kg
-              value: "100"
-              description: ""
-              disabled: false
-              id: pair_e3e8330a902c4ab6a0257db5a391a541
-            - name: who_pays
-              value: sender
-              description: ""
-              disabled: false
-              id: pair_1a4bae02a70f4198814ea79ca5964d9c
-            - name: scheduled_pickup_at
-              value: 2026-06-07T10:30:00Z
-              description: ""
-              disabled: false
-              id: pair_001bf3fb11d8413daf62ed54251c1149
-            - name: additional_details
-              value: Handle with care. Fragile items included.
-              description: ""
-              disabled: false
-              id: pair_ee468efe40fc46acb2b4d355d0777f46
-            - name: media[]
-              value: ""
-              description: ""
-              disabled: false
-              id: pair_a168a2e7efe543c081d5c1e5acb275a3
-              fileName: /home/nonsense/Pictures/Wallpepers/Monster.jpeg
-              type: file
-            - name: route[overview_polyline]
-              value: abcd1234encodedpolyline
-              description: ""
-              disabled: false
-              id: pair_b9c12ce626c14cd486a3a3fb86276832
-            - name: route[pick_up_lat]
-              value: "52.0918"
-              description: ""
-              disabled: false
-              id: pair_45c7bafbe2fd452688735758369d6066
-            - name: route[pick_up_lng]
-              value: "4.4856"
-              description: ""
-              disabled: false
-              id: pair_91c1fb106df84a3bba3c49cb1dd4bae4
-            - name: route[pick_up_location_details][address]
-              value: Pickup Warehouse A
-              description: ""
-              disabled: false
-              id: pair_ca1f47e99b6b4643823d87277b54a848
-            - name: route[pick_up_location_details][city]
-              value: Rotterdam
-              description: ""
-              disabled: false
-              id: pair_8a5ff61d6dcf46a895297e4e91eb73ae
-            - name: route[pick_up_location_details][postal_code]
-              value: 3011 AA
-              description: ""
-              disabled: false
-              id: pair_f73641c69b8b423db094572906818718
-            - name: route[delivery_lat]
-              value: "52.3676"
-              description: ""
-              disabled: false
-              id: pair_f23420da0b16422d84cc8c2a89aef07d
-            - name: route[delivery_lng]
-              value: "4.9041"
-              description: ""
-              disabled: false
-              id: pair_dfa10d8be8c94657ba070c45e95018ea
-            - name: route[delivery_location_details][address]
-              value: Delivery Hub B
-              description: ""
-              disabled: false
-              id: pair_1c4da0a707bc49698fa4cac5385d6f9c
-            - name: route[delivery_location_details][city]
-              value: Amsterdam
-              description: ""
-              disabled: false
-              id: pair_35d4a5f7e1154f2691c62437c2e0cf43
-            - name: route[delivery_location_details][postal_code]
-              value: 1012 AB
-              description: ""
-              disabled: false
-              id: pair_9df0823c1aa84b2fb4478b180e29c791
-            - name: route[distance]
-              value: "75.4"
-              description: ""
-              disabled: false
-              id: pair_b2826817b1534ce98cecb03a79b572b2
-            - name: route[duration_minutes]
-              value: "90"
-              description: ""
-              disabled: false
-              id: pair_6c28fac8117a4397a9155615ab34c224
+          mimeType: application/json
+          text: |-
+            {
+            	"reason" : "The shipment has be postboned, sorry for that."
+            }
         headers:
           - name: Content-Type
-            value: multipart/form-data
+            value: application/json
           - name: User-Agent
             value: insomnia/11.5.0
           - name: Accept
@@ -1564,6 +1462,40 @@ collection:
             send: true
             store: true
           rebuildPath: true
+      - url: "{{ _.localhost }}/api/driver/shipments/cancel/41"
+        name: Cancel shipment
+        meta:
+          id: req_a2192a1ba82a42a0a81390cbfabfaded
+          created: 1785624605305
+          modified: 1785625265909
+          isPrivate: false
+          description: ""
+          sortKey: -1778121448588.375
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"reason" : "The shipment has be postboned, sorry for that."
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+          - name: Accept
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
   - name: Rating
     meta:
       id: fld_65051fb504e2427bbff5316f9eb92428
@@ -1750,7 +1682,7 @@ cookieJar:
   meta:
     id: jar_352c0bc298e74d8bad4da539c31dda27
     created: 1777466716213
-    modified: 1785008047989
+    modified: 1785626788570
   cookies:
     - id: c2ffbed1-1d80-4fea-bc83-9ac4f4fc976a
       key: XSRF-TOKEN
@@ -1787,8 +1719,8 @@ environments:
   meta:
     id: env_d3234be8309b45f595a64f6721a32ed5
     created: 1777466716212
-    modified: 1785008047996
+    modified: 1785626788573
     isPrivate: false
   data:
     localhost: 127.0.0.1:8000
-    auth_token: 5|VPAbFIxbaEnGcG8yBMU6MYrubiEazC15EHFrS8aUb27680ef
+    auth_token: 7|6xGmueCqbicUwdC9ogUYEEWKpKDyTQ8Qfb4AAQwX0fde4ced

@@ -34,7 +34,8 @@ return new class extends Migration
                 'heading_to_pickup',
                 'in_transit',
                 'delivered',
-                'cancelled',
+                'cancelled_by_merchant',
+                'cancelled_by_driver',
                 'expired',
                 'failed'
             ])->default('scheduled');

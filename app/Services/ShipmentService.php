@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Helpers\PricingMultiplierHelper;
 use App\Helpers\VehicleHelper;
+use App\Helpers\ShipmentHelper;
 use App\Jobs\SyncShipmentPickUpGovernorate;
 use App\Jobs\UploadShipmentMedia;
 use App\Models\PricingMultiplier;
@@ -13,6 +14,7 @@ use App\Models\VehicleSizePricing;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Notification;
 use RuntimeException;
 use Throwable;
 
@@ -121,14 +123,18 @@ class ShipmentService
         return $pricing;
     }
 
-    public function cancelShipment(Shipment $shipment): void
+    public function cancelShipment(User $user, Shipment $shipment, string $reason = 'not specified'): void
     {
-        if (!in_array($shipment->status, ['created', 'scheduled'])) {
-            throw new RuntimeException('Only shipments in created or scheduled status can be cancelled.');
+        if (!in_array($shipment->status, ['created', 'scheduled', 'accepted', 'heading_to_pickup'])) {
+            throw new RuntimeException('Only unstarted shipments can be cancelled.');
         }
-
-        $shipment->status = 'cancelled';
+        $shipment->status = 'cancelled_by_' . $user_role = $user->getRoleNames()[0];
         $shipment->save();
+
+        $counter_party = ShipmentHelper::getCounterParty($user_role, $shipment);
+        if (isset($counter_party['user'])) {
+            Notification::send($counter_party['user'], new \App\Notifications\ShipmentCancelledNotification($shipment, $user_role, $reason));
+        }
     }
 
     private function isNightShipping(Carbon $scheduledPickupAt): bool

@@ -12,12 +12,11 @@ class RatingService
 	public function rateShipmentCounterparty(User $rater, Shipment $shipment, array $payload): Rating
 	{
 		$shipment->loadMissing(['merchant.user', 'driver.user']);
-
-		if ($shipment->status !== 'delivered') {
-			throw new RuntimeException('Shipment must be delivered before rating.');
-		}
-
 		$ratee = $this->resolveRateeUser($rater, $shipment);
+
+		if (!($shipment->status === 'delivered' || $shipment->status === 'cancelled_by_' . $ratee->getRoleNames()[0])) {
+			throw new RuntimeException('Shipment must be delivered or cancelled by the other party before rating.');
+		}
 
 		$alreadyRated = Rating::query()
 			->where('shipment_id', $shipment->id)

@@ -8,10 +8,14 @@ use App\Http\Requests\CreateShipmentRequest;
 use App\Http\Resources\ShipmentResource;
 use App\Models\Shipment;
 use App\Services\ShipmentService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ShipmentController extends Controller
 {
+    use AuthorizesRequests;
+
     private ShipmentService $shipmentService;
 
     public function __construct(ShipmentService $shipmentService)
@@ -31,9 +35,14 @@ class ShipmentController extends Controller
         return ApiResponse::success(data: $this->shipmentService->calculatePrice($request->validated()));
     }
 
-    public function cancelShipment(Shipment $shipment): JsonResponse
+    public function cancelShipment(Request $request, Shipment $shipment): JsonResponse
     {
-        $this->shipmentService->cancelShipment($shipment);
+        $this->authorize('update', $shipment);
+
+        $request->validate([
+            'reason' => ['nullable', 'string', 'max:255'],
+        ]);
+        $this->shipmentService->cancelShipment($request->user(), $shipment, $request->input('reason'));
 
         return ApiResponse::success('Shipment cancelled successfully.');
     }
