@@ -7,7 +7,7 @@ upstream php_fpm {
 server {
     listen 80;
     server_name _;
-    return 301 https://$host$request_uri;
+    return 308 https://$host$request_uri;
 }
 
 server {
@@ -47,7 +47,8 @@ server {
         try_files $uri =404;
 
         include fastcgi_params;
-
+        fastcgi_param HTTP_AUTHORIZATION $http_authorization;
+        
         fastcgi_pass php_fpm;
         fastcgi_keep_conn on;
         fastcgi_index index.php;

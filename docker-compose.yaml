@@ -1,12 +1,9 @@
 services:
-  app:
-    container_name: ship_route_backend
+  php-fpm:
+    image: nonsenseu/ship-route:latest
     build:
       context: .
-      dockerfile: docker/dev/php/dockerfile.dev
-    ports:
-      - "8000:8000"
-      - "8080:8080"
+      dockerfile: docker/prod/php/dockerfile
     volumes:
       - .:/var/www/html
       - vendor:/var/www/html/vendor
@@ -15,11 +12,56 @@ services:
     env_file:
       - .env.docker
     depends_on:
-      postgres:
-        condition: service_started
+      migrate:
+          condition: service_completed_successfully
       redis:
         condition: service_healthy
-    command: sh -c "composer install && supervisord -c /etc/supervisor/conf.d/supervisord.conf"
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/healthcheck.sh"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    restart: unless-stopped
+
+  reverb:
+    image: nonsenseu/ship-route:latest
+    build:
+      context: .
+      dockerfile: docker/prod/php/dockerfile
+    command: php artisan reverb:start --host=0.0.0.0 --port=8080
+    volumes:
+      - .:/var/www/html
+      - vendor:/var/www/html/vendor
+      - ./.env.docker:/var/www/html/.env:ro
+    env_file:
+      - .env.docker
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  queue-worker:
+    image: nonsenseu/ship-route:latest
+    build:
+      context: .
+      dockerfile: docker/prod/php/dockerfile
+    command: php artisan queue:work --queue=default,notifications --sleep=3 --tries=3 --max-time=3600
+    volumes:
+      - .:/var/www/html
+      - vendor:/var/www/html/vendor
+      - ./.env.docker:/var/www/html/.env:ro
+    env_file:
+      - .env.docker
+    depends_on:
+      migrate:
+          condition: service_completed_successfully
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
   postgres:
@@ -41,6 +83,22 @@ services:
       start_period: 5s
     restart: unless-stopped
 
+  migrate:
+    build:
+      context: .
+      dockerfile: docker/prod/php/dockerfile
+    command: php artisan migrate --force
+    volumes:
+      - .:/var/www/html
+      - vendor:/var/www/html/vendor
+      - ./.env.docker:/var/www/html/.env:ro
+    env_file:
+      - .env.docker
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
   redis:
     image: redis:7-alpine
     container_name: shiproute-redis
@@ -58,17 +116,19 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx:alpine
-    container_name: shiproute-nginx
+    build:
+      context: .
+      dockerfile: docker/prod/nginx/dockerfile
+    environment:
+      FPM_HOST: php-fpm
+      FPM_PORT: 9000
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./docker/dev/nginx/conf.d:/etc/nginx/conf.d
-      - ./docker/dev/nginx/ssl:/etc/nginx/ssl
       - .:/var/www/html
     depends_on:
-      app:
+      php-fpm:
         condition: service_healthy
     restart: unless-stopped
 
