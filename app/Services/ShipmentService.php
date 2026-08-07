@@ -128,13 +128,16 @@ class ShipmentService
         if (!in_array($shipment->status, ['created', 'scheduled', 'accepted', 'heading_to_pickup'])) {
             throw new RuntimeException('Only unstarted shipments can be cancelled.');
         }
-        $shipment->status = 'cancelled_by_' . $user_role = $user->getRoleNames()[0];
+        $user_role = $user->getRoleNames()[0];
+        $shipment->status = 'cancelled_by_' . $user_role;
         $shipment->save();
 
         $counter_party = ShipmentHelper::getCounterParty($user_role, $shipment);
         if (isset($counter_party['user'])) {
             Notification::send($counter_party['user'], new \App\Notifications\ShipmentCancelledNotification($shipment, $user_role, $reason));
         }
+
+        $shipment->driver()->update(['is_available' => true]);
     }
 
     private function isNightShipping(Carbon $scheduledPickupAt): bool
