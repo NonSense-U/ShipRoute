@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Cache;
 class UserService
 {
 
+    public function getUserNotifications(User $user, int $perPage = 15)
+    {
+        $notifications = $user->notifications()->latest()->paginate($perPage);
+        
+         return [
+            'notifications' => $notifications,
+            'unread_count' => $user->unreadNotifications()->count(),
+        ];
+        }
+
     public function uploadProfilePicture(User $user, UploadedFile $file)
     {
         $path = $file->store('temp');

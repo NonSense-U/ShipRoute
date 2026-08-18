@@ -47,10 +47,10 @@ class ShipmentCancelledNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Shipment Cancelled')
-            ->line('Your shipment has been cancelled by the ' . $this->user_role . '.')
-            ->line('The reason is: ' . $this->reason)
-            ->line('Please check the shipment details for more information.');
+            ->subject('تم إلغاء الشحنة')
+            ->line('تم إلغاء شحنتك من قِبل ' . ($this->user_role === 'merchant' ? 'التاجر' : 'السائق') . '.')
+            ->line('السبب: ' . $this->reason)
+            ->line('يرجى مراجعة تفاصيل الشحنة لمزيد من المعلومات.');
     }
 
 
@@ -58,8 +58,8 @@ class ShipmentCancelledNotification extends Notification implements ShouldQueue
     {
         return new FcmMessage(
             notification: new FcmNotification(
-                title: 'Shipment Cancelled',
-                body: "Your shipment has been cancelled by " . $this->user_role . ".\nThe reason is: " . $this->reason . "\nPlease check the shipment details for more information."
+                title: 'تم إلغاء الشحنة',
+                body: "تم إلغاء شحنتك من قِبل " . ($this->user_role === 'merchant' ? 'التاجر' : 'السائق') . ".\nالسبب: " . $this->reason . "\nيرجى مراجعة تفاصيل الشحنة لمزيد من المعلومات."
             ),
             data: [
                 'type' => 'shipment_cancelled',

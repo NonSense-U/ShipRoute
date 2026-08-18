@@ -18,7 +18,7 @@ class NewRatingAdded extends Notification implements ShouldQueue
      * Create a new notification instance.
      */
     public function __construct(
-    public string $shipmentId,
+        public string $shipmentId,
         public int $rating,
         public string $comment,
         public string $fullName
@@ -46,8 +46,8 @@ class NewRatingAdded extends Notification implements ShouldQueue
     {
         return new FcmMessage(
             notification: new FcmNotification(
-                title: 'New Rating Added',
-                body: "You received a new rating of " . $this->rating . " from " . $this->fullName . ". Comment: " . $this->comment
+                title: 'تمت إضافة تقييم جديد',
+                body: "لقد تلقيت تقييمًا جديدًا بدرجة " . $this->rating . " من " . $this->fullName . ". التعليق: " . $this->comment
             ),
             data: [
                 'type' => 'new_rating_added',

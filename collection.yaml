@@ -10,7 +10,7 @@ collection:
     meta:
       id: fld_9af0de03927141eea50dcbb7be31ae59
       created: 1777534714346
-      modified: 1785626788573
+      modified: 1787086600306
       sortKey: -1777534714346
       description: ""
     children:
@@ -18,8 +18,8 @@ collection:
         meta:
           id: fld_08d96ece037540198d1949367b23205b
           created: 1777534732200
-          modified: 1785626788573
-          sortKey: -1777534734053
+          modified: 1787086600306
+          sortKey: -1779638723024.5
           description: ""
         children:
           - name: OTP
@@ -208,7 +208,7 @@ collection:
             meta:
               id: req_7288457c88d3405f9f9870e57fa69ec4
               created: 1777544316679
-              modified: 1777545235607
+              modified: 1786020073036
               isPrivate: false
               description: ""
               sortKey: -1777534737123
@@ -217,7 +217,7 @@ collection:
               mimeType: application/json
               text: |-
                 {
-                "fcm_token" : "1123"
+                "fcm_token" : "fbtB0Y8l2zJdg4KtByY478:APA91bGjAGQkkwMy-kG3xtnaOdHaTlU2mPUysk4T3h00wMmJGTdT_KndVjEkZwdx6uN0d3bgubBSMczdu7FimknV2dMMjAl7DyV-N4MRLcosHsTO7as1x68"
                 }
             headers:
               - name: Content-Type
@@ -286,7 +286,7 @@ collection:
             meta:
               id: req_70ba2d8b32dd4266aac52aa01fe87a13
               created: 1781289737167
-              modified: 1781743282930
+              modified: 1786015990131
               isPrivate: false
               description: ""
               sortKey: -1777534737135.5
@@ -437,6 +437,62 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
+      - name: Notifications
+        meta:
+          id: fld_190afb24d36c4d539bf88a636887bce5
+          created: 1787082857654
+          modified: 1787082859675
+          sortKey: -1781742711996
+          description: ""
+        children:
+          - url: "{{ _.localhost }}/api/notifications"
+            name: GET Notifications
+            meta:
+              id: req_62625240175a4ba797b5a058119759ef
+              created: 1787082862626
+              modified: 1787083116108
+              isPrivate: false
+              description: ""
+              sortKey: -1787082862626
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.5.0
+            authentication:
+              type: bearer
+              token: "{{ _.auth_token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.localhost }}/api/notifications/mark-as-read?notification_id="
+            name: Mark As Read
+            meta:
+              id: req_1cd95dca22204f84a18402d3d5f8159a
+              created: 1787083250934
+              modified: 1787083281411
+              isPrivate: false
+              description: ""
+              sortKey: -1785971166507.5
+            method: POST
+            headers:
+              - name: User-Agent
+                value: insomnia/11.5.0
+            authentication:
+              type: bearer
+              token: "{{ _.auth_token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
       - url: "{{ _.localhost }}/api/me"
         name: Me
         meta:
@@ -482,14 +538,9 @@ collection:
             meta:
               id: req_e5cb3ccf07d84fa6b339811546ba7a2a
               created: 1777534919023
-              modified: 1782620084992
+              modified: 1786797458350
               isPrivate: false
-              description: ""
-              sortKey: -1780258492044
-            method: POST
-            body:
-              mimeType: application/json
-              text: >-
+              description: >-
                 {
                   "base": {
                     "full_name": "John Doe",
@@ -509,9 +560,86 @@ collection:
                     "description": "Experienced driver with 5 years of professional driving experience."
                   }
                 }
+              sortKey: -1780258492044
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - id: pair_f4f0bd49f8c44b06933a2d9fa6580445
+                  name: base[full_name]
+                  value: John Doe
+                  description: ""
+                  disabled: false
+                - id: pair_6c281223f5204528ad70b11494128547
+                  name: base[email]
+                  value: "{% faker 'randomEmail' %}"
+                  description: ""
+                  disabled: false
+                - id: pair_375108b0eadb4516a1c888d85d6dd6bd
+                  name: base[phone_number]
+                  value: "{% faker 'randomPhoneNumber' %}"
+                  description: ""
+                  disabled: false
+                - id: pair_18b91ca30eec4f6fb23442214663394d
+                  name: base[id_card_number]
+                  value: "1234567"
+                  description: ""
+                  disabled: false
+                - id: pair_d6471f6bda174dbea7c34cf96a17a281
+                  name: base[password]
+                  value: password
+                  description: ""
+                  disabled: false
+                - id: pair_e98a2f28d4404b0a8dfc5df3ee10d3fe
+                  name: base[password_confirmation]
+                  value: password
+                  description: ""
+                  disabled: false
+                - id: pair_dc46e7c222994f879a0a2b7ed82255bd
+                  name: profile[age]
+                  value: "32"
+                  description: ""
+                  disabled: false
+                - id: pair_cde6ef6ccef04dc3bf3a1e632c1b14ab
+                  name: profile[gender]
+                  value: male
+                  description: ""
+                  disabled: false
+                - id: pair_1653915392654f60b51260b0f175ec3c
+                  name: profile[license_plate_number]
+                  value: "{% faker 'randomUUID' %}"
+                  description: ""
+                  disabled: false
+                - id: pair_11589ad983c04849a6ec7427017ce8f5
+                  name: profile[vehicle_type]
+                  value: refrigerated
+                  description: ""
+                  disabled: false
+                - id: pair_91e07694940e423cba82b39c213851d5
+                  name: profile[vehicle_capacity_kg]
+                  value: "900"
+                  description: ""
+                  disabled: false
+                - id: pair_5e3c939c4fa04695bc0b06448d7e2fbb
+                  name: profile[driver_license_number]
+                  value: "{% faker 'randomUUID' %}"
+                  description: ""
+                  disabled: false
+                - id: pair_0f9c6a0165384950b02585e4a00bd309
+                  name: profile[description]
+                  value: Experienced driver with 5 years of professional driving experience.
+                  description: ""
+                  disabled: false
+                - id: pair_0a47ea4f00a44f12ad15fe296098a431
+                  name: profile_picture
+                  value: ""
+                  description: ""
+                  disabled: false
+                  type: file
+                  fileName: /home/nonsense/Pictures/Wallpepers/avatar.jpeg
             headers:
               - name: Content-Type
-                value: application/json
+                value: multipart/form-data
               - name: User-Agent
                 value: insomnia/11.5.0
               - name: Accept
@@ -806,7 +934,7 @@ collection:
         meta:
           id: fld_a6f6fa22978c4cc98f978faf49b84b61
           created: 1783107259490
-          modified: 1783107264333
+          modified: 1786788266499
           sortKey: -1777537228261
           description: ""
         children:
@@ -1250,7 +1378,7 @@ collection:
         meta:
           id: req_73a1af4813244e039ec2e7f6fd6fdb0e
           created: 1778139286276
-          modified: 1782960294431
+          modified: 1786140217878
           isPrivate: false
           description: ""
           sortKey: -1778131534061.75
@@ -1259,7 +1387,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"shipment_id" : "1"
+            	"shipment_id" : "9"
             }
         headers:
           - name: Content-Type
@@ -1345,7 +1473,7 @@ collection:
         meta:
           id: req_2f2572e869b94ca5a0d92ea8fefe719e
           created: 1778157245474
-          modified: 1782960335953
+          modified: 1787086676388
           isPrivate: false
           description: ""
           sortKey: -1778123970031.7188
@@ -1354,7 +1482,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"shipment_id" : "1",
+            	"shipment_id" : "41",
             	"otp" : "123456"
             }
         headers:
@@ -1611,12 +1739,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-  - url: "{{ _.localhost }}/api/test?lat=33.80&lon=37.88"
+  - url: "{{ _.localhost }}/api/test"
     name: test
     meta:
       id: req_3489c015d1324eb2a1d9cdfec07f4710
       created: 1777466716272
-      modified: 1780873111496
+      modified: 1786016543379
       isPrivate: false
       description: ""
       sortKey: -1777466716272
@@ -1658,7 +1786,7 @@ collection:
     meta:
       id: req_77f2dbb351534dafa4d0114bf52bf402
       created: 1784239868928
-      modified: 1784239940790
+      modified: 1786018667322
       isPrivate: false
       description: ""
       sortKey: -1777424470700
@@ -1666,6 +1794,12 @@ collection:
     headers:
       - name: User-Agent
         value: insomnia/11.5.0
+        id: pair_03d80a9cd6724b5390fc4eb1bcfc1b52
+      - id: pair_94317dab15984df484963a6538436659
+        name: Accept
+        value: application/json
+        description: ""
+        disabled: false
     authentication:
       type: bearer
       token: "{{ _.auth_token }}"
@@ -1682,7 +1816,7 @@ cookieJar:
   meta:
     id: jar_352c0bc298e74d8bad4da539c31dda27
     created: 1777466716213
-    modified: 1785626788570
+    modified: 1787086600296
   cookies:
     - id: c2ffbed1-1d80-4fea-bc83-9ac4f4fc976a
       key: XSRF-TOKEN
@@ -1719,8 +1853,8 @@ environments:
   meta:
     id: env_d3234be8309b45f595a64f6721a32ed5
     created: 1777466716212
-    modified: 1785626788573
+    modified: 1787086600304
     isPrivate: false
   data:
-    localhost: 127.0.0.1:8000
-    auth_token: 7|6xGmueCqbicUwdC9ogUYEEWKpKDyTQ8Qfb4AAQwX0fde4ced
+    localhost: https://127.0.0.1:443
+    auth_token: 3|U8kKsOJBLyUAYmIIHJiZ9IpEaFnAX26wLypj3qMH9c8e5f0f

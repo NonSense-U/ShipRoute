@@ -17,17 +17,21 @@ class TestNotification extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      */
-    public function __construct()
-    {
-
-    }
+    public function __construct() {}
 
     /**
      * Delivery channels
      */
     public function via(object $notifiable): array
     {
-        return [FcmChannel::class];
+        return ['database', FcmChannel::class];
+    }
+
+    public function toArray(object $notifiable): array
+    {
+        return [
+            'message' => 'Hurray!! the notifications are working :)',
+        ];
     }
 
     // /**

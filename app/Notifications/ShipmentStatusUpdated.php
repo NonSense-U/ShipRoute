@@ -45,8 +45,8 @@ class ShipmentStatusUpdated extends Notification implements ShouldQueue
     {
         return new FcmMessage(
             notification: new FcmNotification(
-                title: 'Shipment Status Updated',
-                body: "Your shipment is now " . $this->status
+                title: 'تحديث حالة الشحنة',
+                body: "تم تحديث حالة شحنتك إلى: " . $this->status . "\n" . ($this->status === "delivered" ? "يرجى تقييم السائق لضمان جودة الخدمة.\n شكرا لاختيارك حمولة!" : ''),
             ),
             data: [
                 'type' => 'shipment_status_updated',

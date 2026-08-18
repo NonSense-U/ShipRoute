@@ -52,6 +52,11 @@ Route::prefix('ratings')->middleware(['auth:sanctum', 'role:merchant|driver|admi
     Route::get('/my-given-ratings', [RatingController::class, 'myGivenRatings']);
 });
 
+Route::prefix('notifications')->middleware('auth:sanctum')->group(function () {
+    Route::get('/', [\App\Http\Controllers\NotificationController::class, 'getNotifications']);
+    Route::post('/mark-as-read', [\App\Http\Controllers\NotificationController::class, 'markAsRead']);
+});
+
 Route::get('/me', function (Request $request) {
     return new UserProfileResource(
         $request->user()->loadMissing(['merchant', 'driver', 'roles'])

@@ -35,11 +35,11 @@ class GamilOtp extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Shipment Delivery OTP')
-            ->line("Your shipment delivery OTP is {$this->otp}.")
-            ->line('Give this code to the driver to complete the delivery.')
-            ->line('This code expires in 10 minutes.');
-    }
+            ->subject('رمز التحقق لتسليم الشحنة')
+            ->line("رمز التحقق لتسليم شحنتك هو {$this->otp}.")
+            ->line('أعطِ هذا الرمز للسائق لإتمام التسليم.')
+            ->line('تنتهي صلاحية هذا الرمز بعد 10 دقائق. إذا لم تطلب رمز التحقق، يرجى تجاهل هذه الرسالة.');            
+            }
 
     /**
      * Get the array representation of the notification.
