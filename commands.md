@@ -13,5 +13,5 @@ Docker:
     Stop:
         docker compose down
     Reset Database:
-        docker compose exec app php artisan migrate:fresh --seed
+        docker compose exec php-fpm php artisan migrate:fresh --seed
     
