@@ -21,27 +21,27 @@ class PricingMultiplierSeeder extends Seeder
 
         PricingMultiplier::create([
             'key' => 'night_shipping',
-            'multiplier' => 1.20,
+            'multiplier' => 0.20,
         ]);
 
         PricingMultiplier::create([
             'key' => 'refrigerated_vehicle',
-            'multiplier' => 1.40,
+            'multiplier' => 0.40,
         ]);
 
         PricingMultiplier::create([
             'key' => 'fragile_items',
-            'multiplier' => 1.30,
+            'multiplier' => 0.30,
         ]);
 
         PricingMultiplier::create([
             'key' => 'weight_factor_25',
-            'multiplier' => 1.00,
+            'multiplier' => 0.05,
         ]);
 
         PricingMultiplier::create([
             'key' => 'weight_factor_50',
-            'multiplier' => 1.10,
+            'multiplier' => 0.10,
         ]);
 
         PricingMultiplier::create([
@@ -51,7 +51,7 @@ class PricingMultiplierSeeder extends Seeder
 
         PricingMultiplier::create([
             'key' => 'weight_factor_100',
-            'multiplier' => 1.55,
+            'multiplier' => 0.55,
         ]);
     }
 }

@@ -24,7 +24,7 @@ class EditPricingMultiplierRequest extends FormRequest
     {
         return [
             'multiplier' => ['required', 'string', 'in:refrigerated_vehicle,night_shipping,weight_factor_25,weight_factor_50,weight_factor_75,weight_factor_100'],
-            'value' => ['required', 'decimal:0,2', 'min:1'],
+            'value' => ['required', 'decimal:0,2', 'min:0'],
         ];
     }
 }
