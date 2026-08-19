@@ -23,7 +23,7 @@ class DriverManagementController extends Controller
 
     public function index(Request $request)
     {
-        $drivers = $this->driverManagementService->listDrivers($request->input('perPage', 20));
+        $drivers = $this->driverManagementService->listDrivers((int) $request->input('perPage', 20));
         return ApiResponse::success('Drivers retrieved successfully', new DriverProfileCollection($drivers));
     }
 
@@ -47,7 +47,7 @@ class DriverManagementController extends Controller
 
     public function getDriverProfits(Request $request, int $driverId)
     {
-        $unprocessedProfits = $this->driverManagementService->getDriverProfits($driverId, $request->input('perPage', 20), $request->input('processed', false));
+        $unprocessedProfits = $this->driverManagementService->getDriverProfits($driverId, $request->input('processed', false), (int) $request->input('perPage', 20));
         return ApiResponse::success('Unprocessed profits retrieved successfully', [
             'total_profits' => $unprocessedProfits['total_price'],
             'owed_amount' => $unprocessedProfits['owed_amount'],
