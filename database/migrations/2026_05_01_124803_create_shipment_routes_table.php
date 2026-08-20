@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('shipment_routes', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Shipment::class)->constrained()->cascadeOnDelete();
-            $table->string('overview_polyline');
+            $table->text('overview_polyline');
             $table->string('pickup_governorate')->nullable();
             $table->string('pickup_lat');
             $table->string('pickup_lon');
