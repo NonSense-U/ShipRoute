@@ -24,7 +24,7 @@ class SendUltraMessageWhatsappOTP implements ShouldQueue
      */
     public function handle(): void
     {
-        $processedPhoneNumber = '+963' . preg_replace('/^0/', '', $this->phoneNumber);
+        $processedPhoneNumber = preg_replace('/^\+/', '', $this->phoneNumber);
 
         $result = Http::asForm()->post(
             config('services.ultramsg.api_url') . '/messages/chat',

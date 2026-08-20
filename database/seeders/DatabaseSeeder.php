@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $admin = User::factory()->create([
             'full_name' => 'Test User',
             'email' => 'test@example.com',
-            'phone_number' => 'admin',
+            'phone_number' => '+963994398034',
             'password' => 'password',
 
         ]);
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         $merchant = User::factory()->create([
             'full_name' => 'Merchant User',
             'email' => 'testUser1@gmail.com',
-            'phone_number' => 'merchant',
+            'phone_number' => '+963994191080',
             "password" => 'password',
             'id_card_number' => '0987654321',
         ]);
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
         $driver = User::factory()->create([
             'full_name' => 'Driver User',
             'email' => 'testUser3@gmail.com',
-            'phone_number' => 'driver',
+            'phone_number' => '+963932560755',
             "password" => 'password',
             'id_card_number' => '1111111111',
         ]); 

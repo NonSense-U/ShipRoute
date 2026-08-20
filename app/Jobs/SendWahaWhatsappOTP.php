@@ -24,7 +24,7 @@ class SendWahaWhatsappOTP implements ShouldQueue
      */
     public function handle(): void
     {
-        $processed_phone_number = '963' . preg_replace('/^0/', '', $this->phoneNumber);
+        $processed_phone_number = preg_replace('/^\+/', '', $this->phoneNumber);
         $result = Http::withHeaders([
             'X-API-Key' => config('services.waha.api_key'),
             'Accept' => 'application/json',

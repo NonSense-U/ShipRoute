@@ -14,7 +14,7 @@ class ShipmentSeeder extends Seeder
     public function run(): void
     {
         Shipment::factory(10)->create([
-            'vehicle_type' => 'open',
+            'vehicle_type' => 'refrigerated',
         ]);
         Shipment::factory(10)->assigned()->create();
         Shipment::factory(10)->completed()->create([
@@ -22,9 +22,9 @@ class ShipmentSeeder extends Seeder
             'merchant_id' => 1,
         ]);
         Shipment::factory(10)->completed()->create();
-        Shipment::factory()->inTransit(1)->create([
-            'driver_id' => 1,
-            'merchant_id' => 1,
-        ]);
+        // Shipment::factory()->inTransit(1)->create([
+        //     'driver_id' => 1,
+        //     'merchant_id' => 1,
+        // ]);
     }
 }
