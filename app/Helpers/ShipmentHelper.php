@@ -10,7 +10,7 @@ class ShipmentHelper
     public static function getCounterParty(string $user_role, Shipment $shipment)
     {
         $counter_party['role'] = $user_role === 'merchant' ? 'driver' : 'merchant';
-        $counter_party['user'] = $shipment->{$counter_party['role']}->user;
+        $counter_party['user'] = $shipment->{$counter_party['role']}?->user;
         return $counter_party;
     }
 }

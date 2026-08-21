@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $admin = User::factory()->create([
-            'full_name' => 'Test User',
+            'full_name' => 'Admin',
             'email' => 'test@example.com',
             'phone_number' => '+963994398034',
             'password' => 'password',
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $merchant = User::factory()->create([
-            'full_name' => 'Merchant User',
+            'full_name' => 'Merchant',
             'email' => 'testUser1@gmail.com',
             'phone_number' => '+963994191080',
             "password" => 'password',
