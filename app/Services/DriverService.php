@@ -60,6 +60,8 @@ class DriverService
 				'status' => 'accepted',
 			]);
 
+			Notification::send($shipment->merchant->user, new \App\Notifications\ShipmentAcceptedNotification());
+
 			$driver->update(['is_available' => false]);
 
 			return $shipment->fresh();
