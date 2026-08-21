@@ -4,6 +4,12 @@ upstream php_fpm {
     keepalive 32;
 }
 
+upstream reverb {
+    zone reverb 64k;
+    server ${REVERB_HOST}:${REVERB_PORT} resolve;
+    keepalive 32;
+}
+
 server {
     listen 80;
     server_name _;
@@ -28,6 +34,22 @@ server {
     add_header Referrer-Policy strict-origin-when-cross-origin;
 
     client_max_body_size 20M;
+
+        location /app/ {
+        proxy_pass http://reverb;
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        proxy_read_timeout 60s;
+        proxy_send_timeout 60s;
+    }
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;

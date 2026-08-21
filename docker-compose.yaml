@@ -45,8 +45,6 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    ports:
-      - "8080:8080"
     restart: unless-stopped
 
   queue-worker:
@@ -112,6 +110,8 @@ services:
     environment:
       FPM_HOST: php-fpm
       FPM_PORT: 9000
+      REVERB_HOST: reverb
+      REVERB_PORT: 8080
     ports:
       - "80:80"
       - "443:443"
