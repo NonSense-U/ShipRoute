@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Helpers\PricingMultiplierHelper;
 use App\Helpers\VehicleHelper;
 use App\Helpers\ShipmentHelper;
+use App\Jobs\SendAvailableShipmentNotifications;
 use App\Jobs\SyncShipmentPickUpGovernorate;
 use App\Jobs\UploadShipmentMedia;
 use App\Models\PricingMultiplier;
@@ -90,6 +91,7 @@ class ShipmentService
             ]);
             DB::commit();
             dispatch(new SyncShipmentPickUpGovernorate($route->id));
+            dispatch(new SendAvailableShipmentNotifications($shipment->id));
             return $shipment->fresh(['route', 'merchant', 'driver']);
         } catch (Throwable $e) {
             DB::rollBack();

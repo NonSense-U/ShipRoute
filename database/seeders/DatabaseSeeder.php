@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $admin = User::factory()->create([
-            'full_name' => 'Admin',
+            'full_name' => 'Mohammad',
             'email' => 'test@example.com',
             'phone_number' => '+963994398034',
             'password' => 'password',
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $merchant = User::factory()->create([
-            'full_name' => 'Merchant',
+            'full_name' => 'Sedra',
             'email' => 'testUser1@gmail.com',
             'phone_number' => '+963994191080',
             "password" => 'password',
@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $driver = User::factory()->create([
-            'full_name' => 'Driver User',
+            'full_name' => 'Khaled',
             'email' => 'testUser3@gmail.com',
             'phone_number' => '+963932560755',
             "password" => 'password',
